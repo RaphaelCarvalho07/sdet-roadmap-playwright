@@ -9,7 +9,7 @@ This repository contains practical implementations, architectural designs, and m
 
 ## 🏗️ Milestone 2: Scalable Test Architecture & Design Patterns
 - [x] Abstract HTTP requests from test logic by creating a Service/Client layer
-- [ ] Implement robust Playwright lifecycle hooks (`beforeAll`, `beforeEach`)
+- [x] Implement robust Playwright lifecycle hooks (`beforeAll`, `beforeEach`)
 - [ ] Design dynamic and isolated test data management strategies
 
 ## 🔄 Milestone 3: DevOps Engineering (Shift-Left & CI/CD Integration)
