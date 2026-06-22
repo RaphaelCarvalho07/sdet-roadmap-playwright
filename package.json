@@ -4,7 +4,8 @@
   "description": "Pragmatic roadmap and technical implementation for transitioning from QA Automation to Software Development Engineer in Test (SDET) using TypeScript and Playwright.",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test --project chromium"
+    "test": "npx playwright test --project chromium",
+    "report": "npx playwright show-report"
   },
   "keywords": [],
   "author": "",
