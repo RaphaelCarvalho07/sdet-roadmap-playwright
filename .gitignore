@@ -1,2 +1,7 @@
 .env
 node_modules
+# Playwright test artifacts
+test-results/
+playwright-report/
+blob-report/
+playwright/.local-browsers/
