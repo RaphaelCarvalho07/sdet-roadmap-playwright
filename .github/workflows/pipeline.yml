@@ -29,14 +29,18 @@ jobs:
       - name: 📦 Install Dependencies
         run: npm ci
 
-      # Step 4: Run Playwright tests with environment variables injected securely from GitHub Secrets Vault
+      # Step 4: Code Quality and Linting Check (Fail-Fast Strategy)
+      - name: 🔍 Run Linter Check
+        run: npm run lint
+
+      # Step 5: Run Playwright tests with environment variables injected securely from GitHub Secrets Vault
       - name: 🚀 Execute Tests
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
         run: npm test
       
-      # Step 5: Upload Playwright HTML Report as a build artifact (Runs even if previous steps fail)
+      # Step 6: Upload Playwright HTML Report as a build artifact (Runs even if previous steps fail)
       - name: 📊 Upload Test Report
         if: always()
         uses: actions/upload-artifact@v4

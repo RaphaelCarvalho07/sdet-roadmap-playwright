@@ -14,4 +14,4 @@ This repository contains practical implementations, architectural designs, and m
 
 ## 🔄 Milestone 3: DevOps Engineering (Shift-Left & CI/CD Integration)
 - [x] Containerize the testing suite and target runtime environments using Docker
-- [ ] Build automated CI pipelines via GitHub Actions (integrating Linters and PR checks)
+- [x] Build automated CI pipelines via GitHub Actions (integrating Linters and PR checks)

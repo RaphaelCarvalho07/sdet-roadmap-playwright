@@ -8,7 +8,7 @@ test.beforeEach(async ({ request }) => {
   userClient = new UserClient(request);
 });
 
-test.describe('ReqRes API - User Management', () => {
+test.describe('reqres API - User Management', () => {
 
   test('should validate API User contract and data integrity', async () => {
     const response = await userClient.getUsers(2);
