@@ -13,5 +13,5 @@ This repository contains practical implementations, architectural designs, and m
 - [x] Design dynamic and isolated test data management strategies
 
 ## 🔄 Milestone 3: DevOps Engineering (Shift-Left & CI/CD Integration)
-- [ ] Containerize the testing suite and target runtime environments using Docker
+- [x] Containerize the testing suite and target runtime environments using Docker
 - [ ] Build automated CI pipelines via GitHub Actions (integrating Linters and PR checks)

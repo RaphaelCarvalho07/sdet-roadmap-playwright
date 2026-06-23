@@ -1,5 +1,6 @@
 .env
 node_modules
+.vscode/
 # Playwright test artifacts
 test-results/
 playwright-report/
