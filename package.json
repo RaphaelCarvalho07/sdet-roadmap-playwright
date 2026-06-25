@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "npx playwright test --project chromium",
+    "test:ui": " npx playwright test --ui --project chromium",
     "report": "npx playwright show-report"
   },
   "keywords": [],
@@ -19,6 +20,6 @@
     "eslint": "^10.5.0",
     "eslint-plugin-playwright": "^2.10.4",
     "prettier": "^3.8.4",
-    "typescript-eslint": "^8.62.0"
+    "@typescript-eslint/eslint-plugin": "^8.62.0"
   }
 }
