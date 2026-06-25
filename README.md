@@ -17,4 +17,7 @@ This repository contains practical implementations, architectural designs, and m
 - [x] Build automated CI pipelines via GitHub Actions (integrating Linters and PR checks)
 
 ## 🌐 Milestone 4: Advanced Web Automation & State Management
+- [x] Isolate and decouple execution domains (strict testDir separation for API and UI subdirectories)
 - [x] Implement the Page Object Model (POM) architectural pattern using TypeScript inheritance
+- [x] Configure global setup layers for session-state storage injection (Authentication Bypass)
+- [x] Abstract object composition via dependency injection patterns utilizing custom Playwright fixtures
