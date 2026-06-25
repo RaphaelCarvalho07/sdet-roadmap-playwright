@@ -33,14 +33,18 @@ jobs:
       - name: 🔍 Run Linter Check
         run: npm run lint
 
-      # Step 5: Run Playwright tests with environment variables injected securely from GitHub Secrets Vault
+      # Step 5: Install Playwright Browsers (Required for UI Tests)
+      - name: 🌐 Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      # Step 6: Run Playwright tests with environment variables injected securely from GitHub Secrets Vault
       - name: 🚀 Execute Tests
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
         run: npm test
       
-      # Step 6: Upload Playwright HTML Report as a build artifact (Runs even if previous steps fail)
+      # Step 7: Upload Playwright HTML Report as a build artifact (Runs even if previous steps fail)
       - name: 📊 Upload Test Report
         if: always()
         uses: actions/upload-artifact@v4
