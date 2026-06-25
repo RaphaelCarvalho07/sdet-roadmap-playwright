@@ -15,3 +15,6 @@ This repository contains practical implementations, architectural designs, and m
 ## 🔄 Milestone 3: DevOps Engineering (Shift-Left & CI/CD Integration)
 - [x] Containerize the testing suite and target runtime environments using Docker
 - [x] Build automated CI pipelines via GitHub Actions (integrating Linters and PR checks)
+
+## 🌐 Milestone 4: Advanced Web Automation & State Management
+- [x] Implement the Page Object Model (POM) architectural pattern using TypeScript inheritance

@@ -1,16 +1,13 @@
-import { test, expect } from "../src/fixtures/baseTest";
+import { test, expect } from "../../src/fixtures/baseTest";
 
 test.describe("e-commerce UI - Product Management", () => {
   const productName = "Sauce Labs Backpack";
   test("should user login to the system and validate product added to cart", async ({
-    page,
-    loginPage, 
+    page, 
     productsPage
   }) => {
     // Arrange
-    await loginPage.navigate();
-    await loginPage.login("standard_user", "secret_sauce");
-    // Validate that the user is logged in by checking the presence of the products page
+    await page.goto('/inventory.html');
     await expect(page).toHaveURL(/.*inventory.html/);
 
     // Action

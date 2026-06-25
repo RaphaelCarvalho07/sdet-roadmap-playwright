@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { UserClient } from '../src/api/UserClient';
-import { IApiUser } from '../src/types/user.types';
+import { UserClient } from '../../src/api/UserClient';
+import { IApiUser } from '../../src/types/user.types';
 
 let userClient: UserClient;
 

@@ -6,11 +6,11 @@ export class UserClient {
   private apiKey: string;
 
   constructor(request: APIRequestContext) {
-    const baseUrl = process.env.BASE_URL;
+    const baseUrl = process.env.API_URL;
     const apiKey = process.env.REQRES_API_KEY;
 
     if (!baseUrl || !apiKey) {
-      throw new Error('Missing environment variables: BASE_URL or REQRES_API_KEY');
+      throw new Error('Missing environment variables: API_URL or REQRES_API_KEY');
     }
 
     this.request = request;

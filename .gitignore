@@ -2,6 +2,7 @@
 node_modules
 .vscode/
 # Playwright test artifacts
+.auth
 test-results/
 playwright-report/
 blob-report/

@@ -2,6 +2,7 @@
 node_modules/
 .npm/
 .vscode/
+.auth
 
 # Ignore local environment variables (The container will get them later)
 .env
