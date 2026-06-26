@@ -1,12 +1,16 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 
 export class ProductsPage {
   private readonly page: Page;
   private readonly cartLink: Locator;
+  private readonly productItemName: Locator;
+  private readonly cartItemContainer: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.cartLink = this.page.getByTestId("shopping-cart-link");
+    this.productItemName = this.page.getByTestId('inventory-item-name');
+    this.cartItemContainer = this.page.locator(".cart_item");
   }
   // Actions
   async addProductToCart(productName: string): Promise<void> {
@@ -20,13 +24,13 @@ export class ProductsPage {
 
   // Assertions
   async validateProductInCart(productName: string): Promise<void> {
-    const cartItemContainer = this.page
-      .locator(".cart_item")
-      .filter({ hasText: productName });
+    const scopedItemContainer = this.cartItemContainer.filter({ hasText: productName });
 
-    const itemNameLocator = cartItemContainer.getByTestId(
-      "inventory-item-name",
-    );
+    const itemNameLocator = scopedItemContainer.locator(this.productItemName);
     await itemNameLocator.waitFor({ state: "visible" });
+  }
+
+  async validateProductsAreNotVisible(): Promise<void> {
+    await expect(this.productItemName).not.toBeVisible();
   }
 }
