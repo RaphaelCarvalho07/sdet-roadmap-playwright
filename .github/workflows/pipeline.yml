@@ -35,13 +35,14 @@ jobs:
 
       # Step 5: Install Playwright Browsers (Required for UI Tests)
       - name: 🌐 Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps
 
       # Step 6: Run Playwright tests with environment variables injected securely from GitHub Secrets Vault
       - name: 🚀 Execute Tests
         env:
           API_URL: ${{ secrets.API_URL }}
           UI_URL: ${{ secrets.UI_URL }}
+          REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
         run: npm test
       
       # Step 7: Upload Playwright HTML Report as a build artifact (Runs even if previous steps fail)
