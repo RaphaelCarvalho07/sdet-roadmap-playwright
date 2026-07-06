@@ -1,3 +1,8 @@
+export interface UserPayload {
+  name: string;
+  job: string;
+}
+
 export interface IUser {
   id: number;
   email: string;

@@ -34,18 +34,28 @@ export default defineConfig({
     testIdAttribute: "data-test",
   },
 
-  /* Configure projects for major browsers */
+  /* Configure projects for major browsers and API isolation */
   projects: [
     {
       name: "setup",
       testMatch: /global\.setup\.ts/,
       use: {
         baseURL: process.env.UI_URL,
-      }
+      },
     },
 
     {
-      name: "chromium",
+      name: "api-tests",
+      testDir: "./tests/api",
+      testMatch: /.*\.api\.spec\.ts/,
+      use: {
+        baseURL: process.env.API_URL,
+        storageState: { cookies: [], origins: [] },
+      },
+    },
+
+    {
+      name: "ui-tests-chrome",
       testDir: "./tests/ui",
       use: {
         ...devices["Desktop Chrome"],
@@ -56,23 +66,26 @@ export default defineConfig({
     },
 
     {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      name: "ui-tests-firefox",
+      testDir: "./tests/ui",
+      use: {
+        ...devices["Desktop Firefox"],
+        baseURL: process.env.UI_URL,
+        storageState: ".auth/user.json",
+      },
+      dependencies: ["setup"],
     },
 
     {
       name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
-
-    {
-      name: "api",
-      testDir: "./tests/api",
-      testMatch: /.*\.api\.spec\.ts/,
+      testDir: "./tests/ui",
       use: {
-        baseURL: process.env.API_URL,
-      }
-    }
+        ...devices["Desktop Safari"],
+        baseURL: process.env.UI_URL,
+        storageState: ".auth/user.json",
+      },
+      dependencies: ["setup"],
+    },
 
     /* Test against mobile viewports. */
     // {

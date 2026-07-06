@@ -47,7 +47,7 @@ test.describe("e-commerce UI - Network Interception & Mocking", () => {
     })
     // Action
     const startTime = Date.now();
-    await page.goto("inventory.html");
+    await page.goto("/inventory.html");
     const duration = Date.now() - startTime; 
 
     // Assert
