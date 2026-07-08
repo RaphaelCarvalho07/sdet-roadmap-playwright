@@ -1,68 +1,68 @@
-# 📘 DIÁRIO DE BORDO & BACKUP - JORNADA SDET
+# 📘 LOGBOOK & BACKUP - SDET JOURNEY
 
-> **Instrução de Contexto:** Este arquivo serve como a memória central e linear da minha transição de carreira para SDET. Ele deve ser mantido atualizado incrementalmente a cada sessão de mentoria técnica realizada na Antigravity IDE.
+> **Context Instruction:** This file serves as the central, linear memory of my career transition to SDET. It must be kept updated incrementally with each technical mentorship session conducted in the Antigravity IDE.
 
 ---
 
-## 1. Prompt de Atualização Incremental (Fim de Sessão)
+## 1. Incremental Update Prompt (End of Session)
 
-Sempre que terminar uma discussão técnica, resolução de bug ou desenho de arquitetura de testes, copie o prompt abaixo, cole no chat da IDE e envie:
+Whenever you finish a technical discussion, bug resolution, or test architecture design, copy the prompt below, paste it into the IDE chat, and send it:
 
 ```prompt
-Abra o arquivo @jornada_sdet_backup.md e adicione uma nova seção no final dele com o resumo desta nossa conversa atual. Siga rigorosamente este template de Markdown para a nova seção:
+Open the @jornada_sdet_backup.md file and add a new section at the end of it with the summary of our current conversation. Strictly follow this Markdown template for the new section:
 
-## [Data de Hoje] - [Título do Assunto]
-### 1. Cenário e Desafio Técnico
-[Insira aqui o resumo do problema que resolvemos]
-### 2. Solução Estruturada & Padrões Recomendados
-[Insira aqui os blocos de código e arquitetura que consolidamos]
-### 3. Próximos Passos de Estudo
-[Insira aqui o plano de ação imediato]
+## [Today's Date] - [Subject Title]
+### 1. Scenario and Technical Challenge
+[Insert the summary of the problem we solved here]
+### 2. Structured Solution & Recommended Patterns
+[Insert the code blocks and architecture we consolidated here]
+### 3. Next Study Steps
+[Insert the immediate action plan here]
 
-Mantenha o restante do arquivo intacto e apenas anexe essa nova seção.
+Keep the rest of the file intact and just append this new section.
 ```
 
-## 2. Fluxo de Versionamento Git (Pós-Sessão)
+## 2. Git Versioning Flow (Post-Session)
 
-Após a IA confirmar que salvou a nova seção no arquivo, abra o terminal do seu repositório pessoal e execute os seguintes comandos para blindar o seu progresso na nuvem:
+After the AI confirms it has saved the new section to the file, open your personal repository terminal and run the following commands to secure your progress in the cloud:
 
 ```bash
 git add jornada_sdet_backup.md
-git commit -m "docs: adiciona mentoria sobre [Assunto de Hoje] ao diário de bordo"
+git commit -m "docs: add mentorship about [Today's Subject] to the logbook"
 git push origin main
 ```
 
 ---
 
-## 06/07/2026 - Consolidação do Histórico de Mentoria (Origem: WebApp)
+## 06/07/2026 - Mentorship History Consolidation (Origin: WebApp)
 
-### 1. Cenário e Desafio Técnico
-A jornada teve início com o objetivo de realizar a transição profissional de **QA Automation Engineer** para **SDET (Software Development Engineer in Test)**, focando em elevar o nível dos testes funcionais isolados para uma arquitetura robusta de nível de produção. No início, trabalhava-se com um script de teste de UI linear e procedimental (`tests/ecommerce.spec.ts`) contra o e-commerce *SauceDemo*.
+### 1. Scenario and Technical Challenge
+The journey began with the goal of making a career transition from **QA Automation Engineer** to **SDET (Software Development Engineer in Test)**, focusing on upgrading isolated functional tests to a production-grade robust architecture. Initially, we worked with a linear, procedural UI test script (`tests/ecommerce.spec.ts`) targeting the SauceDemo e-commerce website.
 
-Durante a evolução do projeto, enfrentamos os seguintes desafios de engenharia:
-- **Paradigma de POO & Encapsulamento:** Sair de scripts sequenciais para estruturar classes reutilizáveis com seletores de elementos privados e fortemente tipados (`Locator`).
-- **Ambiguidade e Dados Chumbados:** Lidar com seletores duplicados no carrinho de compras e o risco de quebras silenciosas por strings fixas (hardcoded) para produtos na interface.
-- **Erros de Compilação do TypeScript:** Correção de erros recorrentes de escopo e imports ausentes (como o objeto `expect`).
-- **Setup e Velocidade de Execução (Bypass de Login):** Evitar ter que realizar o fluxo de login em cada teste de UI individual, o que aumentava significativamente o tempo de teste.
-- **Isolamento de Ambientes Híbridos (API e UI):** Impedir que testes de API vazassem de contexto ou falhassem devido à falta de `baseURL` apropriada ou rejeição por ausência de cabeçalhos de autenticação exigidos pelo WAF do ReqRes.
-- **Conflito de Módulos (CommonJS vs ESM):** Resolução de problemas de compilação ao integrar o pacote moderno `@faker-js/faker` (ESM) em um projeto configurado em CommonJS.
+During the evolution of the project, we faced the following engineering challenges:
+- **OOP & Encapsulation Paradigm:** Moving away from sequential scripts to structure reusable classes with private and strongly typed element selectors (`Locator`).
+- **Ambiguity and Hardcoded Data:** Dealing with duplicate selectors in the shopping cart and the risk of silent failures due to hardcoded product strings in the UI.
+- **TypeScript Compilation Errors:** Fixing recurring scope errors and missing imports (such as the `expect` object).
+- **Setup and Execution Speed (Login Bypass):** Avoiding having to run the login flow in every individual UI test, which significantly increased test execution time.
+- **Hybrid Environment Isolation (API & UI):** Preventing API tests from leaking context or failing due to a lack of an appropriate `baseURL`, or rejection due to the absence of authentication headers required by the ReqRes WAF.
+- **Module Conflict (CommonJS vs ESM):** Resolving compilation issues when integrating the modern `@faker-js/faker` package (ESM) into a project configured with CommonJS.
 
-### 2. Solução Estruturada & Padrões Recomendados
-Para solucionar os desafios técnicos e estabelecer os alicerces de um framework profissional, implementamos as seguintes soluções arquiteturais:
+### 2. Structured Solution & Recommended Patterns
+To solve these technical challenges and build the foundation of a professional framework, we implemented the following architectural solutions:
 
-- **Page Object Model (POM) Dinâmico:** Centralização de localizadores no construtor de classes como `LoginPage` e `ProductsPage`. Usamos Expressões Regulares (`Regex` kebab-case) para mapear nomes de produtos de forma dinâmica a identificadores `data-test` do HTML, resolvendo colisões de elementos:
+- **Dynamic Page Object Model (POM):** Centralizing locators in the constructor of classes like `LoginPage` and `ProductsPage`. We used regular expressions (kebab-case `Regex`) to dynamically map human-readable product names to HTML `data-test` identifiers, resolving element collisions:
   ```ts
   const formattedName = productName.toLowerCase().replace(/\s+/g, "-");
   const productButton = this.page.getByTestId(`add-to-cart-${formattedName}`);
   await productButton.click();
   ```
-- **Centralização de Locators & Encadeamento:** Encadeamento de localizadores a partir de escopos filtrados no POM para reaproveitar propriedades da classe e mitigar quebras em mudanças de layout:
+- **Locator Centralization & Chaining:** Chaining locators from filtered scopes in POM to reuse class properties and mitigate failures due to layout changes:
   ```ts
   const scopedItemContainer = this.cartItemContainer.filter({ hasText: productName });
   const itemNameLocator = scopedItemContainer.locator(this.productItemName);
   await itemNameLocator.waitFor({ state: "visible" });
   ```
-- **Injeção de Dependências com Custom Fixtures:** Estendemos o motor nativo do Playwright (`base.extend`) em `src/fixtures/baseTest.ts` para inicializar automaticamente as páginas de login e produtos, eliminando o boilerplate de instanciação em cada arquivo de teste:
+- **Dependency Injection with Custom Fixtures:** We extended Playwright's native test engine (`base.extend`) in `src/fixtures/baseTest.ts` to automatically initialize the login and products pages, eliminating instantiation boilerplate in every test file:
   ```ts
   export const test = base.extend<MyFixtures>({
     loginPage: async ({ page }, use) => {
@@ -73,14 +73,35 @@ Para solucionar os desafios técnicos e estabelecer os alicerces de um framework
     },
   });
   ```
-- **Session-State Bypass (Autenticação Global):** Configuração de um setup global (`tests/global.setup.ts`) para autenticar o usuário e armazenar o estado de sessão em `.auth/user.json`. Os projetos de UI reutilizam esse estado dinamicamente, otimizando o tempo total de execução.
-- **Isolamento Estrito de Projetos (`playwright.config.ts`):** Divisão clara no arquivo de configuração do Playwright, amarrando o `testDir` cirurgicamente às subpastas `/tests/api` e `/tests/ui` para evitar sobreposição de workers.
-- **Cliente HTTP Purista (`UserClient.ts`):** Centralização de rotas com caminhos relativos na classe de cliente HTTP e tratamento correto dos headers (`Content-Type`, `x-api-key`) para testes de integração de API.
-- **Fábrica de Dados Dinâmicos (`UserFactory.ts`):** Implementação de fábricas com importação dinâmica assíncrona (`await import('@faker-js/faker')`) para driblar incompatibilidade de módulos e garantir massa de dados única a cada execução.
-- **Mocking de Rede & Resiliência:** Testes de UI interceptando requisições com mocks para validar comportamentos resilientes do frontend diante de falhas críticas (HTTP 500), substituição dinâmica de assets e simulação de latência de rede (Slow 3G).
+- **Session-State Bypass (Global Authentication):** Configuring a global setup (`tests/global.setup.ts`) to authenticate the user and save the session state to `.auth/user.json`. UI projects reuse this state dynamically, optimizing the overall execution time.
+- **Strict Project Isolation (`playwright.config.ts`):** A clear division in the Playwright configuration file, surgically binding the `testDir` to `./tests/api` and `./tests/ui` subfolders to prevent worker overlap.
+- **HTTP Client Refactoring (`UserClient.ts`):** Centralizing routes with relative paths in the HTTP client class and correctly handling headers (`Content-Type`, `x-api-key`) for API integration tests.
+- **Dynamic Data Factory (`UserFactory.ts`):** Implementing factories with dynamic asynchronous imports (`await import('@faker-js/faker')`) to bypass module compatibility issues and ensure a unique dataset for each run.
+- **Network Mocking & Resilience:** UI tests intercepting requests with mocks to validate resilient frontend behavior in the face of critical failures (HTTP 500), dynamic static asset replacement, and network latency simulation (Slow 3G).
 
-### 3. Próximos Passos de Estudo
-- **Pipeline CI/CD no GitHub Actions:** Desenvolver e implementar o arquivo `.github/workflows/playwright.yml` para execução headless paralela nas máquinas Linux do GitHub.
-- **Gerenciamento Seguro de Secrets:** Configurar segredos de ambiente no repositório (`API_URL`, `UI_URL`, `REQRES_API_KEY`) para rodar os testes na nuvem com segurança.
-- **Ampliação das Fábricas de Dados:** Criar novas fábricas de objetos dinâmicos e aplicar o padrão de forma mais ampla no framework.
-- **Melhores Práticas de Relatórios e Debugging:** Configurar relatórios HTML robustos no CI para análise rápida de falhas.
+### 3. Next Study Steps
+- **CI/CD Pipeline in GitHub Actions:** Develop and implement the `.github/workflows/pipeline.yml` file for parallel headless execution on GitHub's Linux runners.
+- **Secure Secrets Management:** Configure repository secrets (`API_URL`, `UI_URL`, `REQRES_API_KEY`) to run tests securely in the cloud.
+- **Expanding Data Factories:** Create new dynamic object factories and apply the pattern more broadly across the framework.
+- **Reporting & Debugging Best Practices:** Configure robust HTML reports in CI for fast troubleshooting of failures.
+
+---
+
+## 08/07/2026 - Advanced CI/CD Pipeline Optimization (Parallel Jobs & Blob Merge)
+
+### 1. Scenario and Technical Challenge
+The initial GitHub Actions pipeline (`pipeline.yml`) ran all tests sequentially, installing browser binaries for all execution contexts. This caused a time bottleneck in API test executions (which do not require browsers) and created fragmented HTML reports that were difficult to audit when running in parallel jobs. Additionally, a version mismatch was identified in the Dockerfile base image (`1.49.0` vs. `1.61.0` of the framework) and bugs referencing non-existent projects in the `npm run test:ui:crossbrowser` script of `package.json`.
+
+### 2. Structured Solution & Recommended Patterns
+We developed a high-efficiency restructuring in the CI/CD pipeline:
+- **Container Synchronization:** Updated the [Dockerfile](file:///Users/raphaelcarvalho/Projects/SDET/sdet-roadmap-playwright/Dockerfile) to sync with the official `playwright:v1.61.0-noble` image.
+- **Mapping Correction:** Adjusted the `test:ui:crossbrowser` script in [package.json](file:///Users/raphaelcarvalho/Projects/SDET/sdet-roadmap-playwright/package.json) to mirror the exact definitions of `playwright.config.ts`.
+- **Parallel Execution Jobs (Split API & UI):** We created distinct asynchronous jobs in [.github/workflows/pipeline.yml](file:///Users/raphaelcarvalho/Projects/SDET/sdet-roadmap-playwright/.github/workflows/pipeline.yml):
+  - API test job without the overhead of browser installation.
+  - UI test job installing dependencies required only for its scope.
+- **Report Consolidation via Blob Merge:** Both test jobs generate lightweight binary blob reports (`--reporter=blob`), which are combined in a final job executing `npx playwright merge-reports`.
+- **Automated Deploy to GitHub Pages:** The final job automatically publishes the consolidated HTML report to GitHub Pages (`gh-pages` branch), providing a direct web link.
+
+### 3. Next Study Steps
+- **Advanced Data Generation Phase (Option B):** Begin the study of complex data generation patterns (Object Mother, seeding via API requests to prepare UI scenarios).
+- **CI Flakiness Handling:** Study retry strategies and detection of flaky tests in the pipeline.
