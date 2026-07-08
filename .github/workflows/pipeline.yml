@@ -1,55 +1,148 @@
 name: 🔄 SDET CI Pipeline
 
-# Controls when the workflow will run
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
 
-# A workflow run is made up of one or more jobs
-jobs:
-  test-execution:
-    name: 🧪 Run Playwright API Tests
-    runs-on: ubuntu-latest
+permissions:
+  contents: write # Required for peaceiris/actions-gh-pages to push to gh-pages branch
 
+jobs:
+  lint:
+    name: 🔍 Run Linter Check
+    runs-on: ubuntu-latest
     steps:
-      # Step 1: Check out the repository code onto the GitHub runner machine
       - name: 📁 Checkout Code
         uses: actions/checkout@v4
 
-      # Step 2: Setup Node.js environment with version 20
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      # Step 3: Install development dependencies cleanly
       - name: 📦 Install Dependencies
         run: npm ci
 
-      # Step 4: Code Quality and Linting Check (Fail-Fast Strategy)
-      - name: 🔍 Run Linter Check
+      - name: 🔍 Run Lint
         run: npm run lint
 
-      # Step 5: Install Playwright Browsers (Required for UI Tests)
-      - name: 🌐 Install Playwright Browsers
-        run: npx playwright install --with-deps
+  api-tests:
+    name: ⚡ Run Playwright API Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: 📁 Checkout Code
+        uses: actions/checkout@v4
 
-      # Step 6: Run Playwright tests with environment variables injected securely from GitHub Secrets Vault
-      - name: 🚀 Execute Tests
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      # Optimized: No browser installation step for API tests!
+
+      - name: 🚀 Execute API Tests
         env:
           API_URL: ${{ secrets.API_URL }}
           UI_URL: ${{ secrets.UI_URL }}
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
-        run: npm test
-      
-      # Step 7: Upload Playwright HTML Report as a build artifact (Runs even if previous steps fail)
-      - name: 📊 Upload Test Report
+        run: npx playwright test --project=api-tests --reporter=blob
+
+      - name: 📤 Upload API Blobs
         if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-report-api
+          path: blob-report/
+          retention-days: 1
+
+  ui-tests:
+    name: 🌐 Run Playwright UI Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: 📁 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🌐 Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: 🚀 Execute UI Tests
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          UI_URL: ${{ secrets.UI_URL }}
+          REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
+        run: npx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=webkit --reporter=blob
+
+      - name: 📤 Upload UI Blobs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-report-ui
+          path: blob-report/
+          retention-days: 1
+
+  publish-report:
+    name: 📊 Consolidate & Publish Reports
+    runs-on: ubuntu-latest
+    needs: [api-tests, ui-tests]
+    if: always()
+    steps:
+      - name: 📁 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 📥 Download API blob report
+        uses: actions/download-artifact@v4
+        with:
+          name: blob-report-api
+          path: all-blobs
+
+      - name: 📥 Download UI blob report
+        uses: actions/download-artifact@v4
+        with:
+          name: blob-report-ui
+          path: all-blobs
+
+      - name: 🔀 Merge Reports
+        run: npx playwright merge-reports --reporter html ./all-blobs
+
+      - name: 📊 Upload Consolidated HTML Report
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
+
+      - name: 🚀 Deploy to GitHub Pages
+        if: success() || failure() # Deploy report even if some tests fail, allowing visual debugging of the failures
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./playwright-report
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
