@@ -37,9 +37,11 @@ git push origin main
 ## 06/07/2026 - Mentorship History Consolidation (Origin: WebApp)
 
 ### 1. Scenario and Technical Challenge
+
 The journey began with the goal of making a career transition from **QA Automation Engineer** to **SDET (Software Development Engineer in Test)**, focusing on upgrading isolated functional tests to a production-grade robust architecture. Initially, we worked with a linear, procedural UI test script (`tests/ecommerce.spec.ts`) targeting the SauceDemo e-commerce website.
 
 During the evolution of the project, we faced the following engineering challenges:
+
 - **OOP & Encapsulation Paradigm:** Moving away from sequential scripts to structure reusable classes with private and strongly typed element selectors (`Locator`).
 - **Ambiguity and Hardcoded Data:** Dealing with duplicate selectors in the shopping cart and the risk of silent failures due to hardcoded product strings in the UI.
 - **TypeScript Compilation Errors:** Fixing recurring scope errors and missing imports (such as the `expect` object).
@@ -48,6 +50,7 @@ During the evolution of the project, we faced the following engineering challeng
 - **Module Conflict (CommonJS vs ESM):** Resolving compilation issues when integrating the modern `@faker-js/faker` package (ESM) into a project configured with CommonJS.
 
 ### 2. Structured Solution & Recommended Patterns
+
 To solve these technical challenges and build the foundation of a professional framework, we implemented the following architectural solutions:
 
 - **Dynamic Page Object Model (POM):** Centralizing locators in the constructor of classes like `LoginPage` and `ProductsPage`. We used regular expressions (kebab-case `Regex`) to dynamically map human-readable product names to HTML `data-test` identifiers, resolving element collisions:
@@ -58,7 +61,9 @@ To solve these technical challenges and build the foundation of a professional f
   ```
 - **Locator Centralization & Chaining:** Chaining locators from filtered scopes in POM to reuse class properties and mitigate failures due to layout changes:
   ```ts
-  const scopedItemContainer = this.cartItemContainer.filter({ hasText: productName });
+  const scopedItemContainer = this.cartItemContainer.filter({
+    hasText: productName,
+  });
   const itemNameLocator = scopedItemContainer.locator(this.productItemName);
   await itemNameLocator.waitFor({ state: "visible" });
   ```
@@ -80,6 +85,7 @@ To solve these technical challenges and build the foundation of a professional f
 - **Network Mocking & Resilience:** UI tests intercepting requests with mocks to validate resilient frontend behavior in the face of critical failures (HTTP 500), dynamic static asset replacement, and network latency simulation (Slow 3G).
 
 ### 3. Next Study Steps
+
 - **CI/CD Pipeline in GitHub Actions:** Develop and implement the `.github/workflows/pipeline.yml` file for parallel headless execution on GitHub's Linux runners.
 - **Secure Secrets Management:** Configure repository secrets (`API_URL`, `UI_URL`, `REQRES_API_KEY`) to run tests securely in the cloud.
 - **Expanding Data Factories:** Create new dynamic object factories and apply the pattern more broadly across the framework.
@@ -90,18 +96,70 @@ To solve these technical challenges and build the foundation of a professional f
 ## 08/07/2026 - Advanced CI/CD Pipeline Optimization (Parallel Jobs & Blob Merge)
 
 ### 1. Scenario and Technical Challenge
+
 The initial GitHub Actions pipeline (`pipeline.yml`) ran all tests sequentially, installing browser binaries for all execution contexts. This caused a time bottleneck in API test executions (which do not require browsers) and created fragmented HTML reports that were difficult to audit when running in parallel jobs. Additionally, a version mismatch was identified in the Dockerfile base image (`1.49.0` vs. `1.61.0` of the framework) and bugs referencing non-existent projects in the `npm run test:ui:crossbrowser` script of `package.json`.
 
 ### 2. Structured Solution & Recommended Patterns
+
 We developed a high-efficiency restructuring in the CI/CD pipeline:
-- **Container Synchronization:** Updated the [Dockerfile](file:///Users/raphaelcarvalho/Projects/SDET/sdet-roadmap-playwright/Dockerfile) to sync with the official `playwright:v1.61.0-noble` image.
-- **Mapping Correction:** Adjusted the `test:ui:crossbrowser` script in [package.json](file:///Users/raphaelcarvalho/Projects/SDET/sdet-roadmap-playwright/package.json) to mirror the exact definitions of `playwright.config.ts`.
-- **Parallel Execution Jobs (Split API & UI):** We created distinct asynchronous jobs in [.github/workflows/pipeline.yml](file:///Users/raphaelcarvalho/Projects/SDET/sdet-roadmap-playwright/.github/workflows/pipeline.yml):
+
+- **Container Synchronization:** Updated the [Dockerfile](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/Dockerfile) to sync with the official `playwright:v1.61.0-noble` image.
+- **Mapping Correction:** Adjusted the `test:ui:crossbrowser` script in [package.json](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/package.json) to mirror the exact definitions of `playwright.config.ts`.
+- **Parallel Execution Jobs (Split API & UI):** We created distinct asynchronous jobs in [.github/workflows/pipeline.yml](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/.github/workflows/pipeline.yml):
   - API test job without the overhead of browser installation.
   - UI test job installing dependencies required only for its scope.
 - **Report Consolidation via Blob Merge:** Both test jobs generate lightweight binary blob reports (`--reporter=blob`), which are combined in a final job executing `npx playwright merge-reports`.
 - **Automated Deploy to GitHub Pages:** The final job automatically publishes the consolidated HTML report to GitHub Pages (`gh-pages` branch), providing a direct web link.
 
 ### 3. Next Study Steps
+
 - **Advanced Data Generation Phase (Option B):** Begin the study of complex data generation patterns (Object Mother, seeding via API requests to prepare UI scenarios).
 - **CI Flakiness Handling:** Study retry strategies and detection of flaky tests in the pipeline.
+
+---
+
+## 10/07/2026 - Checkout Flow Automation & Object Mother Implementation
+
+### 1. Scenario and Technical Challenge
+
+The goal was to automate the checkout flow of the SauceDemo UI application and improve test data management by introducing dynamic data generation. The main challenges were:
+
+- Mapping consecutive multi-step checkout pages (`/cart.html`, `/checkout-step-one.html`, `/checkout-step-two.html`, and `/checkout-complete.html`) in a clean, encapsulated way.
+- Generating structured test data dynamically with Faker while avoiding code duplication and ESM vs CommonJS conflicts.
+- Structuring predefined test data states (valid profiles and invalid profiles missing specific fields) to support both positive and negative scenarios without cluttering test code.
+- Unpacking asynchronous TypeScript `Promise` return types correctly within test scopes using `async/await`.
+
+### 2. Structured Solution & Recommended Patterns
+
+We designed a decoupled architecture containing the following components:
+
+- **Type Interfaces:** Defined `CheckoutPayload` type inside [checkout.types.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/types/checkout.types.ts) to enforce a strong billing data contract.
+- **Page Object Model (POM):** Created [CheckoutPage.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/pages/CheckoutPage.ts) encapsulating locators (`getByTestId`), navigation transitions, and form validation assertions (`validateErrorMessage` and `validateCheckoutComplete`).
+- **Fixture Registration:** Extended the Playwright test runner in [baseTest.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/fixtures/baseTest.ts) to automatically inject `checkoutPage` into tests, avoiding manual instantiation.
+- **Object Mother Pattern:** Implemented [checkoutFactory.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/factories/checkoutFactory.ts) using dynamic imports of `@faker-js/faker` to prevent module conflicts. The factory offers specific pre-configured object states for tests:
+
+  ```ts
+  export class CheckoutFactory {
+    static async createValidCheckoutData(): Promise<CheckoutPayload> {
+      const { faker } = await import("@faker-js/faker");
+      return {
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
+        postalCode: faker.location.zipCode(),
+      };
+    }
+
+    static async createCheckoutDataWithMissingFirstName(): Promise<CheckoutPayload> {
+      const data = await this.createValidCheckoutData();
+      data.firstName = "";
+      return data;
+    }
+  }
+  ```
+
+- **Test Scenarios:** Created [checkout.spec.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/tests/ui/checkout.spec.ts) executing positive (successful purchase) and negative (validation failure) checkout scenarios leveraging auth bypass and the Object Mother data states.
+
+### 3. Next Study Steps
+
+- **Data Seeding via API:** Learn how to create state and seed entities using API requests inside UI tests before actions.
+- **Advanced Assertions:** Expand form validation tests to cover all other billing fields (missing last name, missing postal code) and assert the correct validation warning styling.
