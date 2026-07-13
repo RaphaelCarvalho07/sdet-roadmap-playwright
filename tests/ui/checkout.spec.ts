@@ -36,26 +36,40 @@ test.describe("e-commerce UI - Checkout Flow", () => {
     await checkoutPage.validateCheckoutComplete();
   });
 
-  test("should display validation error when first name is missing", async ({
-    productsPage,
-    checkoutPage,
-  }) => {
-    // 1. Add product to cart and go to cart page
-    await productsPage.addProductToCart(productName);
-    await productsPage.goToCart();
+  const validationScenarios = [
+    {
+      field: "firstName",
+      factoryMethod: "createCheckoutDataWithMissingFirstName" as const,
+      expectedMessage: "Error: First Name is required"
+    },
 
-    // 2. Start checkout
-    await checkoutPage.startCheckout();
+    {
+      field: "lastName",
+      factoryMethod: "createCheckoutDataWithMissingLastName" as const,
+      expectedMessage: "Error: Last Name is required"
+    },
 
-    // 3. Generate checkout data missing the first name using the Object Mother variant
-    const invalidData = await CheckoutFactory.createCheckoutDataWithMissingFirstName();
+    {
+      field: "postalCode",
+      factoryMethod: "createCheckoutDataWithMissingPostalCode" as const,
+      expectedMessage: "Error: Postal Code is required"
+    }
+  ];
 
-    // 4. Fill details and verify the validation error matches expected SauceDemo behavior
-    await checkoutPage.fillInformation(
-      invalidData.firstName,
-      invalidData.lastName,
-      invalidData.postalCode
-    );
-    await checkoutPage.validateErrorMessage("Error: First Name is required");
-  });
+  for (const scenario of validationScenarios){
+    test(`should display validation error and highlight input when ${scenario.field} is missing`, async ({
+      productsPage,
+      checkoutPage,
+    }) => {
+      await productsPage.addProductToCart(productName);
+      await productsPage.goToCart();
+      await checkoutPage.startCheckout();
+
+      const invalidData = await CheckoutFactory[scenario.factoryMethod]();
+
+      await checkoutPage.fillInformation(invalidData.firstName, invalidData.lastName, invalidData.postalCode);
+
+      await checkoutPage.validateFieldError(scenario.field, scenario.expectedMessage);
+    })
+  }
 });

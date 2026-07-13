@@ -163,3 +163,68 @@ We designed a decoupled architecture containing the following components:
 
 - **Data Seeding via API:** Learn how to create state and seed entities using API requests inside UI tests before actions.
 - **Advanced Assertions:** Expand form validation tests to cover all other billing fields (missing last name, missing postal code) and assert the correct validation warning styling.
+
+---
+
+## 13/07/2026 - Advanced POM Assertions & Data-Driven UI Test Refactoring
+
+### 1. Scenario and Technical Challenge
+We expanded the checkout validation tests to cover all required fields (Last Name, Postal Code) and verify the visual error feedback (CSS styling changes on input fields). The key technical challenges resolved were:
+- **Avoiding False Positives in CSS Matchers:** The base class of the input fields is `input_error`, which contains the word `error`. A naive class match like `/error/` would always pass. We resolved this by applying a Regex Word Boundary (`\b`) to match only the standalone `.error` class.
+- **Refactoring Repetitive Tests (DRY Principle):** Instead of duplicating identical UI steps across three negative test cases, we refactored the test suite into a single loop using a data-driven structure.
+- **Formulating Composite Assertions:** To satisfy the Single Responsibility Principle, we created a high-level composite method inside the Page Object to orchestrate both error message validation and input highlight checks.
+
+### 2. Structured Solution & Recommended Patterns
+We refactored the page object and test suite as follows:
+- **Regex Boundary Matcher:** In [CheckoutPage.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/pages/CheckoutPage.ts), we updated `validateInputErrorState` to use `/\berror\b/` and introduced the composite method `validateFieldError`:
+  ```ts
+  async validateInputErrorState(fieldName: string): Promise<void> {
+    const input = this.page.getByTestId(fieldName);
+    await expect(input).toBeVisible();
+    await expect(input).toHaveClass(/\berror\b/);
+  }
+
+  async validateFieldError(fieldName: string, expectedMessage: string): Promise<void> {
+    await this.validateErrorMessage(expectedMessage);
+    await this.validateInputErrorState(fieldName);
+  }
+  ```
+- **Data-Driven Loop:** In [checkout.spec.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/tests/ui/checkout.spec.ts), we defined a scenario matrix and iterated over it using a `for...of` loop to dynamically register tests:
+  ```ts
+  const validationScenarios = [
+    {
+      field: "firstName",
+      factoryMethod: "createCheckoutDataWithMissingFirstName" as const,
+      expectedMessage: "Error: First Name is required"
+    },
+    {
+      field: "lastName",
+      factoryMethod: "createCheckoutDataWithMissingLastName" as const,
+      expectedMessage: "Error: Last Name is required"
+    },
+    {
+      field: "postalCode",
+      factoryMethod: "createCheckoutDataWithMissingPostalCode" as const,
+      expectedMessage: "Error: Postal Code is required"
+    }
+  ];
+
+  for (const scenario of validationScenarios) {
+    test(`should display validation error and highlight input when ${scenario.field} is missing`, async ({
+      productsPage,
+      checkoutPage,
+    }) => {
+      await productsPage.addProductToCart(productName);
+      await productsPage.goToCart();
+      await checkoutPage.startCheckout();
+
+      const invalidData = await CheckoutFactory[scenario.factoryMethod]();
+      await checkoutPage.fillInformation(invalidData.firstName, invalidData.lastName, invalidData.postalCode);
+      await checkoutPage.validateFieldError(scenario.field, scenario.expectedMessage);
+    });
+  }
+  ```
+
+### 3. Next Study Steps
+- **Data Seeding via API:** Explore hybrid testing where we populate application state directly through HTTP requests before initiating UI scenarios.
+- **Handling Flaky Tests:** Implement Playwright retries and trace-captures to identify transient environment timeouts.

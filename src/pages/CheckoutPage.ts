@@ -57,7 +57,7 @@ export class CheckoutPage {
     await expect(this.completeHeader).toBeVisible();
     await expect(this.completeHeader).toHaveText("Thank you for your order!");
   }
-
+  
   /**
    * Asserts that the checkout form displays the correct error message
    * @param expectedMessage The expected validation error text
@@ -65,5 +65,21 @@ export class CheckoutPage {
   async validateErrorMessage(expectedMessage: string): Promise<void> {
     await expect(this.errorContainer).toBeVisible();
     await expect(this.errorContainer).toContainText(expectedMessage);
+  }
+
+  /**
+   * Validates the error state of an input field
+   * @param fieldName The name of the input field
+   */
+  async validateInputErrorState(fieldName: string): Promise<void> {
+    const input = this.page.getByTestId(fieldName);
+    await expect(input).toBeVisible();
+    await expect(input).toHaveClass(/\berror\b/);
+  }
+
+  async validateFieldError(fieldName: string, expectedMessage: string): Promise<void> {
+    await this.validateErrorMessage(expectedMessage);
+    await this.validateInputErrorState(fieldName);
+
   }
 }
