@@ -257,8 +257,8 @@ We refactored the page object and test suite as follows:
 
 We updated the following files:
 
-- **GitHub Actions Configuration:** Modified [.github/workflows/pipeline.yml](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/.github/workflows/pipeline.yml) across all 4 jobs (`lint`, `api-tests`, `ui-tests`, and `publish-report`) to set `node-version: 22`.
-- **SMART Goals Framework:** Created `sdet_smart_goals.md` in the artifacts repository to guide study sprints and candidate application cycles.
+- **GitHub Actions Configuration:** Modified [.github/workflows/pipeline.yml](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/.github/workflows/pipeline.yml) across all 4 jobs (`lint`, `api-tests`, `ui-tests`, and `publish-report`) to set `node-version: 22` and added a `📝 Output Pages URL to Job Summary` step to output the live report link directly to the run summary for enhanced developer experience.
+- **SMART Goals Framework:** Created [sdet_smart_goals.md](file:///Users/raphaelcarvalho/.gemini/antigravity-ide/brain/a811e423-b909-4864-8f4e-91c6ba5cc971/sdet_smart_goals.md) in the artifacts repository to guide study sprints and candidate application cycles.
 
 ### 3. Next Study Steps
 
