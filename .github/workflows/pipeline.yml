@@ -146,3 +146,9 @@ jobs:
           publish_dir: ./playwright-report
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
+
+      - name: 📝 Output Pages URL to Job Summary
+        if: success() || failure() # Mostra o link mesmo se os testes falharem
+        run: |
+          echo "### 📊 Playwright Consolidated Report is live!" >> $GITHUB_STEP_SUMMARY
+          echo "👉 [Click here to view the HTML Report](https://raphaelcarvalho07.github.io/sdet-roadmap-playwright/)" >> $GITHUB_STEP_SUMMARY
