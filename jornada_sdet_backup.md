@@ -169,14 +169,19 @@ We designed a decoupled architecture containing the following components:
 ## 13/07/2026 - Advanced POM Assertions & Data-Driven UI Test Refactoring
 
 ### 1. Scenario and Technical Challenge
+
 We expanded the checkout validation tests to cover all required fields (Last Name, Postal Code) and verify the visual error feedback (CSS styling changes on input fields). The key technical challenges resolved were:
+
 - **Avoiding False Positives in CSS Matchers:** The base class of the input fields is `input_error`, which contains the word `error`. A naive class match like `/error/` would always pass. We resolved this by applying a Regex Word Boundary (`\b`) to match only the standalone `.error` class.
 - **Refactoring Repetitive Tests (DRY Principle):** Instead of duplicating identical UI steps across three negative test cases, we refactored the test suite into a single loop using a data-driven structure.
 - **Formulating Composite Assertions:** To satisfy the Single Responsibility Principle, we created a high-level composite method inside the Page Object to orchestrate both error message validation and input highlight checks.
 
 ### 2. Structured Solution & Recommended Patterns
+
 We refactored the page object and test suite as follows:
+
 - **Regex Boundary Matcher:** In [CheckoutPage.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/pages/CheckoutPage.ts), we updated `validateInputErrorState` to use `/\berror\b/` and introduced the composite method `validateFieldError`:
+
   ```ts
   async validateInputErrorState(fieldName: string): Promise<void> {
     const input = this.page.getByTestId(fieldName);
@@ -189,24 +194,26 @@ We refactored the page object and test suite as follows:
     await this.validateInputErrorState(fieldName);
   }
   ```
+
 - **Data-Driven Loop:** In [checkout.spec.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/tests/ui/checkout.spec.ts), we defined a scenario matrix and iterated over it using a `for...of` loop to dynamically register tests:
+
   ```ts
   const validationScenarios = [
     {
       field: "firstName",
       factoryMethod: "createCheckoutDataWithMissingFirstName" as const,
-      expectedMessage: "Error: First Name is required"
+      expectedMessage: "Error: First Name is required",
     },
     {
       field: "lastName",
       factoryMethod: "createCheckoutDataWithMissingLastName" as const,
-      expectedMessage: "Error: Last Name is required"
+      expectedMessage: "Error: Last Name is required",
     },
     {
       field: "postalCode",
       factoryMethod: "createCheckoutDataWithMissingPostalCode" as const,
-      expectedMessage: "Error: Postal Code is required"
-    }
+      expectedMessage: "Error: Postal Code is required",
+    },
   ];
 
   for (const scenario of validationScenarios) {
@@ -219,12 +226,41 @@ We refactored the page object and test suite as follows:
       await checkoutPage.startCheckout();
 
       const invalidData = await CheckoutFactory[scenario.factoryMethod]();
-      await checkoutPage.fillInformation(invalidData.firstName, invalidData.lastName, invalidData.postalCode);
-      await checkoutPage.validateFieldError(scenario.field, scenario.expectedMessage);
+      await checkoutPage.fillInformation(
+        invalidData.firstName,
+        invalidData.lastName,
+        invalidData.postalCode,
+      );
+      await checkoutPage.validateFieldError(
+        scenario.field,
+        scenario.expectedMessage,
+      );
     });
   }
   ```
 
 ### 3. Next Study Steps
+
 - **Data Seeding via API:** Explore hybrid testing where we populate application state directly through HTTP requests before initiating UI scenarios.
 - **Handling Flaky Tests:** Implement Playwright retries and trace-captures to identify transient environment timeouts.
+
+---
+
+## 14/07/2026 - SMART Goal Alignment & CI Pipeline Upgrades
+
+### 1. Scenario and Technical Challenge
+
+- **Career and Study Goal Setting:** Established a tailored 90-day SMART transition plan to SDET, allocating a realistic 10h/week schedule (6h technical practice in the IDE, 4h career boosting/LinkedIn) during weekday working hours. Family time (with 3 daughters) and work-life balance are defined as non-negotiable core values, leaving weekends 100% offline.
+- **Node.js Deprecation Warning in GHA:** The GitHub Actions runner emitted a deprecation warning because jobs were targeting Node.js 20. We resolved this infrastructure debt by upgrading all pipeline jobs to Node.js 22 (Active LTS).
+
+### 2. Structured Solution & Recommended Patterns
+
+We updated the following files:
+
+- **GitHub Actions Configuration:** Modified [.github/workflows/pipeline.yml](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/.github/workflows/pipeline.yml) across all 4 jobs (`lint`, `api-tests`, `ui-tests`, and `publish-report`) to set `node-version: 22`.
+- **SMART Goals Framework:** Created `sdet_smart_goals.md` in the artifacts repository to guide study sprints and candidate application cycles.
+
+### 3. Next Study Steps
+
+- **Data Seeding via API:** Implement hybrid test scenarios making background HTTP calls using the API client to set application state before UI execution.
+- **Flakiness Mitigation:** Research retry configurations and trace capturing on test failures to optimize pipeline execution under heavy CPU loads.
