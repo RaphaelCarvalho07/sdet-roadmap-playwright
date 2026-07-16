@@ -34,6 +34,14 @@ git push origin main
 
 ---
 
+## 3. Official SDET Roadmap Reference
+
+Here is the visual roadmap we are following for this career transition:
+
+![SDET Roadmap](docs/assets/sdet_roadmap.jpg)
+
+---
+
 ## 06/07/2026 - Mentorship History Consolidation (Origin: WebApp)
 
 ### 1. Scenario and Technical Challenge
@@ -264,3 +272,6 @@ We updated the following files:
 
 - **Data Seeding via API:** Implement hybrid test scenarios making background HTTP calls using the API client to set application state before UI execution.
 - **Flakiness Mitigation:** Research retry configurations and trace capturing on test failures to optimize pipeline execution under heavy CPU loads.
+- **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine to simulate high user concurrency.
+- **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
+- **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
