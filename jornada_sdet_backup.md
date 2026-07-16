@@ -270,6 +270,7 @@ We updated the following files:
 
 ### 3. Next Study Steps
 
+- **API Contract Testing (Zod/AJV):** Replace manual property type assertions with schema-based contract validation to verify full payload integrity.
 - **Data Seeding via API:** Implement hybrid test scenarios making background HTTP calls using the API client to set application state before UI execution.
 - **Flakiness Mitigation:** Research retry configurations and trace capturing on test failures to optimize pipeline execution under heavy CPU loads.
 - **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine to simulate high user concurrency.
