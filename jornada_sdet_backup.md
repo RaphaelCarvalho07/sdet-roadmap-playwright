@@ -276,3 +276,28 @@ We updated the following files:
 - **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine to simulate high user concurrency.
 - **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
 - **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
+
+---
+
+## 17/07/2026 - API Contract Testing with Zod 4
+
+### 1. Scenario and Technical Challenge
+
+- **Manual API Validations:** The existing API test suite verified responses using individual manual properties checks (e.g. `typeof id === 'number'`), which was verbose, hard to maintain, and did not guarantee full contract compliance.
+- **Strict Data and Contract Validation:** We transitioned to structural contract validation using Zod 4. The main challenge was to design clean schemas matching the ReqRes API and infer TypeScript types from them to avoid duplication.
+
+### 2. Structured Solution & Recommended Patterns
+
+We implemented the following solutions:
+
+- **Zod 4 Schemas:** Created [user.schema.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/schemas/user.schema.ts) grouping validators. Utilized Zod 4 top-level format validators (`z.url()`, `z.email()`) and namespace schema validators (`z.iso.datetime()`).
+- **Dynamic Type Inference:** Refactored [user.types.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/types/user.types.ts) to export types inferred dynamically via `z.infer<typeof schema>`, establishing a single source of truth.
+- **Contract Spec Refactoring:** Updated [user.api.spec.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/tests/api/user.api.spec.ts) replacing manual asserts with `.parse()` validation.
+
+### 3. Next Study Steps
+
+- **Data Seeding via API:** Implement hybrid test scenarios making background HTTP calls using the API client to set application state before UI execution.
+- **Flakiness Mitigation:** Research retry configurations and trace capturing on test failures to optimize pipeline execution under heavy CPU loads.
+- **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine to simulate high user concurrency.
+- **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
+- **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
