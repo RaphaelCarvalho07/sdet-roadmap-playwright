@@ -9,7 +9,7 @@
 Whenever you finish a technical discussion, bug resolution, or test architecture design, copy the prompt below, paste it into the IDE chat, and send it:
 
 ```prompt
-Open the @jornada_sdet_backup.md file and add a new section at the end of it with the summary of our current conversation. Strictly follow this Markdown template for the new section:
+Open the @sdet_journey.md file and add a new section at the end of it with the summary of our current conversation. Strictly follow this Markdown template for the new section:
 
 ## [Today's Date] - [Subject Title]
 ### 1. Scenario and Technical Challenge
@@ -27,7 +27,7 @@ Keep the rest of the file intact and just append this new section.
 After the AI confirms it has saved the new section to the file, open your personal repository terminal and run the following commands to secure your progress in the cloud:
 
 ```bash
-git add jornada_sdet_backup.md
+git add sdet_journey.md
 git commit -m "docs: add mentorship about [Today's Subject] to the logbook"
 git push origin main
 ```
