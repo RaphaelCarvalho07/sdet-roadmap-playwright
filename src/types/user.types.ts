@@ -1,20 +1,11 @@
-export interface UserPayload {
-  name: string;
-  job: string;
-}
+import { z } from "zod";
+import {
+  userSchema,
+  apiUserResponseSchema,
+  createUserPayloadSchema,
+} from "../schemas/user.schema";
 
-export interface IUser {
-  id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-  avatar: string;
-}
-
-export interface IApiUser {
-  page: number;
-  per_page: number;
-  total: number;
-  total_pages: number;
-  data: IUser[];
-}
+// Inferimos os tipos dinamicamente a partir dos Schemas do Zod 4
+export type UserPayload = z.infer<typeof createUserPayloadSchema>;
+export type IUser = z.infer<typeof userSchema>;
+export type IApiUser = z.infer<typeof apiUserResponseSchema>;
