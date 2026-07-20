@@ -1,0 +1,82 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: api/user.api.spec.ts >> owasp Juice Shop API - User Management & Auth >> should successfully register a new user and validate API contract
+- Location: tests/api/user.api.spec.ts:16:7
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 201
+Received: 401
+```
+
+# Test source
+
+```ts
+  1  | import { test, expect } from "@playwright/test";
+  2  | import { UserClient } from "../../src/api/UserClient";
+  3  | import { UserFactory } from "../../src/factories/userFactory";
+  4  | import {
+  5  |   juiceUserRegistrationResponseSchema,
+  6  |   juiceUserLoginResponseSchema,
+  7  | } from "../../src/schemas/user.schema";
+  8  | 
+  9  | let userClient: UserClient;
+  10 | 
+  11 | test.beforeEach(async ({ request }) => {
+  12 |   userClient = new UserClient(request);
+  13 | });
+  14 | 
+  15 | test.describe("owasp Juice Shop API - User Management & Auth", () => {
+  16 |   test("should successfully register a new user and validate API contract", async () => {
+  17 |     // Arrange: Generate dynamic registration payload
+  18 |     const registrationPayload = await UserFactory.createValidJuiceUserPayload();
+  19 | 
+  20 |     // Action: Register user via REST API (POST /api/Users/)
+  21 |     const response = await userClient.registerUser(registrationPayload);
+> 22 |     expect(response.status()).toBe(201);
+     |                               ^ Error: expect(received).toBe(expected) // Object.is equality
+  23 | 
+  24 |     const responseBody = await response.json();
+  25 | 
+  26 |     // Assert: Zod Contract Validation
+  27 |     juiceUserRegistrationResponseSchema.parse(responseBody);
+  28 | 
+  29 |     // Assert: Business Data Validation
+  30 |     expect(responseBody.status).toBe("success");
+  31 |     expect(responseBody.data.email).toBe(registrationPayload.email);
+  32 |   });
+  33 | 
+  34 |   test("should successfully authenticate a user and return JWT token", async () => {
+  35 |     // Arrange: Register a dynamic user first
+  36 |     const registrationPayload = await UserFactory.createValidJuiceUserPayload();
+  37 |     await userClient.registerUser(registrationPayload);
+  38 | 
+  39 |     // Action: Login using the created user credentials (POST /rest/user/login)
+  40 |     const loginPayload = UserFactory.createJuiceLoginPayload(
+  41 |       registrationPayload.email,
+  42 |       registrationPayload.password,
+  43 |     );
+  44 |     const response = await userClient.loginUser(loginPayload);
+  45 |     expect(response.status()).toBe(200);
+  46 | 
+  47 |     const responseBody = await response.json();
+  48 | 
+  49 |     // Assert: Zod Contract Validation for Login JWT response
+  50 |     juiceUserLoginResponseSchema.parse(responseBody);
+  51 | 
+  52 |     // Assert: Business Data Validation
+  53 |     expect(responseBody.authentication.umail).toBe(registrationPayload.email);
+  54 |     expect(responseBody.authentication.token.length).toBeGreaterThan(20);
+  55 |   });
+  56 | });
+  57 | 
+```
