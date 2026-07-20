@@ -1,11 +1,18 @@
 import { z } from "zod";
 import {
-  userSchema,
-  apiUserResponseSchema,
-  createUserPayloadSchema,
+  juiceUserRegistrationPayloadSchema,
+  juiceUserRegistrationResponseSchema,
+  juiceUserLoginPayloadSchema,
+  juiceUserLoginResponseSchema,
 } from "../schemas/user.schema";
 
-// Inferimos os tipos dinamicamente a partir dos Schemas do Zod 4
-export type UserPayload = z.infer<typeof createUserPayloadSchema>;
-export type IUser = z.infer<typeof userSchema>;
-export type IApiUser = z.infer<typeof apiUserResponseSchema>;
+export type JuiceUserRegistrationPayload = z.infer<
+  typeof juiceUserRegistrationPayloadSchema
+>;
+export type JuiceUserRegistrationResponse = z.infer<
+  typeof juiceUserRegistrationResponseSchema
+>;
+export type JuiceUserLoginPayload = z.infer<typeof juiceUserLoginPayloadSchema>;
+export type JuiceUserLoginResponse = z.infer<
+  typeof juiceUserLoginResponseSchema
+>;

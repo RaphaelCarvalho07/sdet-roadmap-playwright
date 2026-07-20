@@ -1,10 +1,9 @@
 import { test, expect } from "@playwright/test";
 import { UserClient } from "../../src/api/UserClient";
-import { IApiUser } from "../../src/types/user.types";
 import { UserFactory } from "../../src/factories/userFactory";
 import {
-  apiUserResponseSchema,
-  createUserResponseSchema,
+  juiceUserRegistrationResponseSchema,
+  juiceUserLoginResponseSchema,
 } from "../../src/schemas/user.schema";
 
 let userClient: UserClient;
@@ -13,42 +12,45 @@ test.beforeEach(async ({ request }) => {
   userClient = new UserClient(request);
 });
 
-test.describe("reqres API - User Management", () => {
-  test("should validate API User contract and data integrity", async () => {
-    // Action
-    const response = await userClient.getUsers(2);
+test.describe("owasp Juice Shop API - User Management & Auth", () => {
+  test("should successfully register a new user and validate API contract", async () => {
+    // Arrange: Generate dynamic registration payload
+    const registrationPayload = await UserFactory.createValidJuiceUserPayload();
 
-    // Assert
-    expect(response.ok()).toBeTruthy();
-
-    const resBody: IApiUser = await response.json();
-
-    // 1. Validate pagination logic instead of fixed numbers
-    expect(resBody.page).toBe(2);
-    expect(resBody.data.length).toBeGreaterThan(0);
-
-    apiUserResponseSchema.parse(resBody);
-  });
-
-  test("should return status 200 when fetching users page 1", async () => {
-    const response = await userClient.getUsers(1);
-    expect(response.status()).toBe(200);
-  });
-
-  test("should sucessfully create an user with dynamic factory data", async () => {
-    // Arrange
-    const dynamicUserPayload = await UserFactory.createValidUserPayload();
-
-    // Action
-    const response = await userClient.createUser(dynamicUserPayload);
+    // Action: Register user via REST API (POST /api/Users/)
+    const response = await userClient.registerUser(registrationPayload);
     expect(response.status()).toBe(201);
 
     const responseBody = await response.json();
 
-    // Assert
-    createUserResponseSchema.parse(responseBody);
+    // Assert: Zod Contract Validation
+    juiceUserRegistrationResponseSchema.parse(responseBody);
 
-    expect(responseBody.name).toBe(dynamicUserPayload.name);
-    expect(responseBody.job).toBe(dynamicUserPayload.job);
+    // Assert: Business Data Validation
+    expect(responseBody.status).toBe("success");
+    expect(responseBody.data.email).toBe(registrationPayload.email);
+  });
+
+  test("should successfully authenticate a user and return JWT token", async () => {
+    // Arrange: Register a dynamic user first
+    const registrationPayload = await UserFactory.createValidJuiceUserPayload();
+    await userClient.registerUser(registrationPayload);
+
+    // Action: Login using the created user credentials (POST /rest/user/login)
+    const loginPayload = UserFactory.createJuiceLoginPayload(
+      registrationPayload.email,
+      registrationPayload.password,
+    );
+    const response = await userClient.loginUser(loginPayload);
+    expect(response.status()).toBe(200);
+
+    const responseBody = await response.json();
+
+    // Assert: Zod Contract Validation for Login JWT response
+    juiceUserLoginResponseSchema.parse(responseBody);
+
+    // Assert: Business Data Validation
+    expect(responseBody.authentication.umail).toBe(registrationPayload.email);
+    expect(responseBody.authentication.token.length).toBeGreaterThan(20);
   });
 });
