@@ -33,6 +33,11 @@ jobs:
     name: ⚡ Run Playwright API Tests
     runs-on: ubuntu-latest
     needs: lint
+    services:
+      juice-shop:
+        image: bkimminich/juice-shop
+        ports:
+          - 3000:3000
     steps:
       - name: 📁 Checkout Code
         uses: actions/checkout@v4
@@ -50,9 +55,8 @@ jobs:
 
       - name: 🚀 Execute API Tests
         env:
-          API_URL: ${{ secrets.API_URL }}
-          UI_URL: ${{ secrets.UI_URL }}
-          REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
+          API_URL: http://localhost:3000
+          UI_URL: http://localhost:3000
         run: npx playwright test --project=api-tests --reporter=blob
 
       - name: 📤 Upload API Blobs
@@ -67,6 +71,11 @@ jobs:
     name: 🌐 Run Playwright UI Tests
     runs-on: ubuntu-latest
     needs: lint
+    services:
+      juice-shop:
+        image: bkimminich/juice-shop
+        ports:
+          - 3000:3000
     steps:
       - name: 📁 Checkout Code
         uses: actions/checkout@v4
@@ -85,9 +94,8 @@ jobs:
 
       - name: 🚀 Execute UI Tests
         env:
-          API_URL: ${{ secrets.API_URL }}
-          UI_URL: ${{ secrets.UI_URL }}
-          REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
+          API_URL: ${{ secrets.API_URL || 'http://localhost:3000' }}
+          UI_URL: ${{ secrets.UI_URL || 'https://www.saucedemo.com' }}
         run: npx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=webkit --reporter=blob
 
       - name: 📤 Upload UI Blobs
