@@ -302,3 +302,30 @@ We implemented the following solutions:
 - **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
 - **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
 - **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
+
+---
+
+## 20/07/2026 - OWASP Juice Shop Migration & Real REST API Testing
+
+### 1. Scenario and Technical Challenge
+
+- **Transition to Production-Grade Target:** Shifted our testing target from static mock platforms (SauceDemo/ReqRes) to a real, containerized Full-Stack application: **OWASP Juice Shop** (Angular SPA + Node.js/Express REST API + SQLite DB).
+- **Environment Orchestration:** Launched Juice Shop locally via Docker (`bkimminich/juice-shop`) on port 3000 and updated local environment settings (`.env`).
+- **REST API & Authentication Exploration:** Explored Juice Shop's REST endpoints (`POST /api/Users/` and `POST /rest/user/login`) using terminal `cURL` probing to inspect live HTTP status codes, headers, and JSON payloads.
+
+### 2. Structured Solution & Recommended Patterns
+
+We implemented the following architecture changes:
+- **Zod 4 Schemas:** Created [user.schema.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/schemas/user.schema.ts) defining strict schemas for Juice Shop registration and JWT authentication responses (`juiceUserRegistrationResponseSchema` and `juiceUserLoginResponseSchema`).
+- **Dynamic Type Inference:** Updated [user.types.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/types/user.types.ts) using `z.infer` to maintain a single source of truth.
+- **Factory & HTTP Client:** Updated [userFactory.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/factories/userFactory.ts) with `@faker-js/faker` generating valid dynamic payloads, and updated [UserClient.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/api/UserClient.ts) targeting `/api/Users/` and `/rest/user/login`.
+- **API Spec Execution:** Updated [user.api.spec.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/tests/api/user.api.spec.ts). Executed suite against local Docker container: **2 passed in 438ms**.
+
+### 3. Next Study Steps
+
+- **Data Seeding via API:** Implement hybrid test scenarios making background HTTP calls using the API client to set application state and inject JWT session tokens before UI execution on OWASP Juice Shop.
+- **Flakiness Mitigation:** Research retry configurations and trace capturing on test failures to optimize pipeline execution under heavy CPU loads.
+- **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
+- **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
+- **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
+- **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
