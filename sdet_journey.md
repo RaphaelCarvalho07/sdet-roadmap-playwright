@@ -329,3 +329,27 @@ We implemented the following architecture changes:
 - **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
 - **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
 - **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
+
+---
+
+## 22/07/2026 - Hybrid E2E Testing: API Data Seeding & JWT Session Injection
+
+### 1. Scenario and Technical Challenge
+
+- **Eliminating UI Login Flakiness:** Traditional UI automation logs in via UI forms for every test, adding 5-10s overhead per test and introducing UI locator flakiness.
+- **Session Injection Architecture:** Engineered a hybrid testing strategy combining REST API data seeding with browser session injection (`page.addInitScript`) to bypass UI login forms entirely.
+
+### 2. Structured Solution & Recommended Patterns
+
+We implemented the following architecture components:
+- **Page Object Pattern:** Created [JuiceShopPage.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/pages/JuiceShopPage.ts) encapsulating `injectSessionToken(token)` which sets `token`, `welcomebanner_status: "dismiss"`, and `cookieconsent_status: "dismiss"` in `window.localStorage` before page load.
+- **Custom Playwright Fixtures:** Created [juiceTest.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/fixtures/juiceTest.ts) providing `authenticatedUserPage` fixture that registers a user via API, obtains a JWT token, injects session state, and yields a pre-authenticated browser context to tests in milliseconds.
+- **Hybrid E2E Test Suite:** Created [juice-hybrid.spec.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/tests/ui/juice-hybrid.spec.ts). Executed suite across all browsers (Chrome, Firefox, Webkit, API): **5 passed in 3.3s**!
+
+### 3. Next Study Steps
+
+- **Flakiness Mitigation & Traces:** Configure Playwright retry mechanisms, video capturing, and trace viewer artifacts in GitHub Actions pipeline under high CPU load.
+- **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
+- **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
+- **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
+- **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
