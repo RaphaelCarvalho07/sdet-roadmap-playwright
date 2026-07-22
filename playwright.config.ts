@@ -37,19 +37,11 @@ export default defineConfig({
   /* Configure projects for major browsers and API isolation */
   projects: [
     {
-      name: "setup",
-      testMatch: /global\.setup\.ts/,
-      use: {
-        baseURL: process.env.UI_URL,
-      },
-    },
-
-    {
       name: "api-tests",
       testDir: "./tests/api",
       testMatch: /.*\.api\.spec\.ts/,
       use: {
-        baseURL: process.env.API_URL,
+        baseURL: process.env.API_URL || "http://localhost:3000",
         storageState: { cookies: [], origins: [] },
       },
     },
@@ -57,55 +49,35 @@ export default defineConfig({
     {
       name: "ui-tests-chrome",
       testDir: "./tests/ui",
+      testMatch: /.*\.spec\.ts/,
       use: {
         ...devices["Desktop Chrome"],
-        baseURL: process.env.UI_URL,
-        storageState: ".auth/user.json",
+        baseURL: process.env.UI_URL || "http://localhost:3000",
+        storageState: { cookies: [], origins: [] },
       },
-      dependencies: ["setup"],
     },
 
     {
       name: "ui-tests-firefox",
       testDir: "./tests/ui",
+      testMatch: /.*\.spec\.ts/,
       use: {
         ...devices["Desktop Firefox"],
-        baseURL: process.env.UI_URL,
-        storageState: ".auth/user.json",
+        baseURL: process.env.UI_URL || "http://localhost:3000",
+        storageState: { cookies: [], origins: [] },
       },
-      dependencies: ["setup"],
     },
 
     {
       name: "webkit",
       testDir: "./tests/ui",
+      testMatch: /.*\.spec\.ts/,
       use: {
         ...devices["Desktop Safari"],
-        baseURL: process.env.UI_URL,
-        storageState: ".auth/user.json",
+        baseURL: process.env.UI_URL || "http://localhost:3000",
+        storageState: { cookies: [], origins: [] },
       },
-      dependencies: ["setup"],
     },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
   ],
 
   /* Run your local dev server before starting the tests */
