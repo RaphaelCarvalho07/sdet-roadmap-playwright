@@ -1,0 +1,74 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: ui/juice-hybrid.spec.ts >> owasp Juice Shop - Hybrid E2E Session Injection >> should open UI pre-authenticated bypassing login form
+- Location: tests/ui/juice-hybrid.spec.ts:4:7
+
+# Error details
+
+```
+Error: expect(received).toBeTruthy()
+
+Received: false
+```
+
+# Test source
+
+```ts
+  1  | import { test as base, expect, Page } from "@playwright/test";
+  2  | import { UserClient } from "../api/UserClient";
+  3  | import { UserFactory } from "../factories/userFactory";
+  4  | import { JuiceShopPage } from "../pages/JuiceShopPage";
+  5  | 
+  6  | type JuiceFixtures = {
+  7  |   juiceShopPage: JuiceShopPage;
+  8  |   authenticatedUserPage: Page;
+  9  | };
+  10 | 
+  11 | export const test = base.extend<JuiceFixtures>({
+  12 |   juiceShopPage: async ({ authenticatedUserPage }, use) => {
+  13 |     await use(new JuiceShopPage(authenticatedUserPage));
+  14 |   },
+  15 | 
+  16 |   authenticatedUserPage: async ({ page, request }, use) => {
+  17 |     const userClient = new UserClient(request);
+  18 |     const juicePage = new JuiceShopPage(page);
+  19 | 
+  20 |     // 1. Seed user data via API
+  21 |     const registrationPayload = await UserFactory.createValidJuiceUserPayload();
+  22 |     const registrationResponse =
+  23 |       await userClient.registerUser(registrationPayload);
+> 24 |     expect(registrationResponse.ok()).toBeTruthy();
+     |                                       ^ Error: expect(received).toBeTruthy()
+  25 | 
+  26 |     // 2. Authenticate via API to retrieve JWT token
+  27 |     const loginPayload = UserFactory.createJuiceLoginPayload(
+  28 |       registrationPayload.email,
+  29 |       registrationPayload.password,
+  30 |     );
+  31 | 
+  32 |     const loginResponse = await userClient.loginUser(loginPayload);
+  33 |     expect(loginResponse.ok()).toBeTruthy();
+  34 |     const responseBody = await loginResponse.json();
+  35 |     const token = responseBody.authentication.token;
+  36 | 
+  37 |     // 3. Inject session token into browser localStorage before navigation
+  38 |     await juicePage.injectSessionToken(token);
+  39 | 
+  40 |     // 4. Open UI directly in authenticated state
+  41 |     await juicePage.navigate();
+  42 |     await juicePage.dismissOverlays();
+  43 | 
+  44 |     // 5. Yield pre-authenticated page context to the test
+  45 |     await use(page);
+  46 |   },
+  47 | });
+  48 | 
+  49 | export { expect } from "@playwright/test";
+  50 | 
+```
