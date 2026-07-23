@@ -69,7 +69,7 @@ export default defineConfig({
     },
 
     {
-      name: "webkit",
+      name: "ui-tests-webkit",
       testDir: "./tests/ui",
       testMatch: /.*\.spec\.ts/,
       use: {
