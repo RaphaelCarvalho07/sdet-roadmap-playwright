@@ -96,7 +96,7 @@ jobs:
         env:
           API_URL: ${{ secrets.API_URL || 'http://localhost:3000' }}
           UI_URL: ${{ secrets.UI_URL || 'https://www.saucedemo.com' }}
-        run: npx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=webkit --reporter=blob
+        run: npx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=ui-tests-webkit --reporter=blob
 
       - name: 📤 Upload UI Blobs
         if: always()
