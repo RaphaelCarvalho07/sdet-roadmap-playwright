@@ -28,8 +28,8 @@ export class JuiceShopPage {
   async injectSessionToken(token: string): Promise<void> {
     await this.page.addInitScript((jwtToken: string) => {
       window.localStorage.setItem("token", jwtToken);
-      window.localStorage.setItem("welcomebanner_status", "dismiss");
-      window.localStorage.setItem("cookieconsent_status", "dismiss");
+      document.cookie = "welcomebanner_status=dismiss; path=/";
+      document.cookie = "cookieconsent_status=dismiss; path=/";
     }, token);
   }
 
