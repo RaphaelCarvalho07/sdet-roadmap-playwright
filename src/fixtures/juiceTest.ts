@@ -1,4 +1,4 @@
-import { test as base, Page } from "@playwright/test";
+import { test as base, expect, Page } from "@playwright/test";
 import { UserClient } from "../api/UserClient";
 import { UserFactory } from "../factories/userFactory";
 import { JuiceShopPage } from "../pages/JuiceShopPage";
@@ -19,7 +19,9 @@ export const test = base.extend<JuiceFixtures>({
 
     // 1. Seed user data via API
     const registrationPayload = await UserFactory.createValidJuiceUserPayload();
-    await userClient.registerUser(registrationPayload);
+    const registrationResponse =
+      await userClient.registerUser(registrationPayload);
+    expect(registrationResponse.ok()).toBeTruthy();
 
     // 2. Authenticate via API to retrieve JWT token
     const loginPayload = UserFactory.createJuiceLoginPayload(
@@ -28,6 +30,7 @@ export const test = base.extend<JuiceFixtures>({
     );
 
     const loginResponse = await userClient.loginUser(loginPayload);
+    expect(loginResponse.ok()).toBeTruthy();
     const responseBody = await loginResponse.json();
     const token = responseBody.authentication.token;
 
