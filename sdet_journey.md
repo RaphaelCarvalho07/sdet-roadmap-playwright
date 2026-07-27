@@ -353,3 +353,26 @@ We implemented the following architecture components:
 - **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
 - **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
 - **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
+
+---
+
+## 27/07/2026 - Local Environment Automation & Resilient Test Configuration
+
+### 1. Scenario and Technical Challenge
+
+- **Environment Connection Errors:** Executing local tests without an active Docker container caused `connect ECONNREFUSED ::1:3000`.
+- **Framework Observability:** Needed to configure on-demand tracing (`trace: 'on-first-retry'`) and screenshot capturing (`screenshot: 'only-on-failure'`) to prevent disk I/O bottlenecks in CI/CD.
+
+### 2. Structured Solution & Recommended Patterns
+
+We implemented the following engineering enhancements:
+- **Idempotent Docker Scripts:** Added `"docker:start"`, `"docker:stop"`, and `"docker:logs"` npm scripts in `package.json` utilizing shell fallback (`docker start juice-shop 2>/dev/null || docker run -d --name juice-shop -p 3000:3000 bkimminich/juice-shop`).
+- **Resilience Configuration:** Updated `playwright.config.ts` with `retries: process.env.CI ? 2 : 0`, `trace: 'on-first-retry'`, and `screenshot: 'only-on-failure'`.
+- **Documentation Update:** Refactored `README.md` to document local setup, Docker lifecycle commands, and hybrid testing capabilities.
+
+### 3. Next Study Steps
+
+- **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
+- **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
+- **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
+- **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
