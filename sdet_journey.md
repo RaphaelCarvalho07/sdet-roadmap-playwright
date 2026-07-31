@@ -316,6 +316,7 @@ We implemented the following solutions:
 ### 2. Structured Solution & Recommended Patterns
 
 We implemented the following architecture changes:
+
 - **Zod 4 Schemas:** Created [user.schema.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/schemas/user.schema.ts) defining strict schemas for Juice Shop registration and JWT authentication responses (`juiceUserRegistrationResponseSchema` and `juiceUserLoginResponseSchema`).
 - **Dynamic Type Inference:** Updated [user.types.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/types/user.types.ts) using `z.infer` to maintain a single source of truth.
 - **Factory & HTTP Client:** Updated [userFactory.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/factories/userFactory.ts) with `@faker-js/faker` generating valid dynamic payloads, and updated [UserClient.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/api/UserClient.ts) targeting `/api/Users/` and `/rest/user/login`.
@@ -342,6 +343,7 @@ We implemented the following architecture changes:
 ### 2. Structured Solution & Recommended Patterns
 
 We implemented the following architecture components:
+
 - **Page Object Pattern:** Created [JuiceShopPage.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/pages/JuiceShopPage.ts) encapsulating `injectSessionToken(token)` which sets `token`, `welcomebanner_status: "dismiss"`, and `cookieconsent_status: "dismiss"` in `window.localStorage` before page load.
 - **Custom Playwright Fixtures:** Created [juiceTest.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/src/fixtures/juiceTest.ts) providing `authenticatedUserPage` fixture that registers a user via API, obtains a JWT token, injects session state, and yields a pre-authenticated browser context to tests in milliseconds.
 - **Hybrid E2E Test Suite:** Created [juice-hybrid.spec.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/tests/ui/juice-hybrid.spec.ts). Executed suite across all browsers (Chrome, Firefox, Webkit, API): **5 passed in 3.3s**!
@@ -366,12 +368,46 @@ We implemented the following architecture components:
 ### 2. Structured Solution & Recommended Patterns
 
 We implemented the following engineering enhancements:
+
 - **Idempotent Docker Scripts:** Added `"docker:start"`, `"docker:stop"`, and `"docker:logs"` npm scripts in `package.json` utilizing shell fallback (`docker start juice-shop 2>/dev/null || docker run -d --name juice-shop -p 3000:3000 bkimminich/juice-shop`).
 - **Resilience Configuration:** Updated `playwright.config.ts` with `retries: process.env.CI ? 2 : 0`, `trace: 'on-first-retry'`, and `screenshot: 'only-on-failure'`.
 - **Documentation Update:** Refactored `README.md` to document local setup, Docker lifecycle commands, and hybrid testing capabilities.
 
 ### 3. Next Study Steps
 
+- **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
+- **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
+- **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
+- **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
+
+---
+
+## 31/07/2026 - API Contract Validation with Zod 4 Custom Refinement & E2E Basket Flow
+
+### 1. Scenario and Technical Challenge
+
+We expanded our API contract testing to cover the Product Search and Shopping Cart (`BasketItems`) endpoints. During execution, we encountered two main challenges:
+
+- **API Contract Inconsistencies:** Zod's strict `z.iso.datetime()` validator failed because Juice Shop's SQLite database formats timestamps with spaces (`2026-07-27 15:43:32.570 +00:00`) instead of the standard ISO-8601 `T` separator (`2026-07-27T15:43:32.570Z`).
+- **State Management & OOP Scope:** Structuring a complete CRUD test suite (POST to add, PUT to update quantity, DELETE to remove) required authenticating a dynamic user in a `beforeEach` hook and sharing variables (like `token` and `basketId`) across individual tests without scope leaks, while distinguishing between class instance methods (`new BasketClient(request)`) and static factory methods (`UserFactory.createValidJuiceUserPayload()`).
+
+### 2. Structured Solution & Recommended Patterns
+
+To address these challenges, we implemented the following patterns:
+
+- **Zod Schema Custom Refinement:** Created a reusable date validator using `.refine()` combined with native `Date.parse()` and `!isNaN` to validate non-standard parseable date strings without being blocked by format variations:
+  ```ts
+  const dateStringSchema = z.string().refine((val) => !isNaN(Date.parse(val)), {
+    message: "Invalid date format",
+  });
+  ```
+- **Type Inference as Single Source of Truth:** Extracted TypeScript interfaces dynamically using `z.infer`, keeping Zod schemas as the single source of truth for both payloads and response bodies.
+- **Variable Scope Sharing:** Declared shared variables at the `describe` block level with `let`, allowing `beforeEach` to initialize them dynamically with the `request` fixture from Playwright and ensuring they are accessible across all `test` blocks.
+- **Encapsulated Basket Client:** Implemented `BasketClient.ts` with explicit HTTP wrappers (`post`, `put`, `delete`) and authorization headers using ES6 shorthand `{ quantity }` objects to send clean request bodies.
+
+### 3. Next Study Steps
+
+- **Hybrid UI Cart Testing:** Integrate the new `BasketClient` to seed the shopping cart via API before executing UI checkout flows, maximizing test execution speed and eliminating UI login steps.
 - **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
 - **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
 - **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
