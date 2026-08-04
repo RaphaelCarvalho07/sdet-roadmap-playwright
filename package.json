@@ -11,7 +11,7 @@
     "test:ui:visual": "npx playwright test --ui --project=ui-tests-chrome",
     "test:ui:crossbrowser": "playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=ui-tests-webkit",
     "report": "npx playwright show-report",
-    "docker:start": "docker start juice-shop 2>/dev/null || docker run -d --name juice-shop -p 3000:3000 bkimminich/juice-shop",
+    "docker:start": "docker info >/dev/null 2>&1 || (open -a Docker && echo \"Aguardando o Docker Desktop iniciar...\" && until docker info >/dev/null 2>&1; do sleep 1; done); docker start juice-shop 2>/dev/null || docker run -d --name juice-shop -p 3000:3000 bkimminich/juice-shop",
     "docker:stop": "docker stop juice-shop",
     "docker:logs": "docker logs -f juice-shop"
   },

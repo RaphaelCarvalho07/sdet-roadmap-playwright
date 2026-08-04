@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 
 export class JuiceShopPage {
   readonly page: Page;
@@ -25,12 +25,23 @@ export class JuiceShopPage {
    * Injects the JWT token and suppresses all UI overlays in localStorage
    * BEFORE navigating to the page, bypassing login forms and popups.
    */
-  async injectSessionToken(token: string): Promise<void> {
-    await this.page.addInitScript((jwtToken: string) => {
-      window.localStorage.setItem("token", jwtToken);
-      document.cookie = "welcomebanner_status=dismiss; path=/";
-      document.cookie = "cookieconsent_status=dismiss; path=/";
-    }, token);
+  async injectSessionToken(token: string, bid: string | number): Promise<void> {
+    await this.page.addInitScript(
+      ({
+        jwtToken,
+        basketId,
+      }: {
+        jwtToken: string;
+        basketId: string | number;
+      }) => {
+        window.localStorage.setItem("token", jwtToken);
+        window.localStorage.setItem("bid", String(basketId));
+        window.sessionStorage.setItem("bid", String(basketId));
+        document.cookie = "welcomebanner_status=dismiss; path=/";
+        document.cookie = "cookieconsent_status=dismiss; path=/";
+      },
+      { jwtToken: token, basketId: bid },
+    );
   }
 
   /**
@@ -38,6 +49,21 @@ export class JuiceShopPage {
    */
   async navigate(): Promise<void> {
     await this.page.goto("/#/search");
+  }
+  /**
+   * Navigates to the OWASP Juice Shop Basket page
+   */
+  async goToBasket(): Promise<void> {
+    await this.page.goto("/#/basket");
+  }
+
+  /**
+   * Asserts that a specific product is visible in the basket table
+   * @param productName The name of the product expected to be in the basket
+   */
+  async validateItemBasket(productName: string): Promise<void> {
+    const basketRow = this.page.locator("mat-row", { hasText: productName });
+    await expect(basketRow).toBeVisible();
   }
 
   /**
