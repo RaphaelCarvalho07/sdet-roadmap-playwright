@@ -1,8 +1,6 @@
 import { z } from "zod";
 
-const dateStringSchema = z.string().refine((val) => !isNaN(Date.parse(val)), {
-  message: "Invalid date format",
-});
+import { dateStringSchema } from "./common.schema";
 
 /**
  * Schema for an individual Juice Shop product item

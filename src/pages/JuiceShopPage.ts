@@ -6,6 +6,9 @@ export class JuiceShopPage {
   readonly cookieConsentDismissButton: Locator;
   readonly navbarAccountButton: Locator;
   readonly userProfileButton: Locator;
+  readonly checkoutButton: Locator;
+  readonly continueButton: Locator;
+  readonly placeOrderButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -19,6 +22,13 @@ export class JuiceShopPage {
     this.userProfileButton = page.locator(
       'button[aria-label="Go to user profile"]',
     );
+    this.checkoutButton = page.locator("#checkoutButton");
+    this.continueButton = page
+      .getByRole("button")
+      .filter({ hasText: "Continue" });
+    this.placeOrderButton = page
+      .getByRole("button")
+      .filter({ hasText: "Place your order and pay" });
   }
 
   /**
@@ -96,5 +106,55 @@ export class JuiceShopPage {
    */
   async openAccountMenu(): Promise<void> {
     await this.navbarAccountButton.click();
+  }
+
+  /**
+   * Clicks on the checkout button
+   */
+  async clickCheckout(): Promise<void> {
+    await this.checkoutButton.click();
+  }
+
+  /**
+   * Selects the delivery address for the checkout process
+   * @param streetAddress The street address of the address to select
+   */
+  async selectAddress(streetAddress: string): Promise<void> {
+    const addressRow = this.page.locator("mat-row", { hasText: streetAddress });
+    await addressRow.locator("mat-radio-button").click();
+    await this.continueButton.click();
+  }
+  /**
+   * Selects the delivery method for the checkout process
+   * @param methodName The delivery method to select
+   */
+  async selectDeliveryMethod(methodName: string): Promise<void> {
+    const deliveryRow = this.page.locator("mat-row", { hasText: methodName });
+    await deliveryRow.locator("mat-radio-button").click();
+    await this.continueButton.click();
+  }
+
+  /**
+   * Selects the payment method for the checkout process
+   * @param cardHolderName The name of the card holder to select
+   */
+  async selectPaymentMethod(cardHolderName: string): Promise<void> {
+    const cardRow = this.page.locator("mat-row", { hasText: cardHolderName });
+    await cardRow.locator("mat-radio-button").click();
+    await this.continueButton.click();
+  }
+
+  /**
+   * Places the order and pays for it
+   */
+  async placeOrderAndPay(): Promise<void> {
+    await this.placeOrderButton.click();
+  }
+
+  async validateOrderConfirmation(): Promise<void> {
+    const confirmationOrder = this.page.getByText(
+      "Thank you for your purchase",
+    );
+    await expect(confirmationOrder).toBeVisible();
   }
 }
