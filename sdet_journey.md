@@ -407,8 +407,61 @@ To address these challenges, we implemented the following patterns:
 
 ### 3. Next Study Steps
 
-- **Hybrid UI Cart Testing:** Integrate the new `BasketClient` to seed the shopping cart via API before executing UI checkout flows, maximizing test execution speed and eliminating UI login steps.
 - **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
 - **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
-- **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions.
+
+---
+
+## 04/08/2026 - Hybrid E2E Session & Basket Injection
+
+### 1. Scenario and Technical Challenge
+
+We integrated the `BasketClient` API helper to seed the shopping cart before verifying the cart contents in the UI. During execution, we faced a major state-injection issue:
+- **Empty & Anonymous Basket:** Even though the JWT token was injected into `localStorage` and we were logged in, navigating to `/#/basket` rendered "Your Basket (anonymous)" and showed 0 items.
+- **State Partitioning:** Investigating the Angular frontend revealed that Juice Shop reads both `token` and `bid` (Basket ID). Furthermore, depending on the app version, `bid` is read from `sessionStorage`, while `token` is read from `localStorage`.
+
+### 2. Structured Solution & Recommended Patterns
+
+- **Dual-Storage Session Injection:** Modified the `injectSessionToken` method to write variables to both storage layers:
+  ```ts
+  window.localStorage.setItem("token", jwtToken);
+  window.localStorage.setItem("bid", String(basketId));
+  window.sessionStorage.setItem("bid", String(basketId));
+  ```
+- **Playwright Destructuring in addInitScript:** Learned that `addInitScript` only accepts a single serialized parameter. We grouped parameters into an object and used ES6 destructuring inside the script callback to pass both fields safely.
+
+---
+
+## 12/08/2026 - Complete Hybrid Checkout & Resilient Locator Architecture
+
+### 1. Scenario and Technical Challenge
+
+We extended the E2E suite to automate a full Checkout flow (Basket ➡️ Address ➡️ Delivery ➡️ Payment ➡️ Review). We encountered two major engineering hurdles:
+- **Dynamic Accessibility Labels (ARIA Names):** Standard button locators (`getByRole("button", { name: "Continue" })`) timed out because Angular Material dynamically assigns distinct ARIA labels to buttons depending on the screen (e.g. `"Proceed to payment selection"`, `"Proceed to review"`).
+- **ESLint & TypeScript Contract Integrity:** Creating data seeding pipelines for Address and Credit Card objects required building new API clients (`AddressClient`, `CardClient`), type definitions, and Faker generators, while adhering to strict code rules preventing the use of the `any` type.
+
+### 2. Structured Solution & Recommended Patterns
+
+- **Resilient Chained Locators:** Implemented Playwright's role selection combined with text-content filtering to build future-proof, accessibility-resilient locators:
+  ```ts
+  this.continueButton = page.getByRole("button").filter({ hasText: "Continue" });
+  this.placeOrderButton = page.getByRole("button").filter({ hasText: "Place your order and pay" });
+  ```
+- **Zod Schema Merging and Extensibility:** Used Zod's `.extend()` modifier to build database schemas from base payloads, avoiding code duplication and securing autocomplete benefits:
+  ```ts
+  export const juiceCardSchema = juiceAddCardPayloadSchema.extend({
+    id: z.number().positive(),
+    UserId: z.number().positive(),
+    createdAt: dateStringSchema,
+    updatedAt: dateStringSchema,
+  });
+  ```
+- **Centralized Validation Helpers:** Extracted non-standard SQLite date string validation into a shared `common.schema.ts` file to keep schemas DRY.
+
+### 3. Next Study Steps
+
+- **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions (`expect(page).toHaveScreenshot()`) to check checkout screen layout integrity.
+- **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
+- **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
 - **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
+- **LLM & AI Agent Evaluation (Evals & MCP):** Introduce non-deterministic testing principles, LLM-as-a-Judge evaluations using framework libraries (like Promptfoo or DeepEval), prompt injection security testing (Red Teaming), and writing/testing Model Context Protocol (MCP) servers.

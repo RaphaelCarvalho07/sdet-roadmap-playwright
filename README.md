@@ -1,16 +1,121 @@
-# SDET Automation Framework - Hybrid Architecture (UI & API)
+# 🚀 SDET Automation Framework - Hybrid Architecture (UI & API)
 
-This repository contains a high-performance, fully decoupled automation framework designed under strict software engineering principles for both UI and API testing layers using **TypeScript**, **Playwright**, **Zod 4**, and **Docker**.
+[![Playwright](https://img.shields.io/badge/Playwright-v1.45+-2e8b57?style=for-the-badge&logo=playwright&logoColor=white)](https://playwright.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Zod 4](https://img.shields.io/badge/Zod-Schema_Validation-purple?style=for-the-badge&logo=zod&logoColor=white)](https://zod.dev/)
+[![Docker](https://img.shields.io/badge/Docker-Containerized_Env-0db7ed?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
-## 🚀 Key Architectural Features
+A high-performance, industry-grade test automation framework designed under strict software engineering principles for both UI and API layers. Built using **TypeScript**, **Playwright**, and **Zod**, this repository showcases how to bypass traditional, slow, and flaky UI steps by combining background REST API mutations with state injection.
 
-- **Domain Decoupling:** Complete separation of concerns between API and UI execution contexts inside the configuration layers.
-- **Contract Schema Validation:** Strict runtime response schema validation using **Zod 4** and dynamic TypeScript type inference (`z.infer`).
-- **Object Mother & Dynamic Data:** Payload generation using `@faker-js/faker` wrapped inside `UserFactory` for state-independent, isolated test runs.
-- **Hybrid E2E Session Injection:** Background REST API data seeding combined with browser session injection (`page.addInitScript`) to bypass UI login forms in milliseconds.
-- **Global Cookie Scoping:** Pre-injection of `welcomebanner_status` and `cookieconsent_status` in `document.cookie` (`path=/`) to eliminate Angular Material backdrop overlays.
-- **CI/CD Service Containers:** Automated GitHub Actions pipeline executing API and UI cross-browser runs against Docker service containers with consolidated HTML reports deployed to GitHub Pages.
-- **Strict Code Quality:** Enforced ESLint rules and TypeScript strict mode adherence.
+---
+
+## 🏛️ Hybrid Test Architecture Flow
+
+To maximize test execution speed and completely eliminate UI flakiness (such as logging in, navigating complex search grids, and filling multiple forms), this framework adopts a **hybrid automation pattern**:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant API as REST API Backend
+    participant Storage as Browser Storage (LocalStorage/SessionStorage)
+    participant UI as Browser UI (Playwright)
+
+    Note over API: [Arrange Phase]
+    API->>API: Create Dynamic User (Faker)
+    API->>API: Retrieve JWT Token & Basket ID (bid)
+    API->>API: Seed Cart Items, Address, & Payment Card
+    
+    Note over Storage: [Inject Session State]
+    Storage->>Storage: Inject JWT & Session Cookies
+    Storage->>Storage: Inject Basket ID to Local & Session Storage
+    
+    Note over UI: [Act & Assert Phases]
+    UI->>UI: Navigate directly to /#/basket
+    UI->>UI: Go through checkout selection screens (POM)
+    UI->>UI: Place order and assert completion text
+```
+
+---
+
+## 📂 Framework Directory Structure
+
+```text
+sdet-roadmap-playwright/
+├── src/
+│   ├── api/                  # REST API Clients (Decoupled Layer)
+│   │   ├── AddressClient.ts
+│   │   ├── BasketClient.ts
+│   │   ├── CardClient.ts
+│   │   ├── ProductClient.ts
+│   │   └── UserClient.ts
+│   ├── factories/            # Object Mother / Test Data Generation
+│   │   └── userFactory.ts
+│   ├── fixtures/             # Custom Playwright Fixtures
+│   │   └── juiceTest.ts
+│   ├── pages/                # Page Object Model (POM)
+│   │   └── JuiceShopPage.ts
+│   ├── schemas/              # Zod API Contract Schemas
+│   │   ├── address.schema.ts
+│   │   ├── basket.schema.ts
+│   │   ├── card.schema.ts
+│   │   ├── common.schema.ts  # Shared date formatting validators
+│   │   └── product.schema.ts
+│   └── types/                # Inferred TypeScript Types
+│       ├── address.types.ts
+│       ├── basket.types.ts
+│       ├── card.types.ts
+│       └── product.types.ts
+├── tests/
+│   ├── api/                  # Isolated API Contract & Functional Tests
+│   │   └── user.api.spec.ts
+│   └── ui/                   # UI & Hybrid E2E Test Specs
+│       ├── juice-checkout.spec.ts
+│       └── juice-hybrid.spec.ts
+├── playwright.config.ts      # Global Test configuration runner
+└── tsconfig.json             # TypeScript compiler rules
+```
+
+---
+
+## 🧠 Key Design Patterns & Technical Highlights
+
+### 1. Multi-Storage Session Injection (Bypassing Login Forms)
+Before launching the browser page, Playwright's `addInitScript` injects the seeded API authentication state and dismisses popup flags globally in a single block. Since Angular Material reads state across multiple storages, we inject values into both `localStorage` and `sessionStorage` simultaneously:
+
+```typescript
+async injectSessionToken(token: string, bid: string | number): Promise<void> {
+  await this.page.addInitScript(
+    ({ jwtToken, basketId }) => {
+      window.localStorage.setItem("token", jwtToken);
+      window.localStorage.setItem("bid", String(basketId));
+      window.sessionStorage.setItem("bid", String(basketId));
+      document.cookie = "welcomebanner_status=dismiss; path=/";
+      document.cookie = "cookieconsent_status=dismiss; path=/";
+    },
+    { jwtToken: token, basketId: bid }
+  );
+}
+```
+
+### 2. Semantic & Resilient Accessibility Locators (A11y)
+Modern Material UIs dynamically change element accessibility names (ARIA labels) between steps (e.g., from `"Proceed to payment"` to `"Proceed to review"`). Rather than using fragile tag paths, we couple standard ARIA roles with visible text filtering to construct bulletproof selectors:
+
+```typescript
+// Resilient locator targeting the step button by its actual human-visible text
+this.continueButton = page.getByRole("button").filter({ hasText: "Continue" });
+```
+
+### 3. DRY Zod Contract Extensions
+Rather than duplicating fields between API payloads (POST request) and server responses (which append properties like `id`, `UserId`, `createdAt`), Zod's `.extend()` modifier is used to maintain schemas dynamically from a single source of truth:
+
+```typescript
+export const juiceCardSchema = juiceAddCardPayloadSchema.extend({
+  id: z.number().positive(),
+  UserId: z.number().positive(),
+  createdAt: dateStringSchema,
+  updatedAt: dateStringSchema,
+});
+```
 
 ---
 
@@ -18,75 +123,62 @@ This repository contains a high-performance, fully decoupled automation framewor
 
 ### Prerequisites
 
-Make sure Docker is installed and running on your system. 
+Ensure you have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
 
-Configure your local `.env` file in the root directory:
+Clone the repository and install dependencies:
+```bash
+npm install
+```
 
+Configure your environment variables inside a `.env` file in the root directory:
 ```env
 API_URL=http://localhost:3000
 UI_URL=http://localhost:3000
 ```
 
-### Installation
-
-Clone the repository and install the development dependencies:
-
-```bash
-npm install
-```
-
-### 🐳 Docker Container Management
-
-Manage the local **OWASP Juice Shop** container with dedicated npm scripts:
-
+### 🐳 Docker Container Control
+Manage the local **OWASP Juice Shop** container environment using simple npm scripts:
 ```bash
 # Start the local Docker container (auto-pulls image if missing)
 npm run docker:start
 
-# View live container application logs in real-time
+# View live container logs in real-time
 npm run docker:logs
 
-# Stop the local Docker container
+# Stop the container
 npm run docker:stop
 ```
 
-### Code Quality Validation (Linter)
+### 🧪 Test Execution Dashboard
 
-Execute ESLint to verify TypeScript syntax adherence and structural code guidelines:
+Ensure the docker container is running, then choose your execution scope:
 
+```bash
+# Run the complete test suite (API, UI, and Hybrid E2E specs)
+npm test
+
+# Run isolated API contract validation and mutation tests
+npm run test:api
+
+# Run UI and Hybrid tests in Chromium
+npm run test:ui
+
+# Run cross-browser compatibility tests (Chromium, Firefox, WebKit) in parallel
+npm run test:ui:crossbrowser
+
+# Run visual execution mode (Playwright UI Runner)
+npm run test:ui:visual
+
+# View consolidated Playwright HTML report
+npm run report
+```
+
+### 🧹 Code Quality (Linter)
+Validate code syntax and structural guidelines against our strict ESLint ruleset:
 ```bash
 npm run lint
 ```
 
-### Test Execution Control Deck
-
-Run the complete test suite across all sandboxed layers:
-
-```bash
-# Start the local environment and run all tests
-npm run docker:start
-npm test
-```
-
-Or target specific engineering scopes to speed up your local validation workflow:
-
-```bash
-# Execute isolated API contract and mutation tests
-npm run test:api
-
-# Execute UI tests on Google Chrome
-npm run test:ui
-
-# Execute cross-browser regression (Chrome, Firefox, WebKit)
-npm run test:ui:crossbrowser
-
-# Open interactive Playwright Test UI Mode
-npm run test:ui:visual
-
-# View generated Playwright HTML execution report
-npm run report
-```
-
 ---
 
-**Developed as a core milestone in the transition roadmap toward Software Development Engineer in Test (SDET).**
+*This framework stands as a core milestone in the professional journey toward Software Development Engineer in Test (SDET), demonstrating modern software engineering applied to test automation.*
