@@ -14,6 +14,8 @@ dotenv.config();
  */
 export default defineConfig({
   testDir: "./tests",
+  /* Path template for snapshot files. Centralizes all visual baselines into a single directory. */
+  snapshotPathTemplate: "{testDir}/snapshots/{arg}-{projectName}-{platform}{ext}",
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

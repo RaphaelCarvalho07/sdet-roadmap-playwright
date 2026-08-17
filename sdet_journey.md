@@ -417,6 +417,7 @@ To address these challenges, we implemented the following patterns:
 ### 1. Scenario and Technical Challenge
 
 We integrated the `BasketClient` API helper to seed the shopping cart before verifying the cart contents in the UI. During execution, we faced a major state-injection issue:
+
 - **Empty & Anonymous Basket:** Even though the JWT token was injected into `localStorage` and we were logged in, navigating to `/#/basket` rendered "Your Basket (anonymous)" and showed 0 items.
 - **State Partitioning:** Investigating the Angular frontend revealed that Juice Shop reads both `token` and `bid` (Basket ID). Furthermore, depending on the app version, `bid` is read from `sessionStorage`, while `token` is read from `localStorage`.
 
@@ -437,6 +438,7 @@ We integrated the `BasketClient` API helper to seed the shopping cart before ver
 ### 1. Scenario and Technical Challenge
 
 We extended the E2E suite to automate a full Checkout flow (Basket ➡️ Address ➡️ Delivery ➡️ Payment ➡️ Review). We encountered two major engineering hurdles:
+
 - **Dynamic Accessibility Labels (ARIA Names):** Standard button locators (`getByRole("button", { name: "Continue" })`) timed out because Angular Material dynamically assigns distinct ARIA labels to buttons depending on the screen (e.g. `"Proceed to payment selection"`, `"Proceed to review"`).
 - **ESLint & TypeScript Contract Integrity:** Creating data seeding pipelines for Address and Credit Card objects required building new API clients (`AddressClient`, `CardClient`), type definitions, and Faker generators, while adhering to strict code rules preventing the use of the `any` type.
 
@@ -444,8 +446,12 @@ We extended the E2E suite to automate a full Checkout flow (Basket ➡️ Addres
 
 - **Resilient Chained Locators:** Implemented Playwright's role selection combined with text-content filtering to build future-proof, accessibility-resilient locators:
   ```ts
-  this.continueButton = page.getByRole("button").filter({ hasText: "Continue" });
-  this.placeOrderButton = page.getByRole("button").filter({ hasText: "Place your order and pay" });
+  this.continueButton = page
+    .getByRole("button")
+    .filter({ hasText: "Continue" });
+  this.placeOrderButton = page
+    .getByRole("button")
+    .filter({ hasText: "Place your order and pay" });
   ```
 - **Zod Schema Merging and Extensibility:** Used Zod's `.extend()` modifier to build database schemas from base payloads, avoiding code duplication and securing autocomplete benefits:
   ```ts
@@ -460,7 +466,44 @@ We extended the E2E suite to automate a full Checkout flow (Basket ➡️ Addres
 
 ### 3. Next Study Steps
 
-- **Visual Regression Testing:** Integrate screenshot layout comparisons using Playwright's native visual assertions (`expect(page).toHaveScreenshot()`) to check checkout screen layout integrity.
+- **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
+- **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
+- **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
+- **LLM & AI Agent Evaluation (Evals & MCP):** Introduce non-deterministic testing principles, LLM-as-a-Judge evaluations using framework libraries (like Promptfoo or DeepEval), prompt injection security testing (Red Teaming), and writing/testing Model Context Protocol (MCP) servers.
+
+---
+
+## 17/08/2026 - Visual Regression Testing: Macro-Layout vs Micro-Component & Snapshot Centralization
+
+### 1. Scenario and Technical Challenge
+
+We integrated Playwright's visual assertions (`toHaveScreenshot`) into our hybrid test suite. However, we faced two critical challenges that are common in visual regression testing:
+
+- **Layout Shift from Dynamic Data:** When tests used dynamic (Faker) payloads, varying text lengths (e.g. name, street address) caused Angular Material cards to stretch or shrink. This pushed elements below (like the cart table) up or down, resulting in pixel comparison failures despite masking the dynamic text itself.
+- **Transient UI Overlays (Snackbar/Toasts):** Language selection toasts popped up at random intervals during test runs, introducing visual differences (false-positives) in the screenshot comparison.
+- **Scattered Snapshot Folders:** Playwright's default behavior saves reference images in folders adjacent to test files (e.g., `tests/ui/juice-visual.spec.ts-snapshots/`), cluttering the codebase.
+
+### 2. Structured Solution & Recommended Patterns
+
+- **Dual-Verification Visual Test Strategy:**
+  - **Macro-Layout Visual Testing (E2E Page-Level):** Checks the entire checkout review page. Uses dynamic Faker data but injects a temporary CSS rule (`height: 150px !important; overflow: hidden !important;`) on the cards via `addStyleTag` to prevent layout shifts. Masks dynamic card containers.
+  - **Micro-Component Visual Testing (Isolated Element-Level):** Uses a dedicated test spec ([juice-visual.spec.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/tests/ui/juice-visual.spec.ts)) that seeds static, constant data (no Faker) and takes an unmasked screenshot of ONLY the specific element:
+    ```ts
+    const addressCard = page
+      .locator(".column mat-card")
+      .filter({ hasText: "Delivery Address" });
+    await expect(addressCard).toHaveScreenshot("isolated-address-card.png");
+    ```
+- **Hiding Transient UI Elements via CSS Injection:** Injected a global CSS rule during tests to force transient snackbars to remain hidden, eliminating visual flakiness from notifications:
+  ```ts
+  await page.addStyleTag({
+    content: "mat-snack-bar-container, .mat-snack-bar-container { display: none !important; }",
+  });
+  ```
+- **Centralized Snapshot Paths:** Overrode Playwright's default layout by defining `snapshotPathTemplate` inside [playwright.config.ts](https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/blob/main/playwright.config.ts), directing all baseline images to a centralized `tests/snapshots/` directory.
+
+### 3. Next Study Steps
+
 - **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
 - **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
 - **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).

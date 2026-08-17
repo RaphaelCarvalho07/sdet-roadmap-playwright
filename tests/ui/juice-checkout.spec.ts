@@ -53,6 +53,7 @@ test.describe("owasp juice shop - hybrid checkout flow", () => {
     await juiceShopPage.selectAddress(addressPayload.streetAddress);
     await juiceShopPage.selectDeliveryMethod("Standard Delivery");
     await juiceShopPage.selectPaymentMethod(cardPayload.fullName);
+    await juiceShopPage.validateSummaryVisual();
     await juiceShopPage.placeOrderAndPay();
 
     // Assert

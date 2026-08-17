@@ -151,6 +151,35 @@ export class JuiceShopPage {
     await this.placeOrderButton.click();
   }
 
+  /**
+   * Performs visual validation of the Order Summary page, masking dynamic address and payment cards
+   */
+  async validateSummaryVisual(): Promise<void> {
+    // Hide transient toast notifications/snackbars and force a fixed height on the cards
+    // to prevent layout shifts while keeping test data dynamic.
+    await this.page.addStyleTag({
+      content: `
+        mat-snack-bar-container,
+        .mat-snack-bar-container,
+        mat-mdc-snack-bar-container,
+        .mat-mdc-snack-bar-container {
+          display: none !important;
+        }
+        .column mat-card {
+          height: 150px !important;
+          overflow: hidden !important;
+        }
+      `,
+    });
+
+    const addressCard = this.page.locator(".column mat-card").filter({ hasText: "Delivery Address" });
+    const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
+
+    await expect(this.page).toHaveScreenshot("order-summary.png", {
+      mask: [addressCard, paymentCard],
+    });
+  }
+
   async validateOrderConfirmation(): Promise<void> {
     const confirmationOrder = this.page.getByText(
       "Thank you for your purchase",

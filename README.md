@@ -68,9 +68,12 @@ sdet-roadmap-playwright/
 ├── tests/
 │   ├── api/                  # Isolated API Contract & Functional Tests
 │   │   └── user.api.spec.ts
-│   └── ui/                   # UI & Hybrid E2E Test Specs
+│   ├── snapshots/            # Centralized Visual Regression Baseline Images
+│   │   └── *.png
+│   └── ui/                   # UI, Hybrid & Visual Test Specs
 │       ├── juice-checkout.spec.ts
-│       └── juice-hybrid.spec.ts
+│       ├── juice-hybrid.spec.ts
+│       └── juice-visual.spec.ts
 ├── playwright.config.ts      # Global Test configuration runner
 └── tsconfig.json             # TypeScript compiler rules
 ```
