@@ -12,7 +12,7 @@
 # Error details
 
 ```
-Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-firefox-linux.png, writing actual.
+Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-chrome-linux.png, writing actual.
 ```
 
 # Page snapshot
@@ -46,66 +46,70 @@ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sde
       - button "Language selection menu" [ref=e43]:
         - img [ref=e44]: language
         - generic [ref=e45]: EN
-  - generic [ref=e50]:
-    - generic [ref=e51]:
-      - generic [ref=e52]:
-        - heading "Thank you for your purchase!" [level=1] [ref=e53]
-        - generic [ref=e54]:
+  - generic [ref=e52]:
+    - generic [ref=e53]: "You successfully solved a challenge: Repetitive Registration (Follow the DRY principle while registering a user.)"
+    - button "X" [ref=e54]:
+      - generic [ref=e55]: X
+  - generic [ref=e60]:
+    - generic [ref=e61]:
+      - generic [ref=e62]:
+        - heading "Thank you for your purchase!" [level=1] [ref=e63]
+        - generic [ref=e64]:
           - text: Your order has been placed and is being processed. You can check for status updates on our
-          - link "Track Orders" [ref=e55] [cursor=pointer]:
-            - /url: "#/track-result/new?id=0709-e3d96da7c9d53580"
+          - link "Track Orders" [ref=e65] [cursor=pointer]:
+            - /url: "#/track-result/new?id=1cc3-8e6de8470f08f38c"
           - text: page.
-      - generic [ref=e56]:
-        - generic [ref=e58]: Your order will be delivered in 5 days.
-        - generic [ref=e59]: Delivery Address
-        - generic [ref=e60]: Melyssa O'Connell
-        - generic [ref=e61]: 76573 Muller Mission, Borerborough, North Dakota, 94744
-        - generic [ref=e62]: Democratic Republic of the Congo
-        - generic [ref=e63]: Phone Number 16125003
-    - generic [ref=e64]:
-      - generic [ref=e65]: Order Summary
       - generic [ref=e66]:
-        - link "Tweet" [ref=e67] [cursor=pointer]:
+        - generic [ref=e68]: Your order will be delivered in 5 days.
+        - generic [ref=e69]: Delivery Address
+        - generic [ref=e70]: Richie Block I
+        - generic [ref=e71]: 15104 S Market Street, Port Coralieworth, South Dakota, 63890
+        - generic [ref=e72]: Libyan Arab Jamahiriya
+        - generic [ref=e73]: Phone Number 13306057
+    - generic [ref=e74]:
+      - generic [ref=e75]: Order Summary
+      - generic [ref=e76]:
+        - link "Tweet" [ref=e77] [cursor=pointer]:
           - /url: https://twitter.com/intent/tweet?text=I just purchased%0a- Apple Juice (1000ml)%0afrom @owasp_juiceshop&hashtags=security
-          - img [ref=e68]: twitter
-        - button "Print order confirmation" [ref=e72] [cursor=pointer]:
-          - img [ref=e73]: note
-    - table [ref=e77]:
-      - row "Product Price Quantity Total Price" [ref=e78]:
-        - columnheader "Product" [ref=e79]
-        - columnheader "Price" [ref=e80]
-        - columnheader "Quantity" [ref=e81]
-        - columnheader "Total Price" [ref=e82]
-      - row "Apple Juice (1000ml) 1.99¤ 1 1.99¤" [ref=e83]:
-        - cell "Apple Juice (1000ml)" [ref=e84]
-        - cell "1.99¤" [ref=e85]
-        - cell "1" [ref=e86]:
-          - generic [ref=e87]: "1"
-        - cell "1.99¤" [ref=e88]
-      - row "Items Delivery Promotion Total Price 1.99¤ 0.00¤ 0.00¤ 1.99¤" [ref=e89]:
-        - cell [ref=e90]
-        - cell [ref=e91]
-        - cell "Items Delivery Promotion Total Price" [ref=e92]:
-          - table [ref=e93]:
-            - row "Items" [ref=e94]:
-              - cell "Items" [ref=e95]
-            - row "Delivery" [ref=e96]:
-              - cell "Delivery" [ref=e97]
-            - row "Promotion" [ref=e98]:
-              - cell "Promotion" [ref=e99]
-            - row "Total Price" [ref=e100]:
-              - cell "Total Price" [ref=e101]
-        - cell "1.99¤ 0.00¤ 0.00¤ 1.99¤" [ref=e102]:
+          - img [ref=e78]: twitter
+        - button "Print order confirmation" [ref=e82] [cursor=pointer]:
+          - img [ref=e83]: note
+    - table [ref=e87]:
+      - row "Product Price Quantity Total Price" [ref=e88]:
+        - columnheader "Product" [ref=e89]
+        - columnheader "Price" [ref=e90]
+        - columnheader "Quantity" [ref=e91]
+        - columnheader "Total Price" [ref=e92]
+      - row "Apple Juice (1000ml) 1.99¤ 1 1.99¤" [ref=e93]:
+        - cell "Apple Juice (1000ml)" [ref=e94]
+        - cell "1.99¤" [ref=e95]
+        - cell "1" [ref=e96]:
+          - generic [ref=e97]: "1"
+        - cell "1.99¤" [ref=e98]
+      - row "Items Delivery Promotion Total Price 1.99¤ 0.00¤ 0.00¤ 1.99¤" [ref=e99]:
+        - cell [ref=e100]
+        - cell [ref=e101]
+        - cell "Items Delivery Promotion Total Price" [ref=e102]:
           - table [ref=e103]:
-            - row "1.99¤" [ref=e104]:
-              - cell "1.99¤" [ref=e105]
-            - row "0.00¤" [ref=e106]:
-              - cell "0.00¤" [ref=e107]
-            - row "0.00¤" [ref=e108]:
-              - cell "0.00¤" [ref=e109]
-            - row "1.99¤" [ref=e110]:
-              - cell "1.99¤" [ref=e111]
-    - generic [ref=e112]: You have gained 0 Bonus Points from this order!
+            - row "Items" [ref=e104]:
+              - cell "Items" [ref=e105]
+            - row "Delivery" [ref=e106]:
+              - cell "Delivery" [ref=e107]
+            - row "Promotion" [ref=e108]:
+              - cell "Promotion" [ref=e109]
+            - row "Total Price" [ref=e110]:
+              - cell "Total Price" [ref=e111]
+        - cell "1.99¤ 0.00¤ 0.00¤ 1.99¤" [ref=e112]:
+          - table [ref=e113]:
+            - row "1.99¤" [ref=e114]:
+              - cell "1.99¤" [ref=e115]
+            - row "0.00¤" [ref=e116]:
+              - cell "0.00¤" [ref=e117]
+            - row "0.00¤" [ref=e118]:
+              - cell "0.00¤" [ref=e119]
+            - row "1.99¤" [ref=e120]:
+              - cell "1.99¤" [ref=e121]
+    - generic [ref=e122]: You have gained 0 Bonus Points from this order!
 ```
 
 # Test source
@@ -212,7 +216,7 @@ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sde
   176 |     const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
   177 | 
 > 178 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
-      |     ^ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-firefox-linux.png, writing actual.
+      |     ^ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-chrome-linux.png, writing actual.
   179 |       mask: [addressCard, paymentCard],
   180 |     });
   181 |   }

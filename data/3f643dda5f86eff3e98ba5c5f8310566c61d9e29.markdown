@@ -12,7 +12,7 @@
 # Error details
 
 ```
-Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-webkit-linux.png, writing actual.
+Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-firefox-linux.png, writing actual.
 ```
 
 # Page snapshot
@@ -52,22 +52,22 @@ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sde
         - heading "Thank you for your purchase!" [level=1] [ref=e53]
         - generic [ref=e54]:
           - text: Your order has been placed and is being processed. You can check for status updates on our
-          - link "Track Orders" [ref=e55]:
-            - /url: "#/track-result/new?id=afcc-1193dd4b9ff43614"
+          - link "Track Orders" [ref=e55] [cursor=pointer]:
+            - /url: "#/track-result/new?id=0dea-e7916b21e6eba0f0"
           - text: page.
       - generic [ref=e56]:
         - generic [ref=e58]: Your order will be delivered in 5 days.
         - generic [ref=e59]: Delivery Address
-        - generic [ref=e60]: Dion Barton
-        - generic [ref=e61]: 87374 Kutch Lights, Greeley, Alabama, 44689
-        - generic [ref=e62]: Tajikistan
-        - generic [ref=e63]: Phone Number 72495418
+        - generic [ref=e60]: Olin Bednar
+        - generic [ref=e61]: 310 Hilll Route, Nikolausstad, Kentucky, 03600
+        - generic [ref=e62]: Lithuania
+        - generic [ref=e63]: Phone Number 69721319
     - generic [ref=e64]:
       - generic [ref=e65]: Order Summary
       - generic [ref=e66]:
         - link "Tweet" [ref=e67] [cursor=pointer]:
           - /url: https://twitter.com/intent/tweet?text=I just purchased%0a- Apple Juice (1000ml)%0afrom @owasp_juiceshop&hashtags=security
-          - img [ref=e68]
+          - img [ref=e68]: twitter
         - button "Print order confirmation" [ref=e72] [cursor=pointer]:
           - img [ref=e73]: note
     - table [ref=e77]:
@@ -212,7 +212,7 @@ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sde
   176 |     const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
   177 | 
 > 178 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
-      |     ^ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-webkit-linux.png, writing actual.
+      |     ^ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-firefox-linux.png, writing actual.
   179 |       mask: [addressCard, paymentCard],
   180 |     });
   181 |   }
