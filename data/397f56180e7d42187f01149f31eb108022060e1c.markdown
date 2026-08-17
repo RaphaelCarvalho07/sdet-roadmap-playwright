@@ -1,0 +1,232 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: ui/juice-checkout.spec.ts >> owasp juice shop - hybrid checkout flow >> should complete a checkout flow using seeded API data
+- Location: tests/ui/juice-checkout.spec.ts:10:7
+
+# Error details
+
+```
+Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-chrome-linux.png, writing actual.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e4]:
+  - generic [ref=e7]:
+    - button "Open Sidenav" [ref=e8] [cursor=pointer]:
+      - img [ref=e9]: menu
+    - button "Back to homepage" [ref=e12]:
+      - generic [ref=e14]:
+        - img "OWASP Juice Shop" [ref=e15]
+        - generic [ref=e16]: OWASP Juice Shop
+    - generic "Click to search" [ref=e20]:
+      - button "Open search" [ref=e21] [cursor=pointer]:
+        - img [ref=e22]: search
+      - generic:
+        - img [ref=e25]: search
+        - textbox [ref=e26]
+        - button "Close search" [ref=e27] [cursor=pointer]:
+          - img [ref=e28]: close
+    - generic [ref=e31]:
+      - button "Show/hide account menu" [ref=e32]:
+        - img [ref=e33]: account_circle
+        - generic [ref=e34]: Account
+      - button "Show the shopping cart" [ref=e37]:
+        - img [ref=e38]: shopping_cart
+        - generic [ref=e39]:
+          - text: Your Basket
+          - generic [ref=e40]: "0"
+      - button "Language selection menu" [ref=e43]:
+        - img [ref=e44]: language
+        - generic [ref=e45]: EN
+  - generic [ref=e52]:
+    - generic [ref=e53]: "You successfully solved a challenge: Repetitive Registration (Follow the DRY principle while registering a user.)"
+    - button "X" [ref=e54]:
+      - generic [ref=e55]: X
+  - generic [ref=e60]:
+    - generic [ref=e61]:
+      - generic [ref=e62]:
+        - heading "Thank you for your purchase!" [level=1] [ref=e63]
+        - generic [ref=e64]:
+          - text: Your order has been placed and is being processed. You can check for status updates on our
+          - link "Track Orders" [ref=e65] [cursor=pointer]:
+            - /url: "#/track-result/new?id=95bd-df6a9d9091deb263"
+          - text: page.
+      - generic [ref=e66]:
+        - generic [ref=e68]: Your order will be delivered in 5 days.
+        - generic [ref=e69]: Delivery Address
+        - generic [ref=e70]: Boyd Conn
+        - generic [ref=e71]: 7544 E 1st Street, Monaberg, Delaware, 25199
+        - generic [ref=e72]: Ecuador
+        - generic [ref=e73]: Phone Number 30350639
+    - generic [ref=e74]:
+      - generic [ref=e75]: Order Summary
+      - generic [ref=e76]:
+        - link "Tweet" [ref=e77] [cursor=pointer]:
+          - /url: https://twitter.com/intent/tweet?text=I just purchased%0a- Apple Juice (1000ml)%0afrom @owasp_juiceshop&hashtags=security
+          - img [ref=e78]: twitter
+        - button "Print order confirmation" [ref=e82] [cursor=pointer]:
+          - img [ref=e83]: note
+    - table [ref=e87]:
+      - row "Product Price Quantity Total Price" [ref=e88]:
+        - columnheader "Product" [ref=e89]
+        - columnheader "Price" [ref=e90]
+        - columnheader "Quantity" [ref=e91]
+        - columnheader "Total Price" [ref=e92]
+      - row "Apple Juice (1000ml) 1.99¤ 1 1.99¤" [ref=e93]:
+        - cell "Apple Juice (1000ml)" [ref=e94]
+        - cell "1.99¤" [ref=e95]
+        - cell "1" [ref=e96]:
+          - generic [ref=e97]: "1"
+        - cell "1.99¤" [ref=e98]
+      - row "Items Delivery Promotion Total Price 1.99¤ 0.00¤ 0.00¤ 1.99¤" [ref=e99]:
+        - cell [ref=e100]
+        - cell [ref=e101]
+        - cell "Items Delivery Promotion Total Price" [ref=e102]:
+          - table [ref=e103]:
+            - row "Items" [ref=e104]:
+              - cell "Items" [ref=e105]
+            - row "Delivery" [ref=e106]:
+              - cell "Delivery" [ref=e107]
+            - row "Promotion" [ref=e108]:
+              - cell "Promotion" [ref=e109]
+            - row "Total Price" [ref=e110]:
+              - cell "Total Price" [ref=e111]
+        - cell "1.99¤ 0.00¤ 0.00¤ 1.99¤" [ref=e112]:
+          - table [ref=e113]:
+            - row "1.99¤" [ref=e114]:
+              - cell "1.99¤" [ref=e115]
+            - row "0.00¤" [ref=e116]:
+              - cell "0.00¤" [ref=e117]
+            - row "0.00¤" [ref=e118]:
+              - cell "0.00¤" [ref=e119]
+            - row "1.99¤" [ref=e120]:
+              - cell "1.99¤" [ref=e121]
+    - generic [ref=e122]: You have gained 0 Bonus Points from this order!
+```
+
+# Test source
+
+```ts
+  78  | 
+  79  |   /**
+  80  |    * Dismisses welcome banner and cookie overlays safely using forced DOM clicks
+  81  |    */
+  82  |   async dismissOverlays(): Promise<void> {
+  83  |     try {
+  84  |       if (await this.welcomeBannerDismissButton.isVisible({ timeout: 4000 })) {
+  85  |         await this.welcomeBannerDismissButton.click({ force: true });
+  86  |         await this.page
+  87  |           .locator(".cdk-overlay-backdrop")
+  88  |           .waitFor({ state: "detached", timeout: 4000 })
+  89  |           .catch(() => {});
+  90  |       }
+  91  |     } catch {
+  92  |       // Silently ignore if welcome banner is absent
+  93  |     }
+  94  | 
+  95  |     try {
+  96  |       if (await this.cookieConsentDismissButton.isVisible({ timeout: 3000 })) {
+  97  |         await this.cookieConsentDismissButton.click({ force: true });
+  98  |       }
+  99  |     } catch {
+  100 |       // Silently ignore if cookie banner is absent
+  101 |     }
+  102 |   }
+  103 | 
+  104 |   /**
+  105 |    * Opens the account menu in the top navbar
+  106 |    */
+  107 |   async openAccountMenu(): Promise<void> {
+  108 |     await this.navbarAccountButton.click();
+  109 |   }
+  110 | 
+  111 |   /**
+  112 |    * Clicks on the checkout button
+  113 |    */
+  114 |   async clickCheckout(): Promise<void> {
+  115 |     await this.checkoutButton.click();
+  116 |   }
+  117 | 
+  118 |   /**
+  119 |    * Selects the delivery address for the checkout process
+  120 |    * @param streetAddress The street address of the address to select
+  121 |    */
+  122 |   async selectAddress(streetAddress: string): Promise<void> {
+  123 |     const addressRow = this.page.locator("mat-row", { hasText: streetAddress });
+  124 |     await addressRow.locator("mat-radio-button").click();
+  125 |     await this.continueButton.click();
+  126 |   }
+  127 |   /**
+  128 |    * Selects the delivery method for the checkout process
+  129 |    * @param methodName The delivery method to select
+  130 |    */
+  131 |   async selectDeliveryMethod(methodName: string): Promise<void> {
+  132 |     const deliveryRow = this.page.locator("mat-row", { hasText: methodName });
+  133 |     await deliveryRow.locator("mat-radio-button").click();
+  134 |     await this.continueButton.click();
+  135 |   }
+  136 | 
+  137 |   /**
+  138 |    * Selects the payment method for the checkout process
+  139 |    * @param cardHolderName The name of the card holder to select
+  140 |    */
+  141 |   async selectPaymentMethod(cardHolderName: string): Promise<void> {
+  142 |     const cardRow = this.page.locator("mat-row", { hasText: cardHolderName });
+  143 |     await cardRow.locator("mat-radio-button").click();
+  144 |     await this.continueButton.click();
+  145 |   }
+  146 | 
+  147 |   /**
+  148 |    * Places the order and pays for it
+  149 |    */
+  150 |   async placeOrderAndPay(): Promise<void> {
+  151 |     await this.placeOrderButton.click();
+  152 |   }
+  153 | 
+  154 |   /**
+  155 |    * Performs visual validation of the Order Summary page, masking dynamic address and payment cards
+  156 |    */
+  157 |   async validateSummaryVisual(): Promise<void> {
+  158 |     // Hide transient toast notifications/snackbars and force a fixed height on the cards
+  159 |     // to prevent layout shifts while keeping test data dynamic.
+  160 |     await this.page.addStyleTag({
+  161 |       content: `
+  162 |         mat-snack-bar-container,
+  163 |         .mat-snack-bar-container,
+  164 |         mat-mdc-snack-bar-container,
+  165 |         .mat-mdc-snack-bar-container {
+  166 |           display: none !important;
+  167 |         }
+  168 |         .column mat-card {
+  169 |           height: 150px !important;
+  170 |           overflow: hidden !important;
+  171 |         }
+  172 |       `,
+  173 |     });
+  174 | 
+  175 |     const addressCard = this.page.locator(".column mat-card").filter({ hasText: "Delivery Address" });
+  176 |     const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
+  177 | 
+> 178 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
+      |     ^ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-chrome-linux.png, writing actual.
+  179 |       mask: [addressCard, paymentCard],
+  180 |     });
+  181 |   }
+  182 | 
+  183 |   async validateOrderConfirmation(): Promise<void> {
+  184 |     const confirmationOrder = this.page.getByText(
+  185 |       "Thank you for your purchase",
+  186 |     );
+  187 |     await expect(confirmationOrder).toBeVisible();
+  188 |   }
+  189 | }
+  190 | 
+```
