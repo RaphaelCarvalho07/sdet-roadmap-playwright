@@ -4,9 +4,6 @@ import * as dotenv from "dotenv";
 // Force Node.js to load all environment variables into process.env globally
 dotenv.config();
 
-const apiBaseUrl = process.env.API_URL || (process.env.CI ? "http://juice-shop:3000" : "http://localhost:3000");
-const uiBaseUrl = process.env.UI_URL || (process.env.CI ? "http://juice-shop:3000" : "http://localhost:3000");
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -45,7 +42,7 @@ export default defineConfig({
       testDir: "./tests/api",
       testMatch: /.*\.api\.spec\.ts/,
       use: {
-        baseURL: apiBaseUrl,
+        baseURL: process.env.API_URL || "http://localhost:3000",
         storageState: { cookies: [], origins: [] },
       },
     },
@@ -56,7 +53,7 @@ export default defineConfig({
       testMatch: /.*\.spec\.ts/,
       use: {
         ...devices["Desktop Chrome"],
-        baseURL: uiBaseUrl,
+        baseURL: process.env.UI_URL || "http://localhost:3000",
         storageState: { cookies: [], origins: [] },
       },
     },
@@ -67,7 +64,7 @@ export default defineConfig({
       testMatch: /.*\.spec\.ts/,
       use: {
         ...devices["Desktop Firefox"],
-        baseURL: uiBaseUrl,
+        baseURL: process.env.UI_URL || "http://localhost:3000",
         storageState: { cookies: [], origins: [] },
       },
     },
@@ -78,7 +75,7 @@ export default defineConfig({
       testMatch: /.*\.spec\.ts/,
       use: {
         ...devices["Desktop Safari"],
-        baseURL: uiBaseUrl,
+        baseURL: process.env.UI_URL || "http://localhost:3000",
         storageState: { cookies: [], origins: [] },
       },
     },
