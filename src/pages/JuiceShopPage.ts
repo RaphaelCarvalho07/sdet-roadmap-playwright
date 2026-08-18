@@ -172,8 +172,12 @@ export class JuiceShopPage {
       `,
     });
 
-    const addressCard = this.page.locator(".column mat-card").filter({ hasText: "Delivery Address" });
-    const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
+    const addressCard = this.page
+      .locator(".column mat-card")
+      .filter({ hasText: "Delivery Address" });
+    const paymentCard = this.page
+      .locator(".column mat-card")
+      .filter({ hasText: "Payment Method" });
 
     await expect(this.page).toHaveScreenshot("order-summary.png", {
       mask: [addressCard, paymentCard],
