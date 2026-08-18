@@ -12,7 +12,28 @@
 # Error details
 
 ```
-Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-webkit-linux.png, writing actual.
+Error: expect(page).toHaveScreenshot(expected) failed
+
+  14811 pixels (ratio 0.02 of all image pixels) are different.
+
+  Snapshot: order-summary.png
+
+Call log:
+  - Expect "toHaveScreenshot(order-summary.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - 14811 pixels (ratio 0.02 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - taking page screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - captured a stable screenshot
+  - 14811 pixels (ratio 0.02 of all image pixels) are different.
+
 ```
 
 # Page snapshot
@@ -49,63 +70,46 @@ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sde
   - generic [ref=e50]:
     - generic [ref=e51]:
       - generic [ref=e52]:
-        - heading "Thank you for your purchase!" [level=1] [ref=e53]
         - generic [ref=e54]:
-          - text: Your order has been placed and is being processed. You can check for status updates on our
-          - link "Track Orders" [ref=e55]:
-            - /url: "#/track-result/new?id=f754-1fc359bcfcca0835"
-          - text: page.
-      - generic [ref=e56]:
-        - generic [ref=e58]: Your order will be delivered in 5 days.
-        - generic [ref=e59]: Delivery Address
-        - generic [ref=e60]: Kendrick Senger
-        - generic [ref=e61]: 6078 Brook Road, Clintport, Iowa, 34979
-        - generic [ref=e62]: Paraguay
-        - generic [ref=e63]: Phone Number 54412011
-    - generic [ref=e64]:
-      - generic [ref=e65]: Order Summary
-      - generic [ref=e66]:
-        - link "Tweet" [ref=e67] [cursor=pointer]:
-          - /url: https://twitter.com/intent/tweet?text=I just purchased%0a- Apple Juice (1000ml)%0afrom @owasp_juiceshop&hashtags=security
-          - img [ref=e68]
-        - button "Print order confirmation" [ref=e72] [cursor=pointer]:
-          - img [ref=e73]: note
-    - table [ref=e77]:
-      - row "Product Price Quantity Total Price" [ref=e78]:
-        - columnheader "Product" [ref=e79]
-        - columnheader "Price" [ref=e80]
-        - columnheader "Quantity" [ref=e81]
-        - columnheader "Total Price" [ref=e82]
-      - row "Apple Juice (1000ml) 1.99¤ 1 1.99¤" [ref=e83]:
-        - cell "Apple Juice (1000ml)" [ref=e84]
-        - cell "1.99¤" [ref=e85]
-        - cell "1" [ref=e86]:
-          - generic [ref=e87]: "1"
-        - cell "1.99¤" [ref=e88]
-      - row "Items Delivery Promotion Total Price 1.99¤ 0.00¤ 0.00¤ 1.99¤" [ref=e89]:
-        - cell [ref=e90]
-        - cell [ref=e91]
-        - cell "Items Delivery Promotion Total Price" [ref=e92]:
-          - table [ref=e93]:
-            - row "Items" [ref=e94]:
-              - cell "Items" [ref=e95]
-            - row "Delivery" [ref=e96]:
-              - cell "Delivery" [ref=e97]
-            - row "Promotion" [ref=e98]:
-              - cell "Promotion" [ref=e99]
-            - row "Total Price" [ref=e100]:
-              - cell "Total Price" [ref=e101]
-        - cell "1.99¤ 0.00¤ 0.00¤ 1.99¤" [ref=e102]:
-          - table [ref=e103]:
-            - row "1.99¤" [ref=e104]:
-              - cell "1.99¤" [ref=e105]
-            - row "0.00¤" [ref=e106]:
-              - cell "0.00¤" [ref=e107]
-            - row "0.00¤" [ref=e108]:
-              - cell "0.00¤" [ref=e109]
-            - row "1.99¤" [ref=e110]:
-              - cell "1.99¤" [ref=e111]
-    - generic [ref=e112]: You have gained 0 Bonus Points from this order!
+          - generic [ref=e55]: Delivery Address
+          - generic [ref=e56]: Lesly Williamson
+          - generic [ref=e57]: 33287 Cole Circle, Port Josh, Alabama, 92466
+          - generic [ref=e58]: Mexico
+          - generic [ref=e59]: Phone Number 87949630
+        - generic [ref=e61]:
+          - generic [ref=e62]: Payment Method
+          - generic [ref=e63]: Card ending in 1068
+          - generic [ref=e64]: Card Holder" Jenna Russel
+      - generic [ref=e65]:
+        - heading "Your Basket (anonymous)" [level=1] [ref=e66]
+        - table [ref=e67]:
+          - row [ref=e68]
+          - row "Apple Juice (1000ml) Apple Juice (1000ml) 1 1.99¤" [ref=e69]:
+            - cell "Apple Juice (1000ml)" [ref=e70]:
+              - img "Apple Juice (1000ml)" [ref=e71]
+            - cell "Apple Juice (1000ml)" [ref=e72]
+            - cell "1" [ref=e73]:
+              - generic [ref=e74]: "1"
+            - cell "1.99¤" [ref=e75]
+    - generic [ref=e78]:
+      - generic [ref=e79]: Order Summary
+      - table [ref=e80]:
+        - row "Items 1.99¤" [ref=e81]:
+          - cell "Items" [ref=e82]
+          - cell "1.99¤" [ref=e83]
+        - row "Delivery 0.00¤" [ref=e84]:
+          - cell "Delivery" [ref=e85]
+          - cell "0.00¤" [ref=e86]
+        - row "Promotion 0.00¤" [ref=e87]:
+          - cell "Promotion" [ref=e88]
+          - cell "0.00¤" [ref=e89]
+        - row "Total Price 1.99¤" [ref=e90]:
+          - cell "Total Price" [ref=e91]
+          - cell "1.99¤" [ref=e92]
+      - button "Complete your purchase" [ref=e93]:
+        - img [ref=e94]: monetization_on
+        - generic [ref=e95]: Place your order and pay
+      - generic [ref=e98]: You will gain 0 Bonus Points from this order!
 ```
 
 # Test source
@@ -212,7 +216,7 @@ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sde
   176 |     const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
   177 | 
 > 178 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
-      |     ^ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-webkit-linux.png, writing actual.
+      |                             ^ Error: expect(page).toHaveScreenshot(expected) failed
   179 |       mask: [addressCard, paymentCard],
   180 |     });
   181 |   }

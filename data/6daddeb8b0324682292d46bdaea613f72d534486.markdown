@@ -12,7 +12,37 @@
 # Error details
 
 ```
-Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/isolated-address-card-ui-tests-chrome-linux.png, writing actual.
+Error: expect(locator).toHaveScreenshot(expected) failed
+
+Locator: locator('.column mat-card').filter({ hasText: 'Delivery Address' })
+  Expected an image 216px by 138px, received 216px by 126px. 5094 pixels (ratio 0.18 of all image pixels) are different.
+
+  Snapshot: isolated-address-card.png
+
+Call log:
+  - Expect "toHaveScreenshot(isolated-address-card.png)" with timeout 5000ms
+    - verifying given screenshot expectation
+  - waiting for locator('.column mat-card').filter({ hasText: 'Delivery Address' })
+    - locator resolved to <mat-card appearance="outlined" _ngcontent-ng-c4138824240="" class="mat-mdc-card mdc-card mat-elevation-z0 flex-60 mat-mdc-card-outlined mdc-card--outlined">…</mat-card>
+  - taking element screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - attempting scroll into view action
+    - waiting for element to be stable
+  - Expected an image 216px by 138px, received 216px by 126px. 5094 pixels (ratio 0.18 of all image pixels) are different.
+  - waiting 100ms before taking screenshot
+  - waiting for locator('.column mat-card').filter({ hasText: 'Delivery Address' })
+    - locator resolved to <mat-card appearance="outlined" _ngcontent-ng-c4138824240="" class="mat-mdc-card mdc-card mat-elevation-z0 flex-60 mat-mdc-card-outlined mdc-card--outlined">…</mat-card>
+  - taking element screenshot
+    - disabled all CSS animations
+  - waiting for fonts to load...
+  - fonts loaded
+  - attempting scroll into view action
+    - waiting for element to be stable
+  - captured a stable screenshot
+  - Expected an image 216px by 138px, received 216px by 126px. 5094 pixels (ratio 0.18 of all image pixels) are different.
+
 ```
 
 # Page snapshot
@@ -179,7 +209,7 @@ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sde
   83 | 
   84 |       // 7. Assert: Perform UNMASKED visual validation of just the address card element
 > 85 |       await expect(addressCard).toHaveScreenshot("isolated-address-card.png");
-     |       ^ Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/isolated-address-card-ui-tests-chrome-linux.png, writing actual.
+     |                                 ^ Error: expect(locator).toHaveScreenshot(expected) failed
   86 |     },
   87 |   );
   88 | });
