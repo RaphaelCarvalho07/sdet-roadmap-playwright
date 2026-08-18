@@ -1,0 +1,11 @@
+﻿2026-08-17T17:41:38.5132051Z ##[group]Run npx playwright merge-reports --reporter html ./all-blobs
+2026-08-17T17:41:38.5132615Z [36;1mnpx playwright merge-reports --reporter html ./all-blobs[0m
+2026-08-17T17:41:38.5173529Z shell: /usr/bin/bash -e {0}
+2026-08-17T17:41:38.5173815Z ##[endgroup]
+2026-08-17T17:41:39.3991184Z merging reports from /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/all-blobs
+2026-08-17T17:41:39.4233382Z extracting: all-blobs/report-api-tests.zip
+2026-08-17T17:41:39.4398107Z extracting: all-blobs/report-ui-tests-chrome-ui-tests-firefox-ui-tests-webkit.zip
+2026-08-17T17:41:39.4796177Z merging events
+2026-08-17T17:41:39.4802946Z processing test events
+2026-08-17T17:41:39.4927059Z building final report
+2026-08-17T17:41:39.5327137Z finished building report

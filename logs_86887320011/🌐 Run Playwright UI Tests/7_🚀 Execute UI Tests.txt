@@ -1,0 +1,180 @@
+﻿2026-08-17T17:40:35.6462889Z ##[group]Run npx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=ui-tests-webkit --reporter=blob
+2026-08-17T17:40:35.6463875Z [36;1mnpx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=ui-tests-webkit --reporter=blob[0m
+2026-08-17T17:40:35.6505291Z shell: /usr/bin/bash -e {0}
+2026-08-17T17:40:35.6505788Z env:
+2026-08-17T17:40:35.6506150Z   API_URL: ***
+2026-08-17T17:40:35.6506395Z   UI_URL: ***
+2026-08-17T17:40:35.6506598Z ##[endgroup]
+2026-08-17T17:40:36.5262075Z ◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+2026-08-17T17:40:36.7308692Z 
+2026-08-17T17:40:36.7309359Z Running 12 tests using 1 worker
+2026-08-17T17:40:37.1170782Z ◇ injected env (0) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+2026-08-17T17:40:43.6651339Z ×◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+2026-08-17T17:40:47.6210027Z ··×◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+2026-08-17T17:40:52.3104284Z ×◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+2026-08-17T17:40:59.0945322Z ··×◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+2026-08-17T17:41:09.0232642Z ×◇ injected env (0) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+2026-08-17T17:41:16.7926059Z ··×
+2026-08-17T17:41:16.7956575Z 
+2026-08-17T17:41:16.7958219Z   1) [ui-tests-chrome] › tests/ui/juice-checkout.spec.ts:10:7 › owasp juice shop - hybrid checkout flow › should complete a checkout flow using seeded API data 
+2026-08-17T17:41:16.7959171Z 
+2026-08-17T17:41:16.7960355Z     Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-chrome-linux.png, writing actual.
+2026-08-17T17:41:16.7961335Z 
+2026-08-17T17:41:16.7961560Z        at ../src/pages/JuiceShopPage.ts:178
+2026-08-17T17:41:16.7961772Z 
+2026-08-17T17:41:16.7962163Z       176 |     const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
+2026-08-17T17:41:16.7962908Z       177 |
+2026-08-17T17:41:16.7963325Z     > 178 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
+2026-08-17T17:41:16.7963734Z           |     ^
+2026-08-17T17:41:16.7964026Z       179 |       mask: [addressCard, paymentCard],
+2026-08-17T17:41:16.7964350Z       180 |     });
+2026-08-17T17:41:16.7964566Z       181 |   }
+2026-08-17T17:41:16.7965270Z         at JuiceShopPage.validateSummaryVisual (/home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/src/pages/JuiceShopPage.ts:178:5)
+2026-08-17T17:41:16.7966263Z         at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/juice-checkout.spec.ts:56:5
+2026-08-17T17:41:16.7966686Z 
+2026-08-17T17:41:16.7967143Z     attachment #1: order-summary (image/png) ───────────────────────────────────────────────────────
+2026-08-17T17:41:16.7967747Z     Expected: tests/ui/snapshots/order-summary-ui-tests-chrome-linux.png
+2026-08-17T17:41:16.7968598Z     Received: test-results/juice-checkout-owasp-juice-55755--flow-using-seeded-API-data-ui-tests-chrome/order-summary-actual.png
+2026-08-17T17:41:16.7969474Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.7970039Z 
+2026-08-17T17:41:16.7970438Z     attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+2026-08-17T17:41:16.7971195Z     test-results/juice-checkout-owasp-juice-55755--flow-using-seeded-API-data-ui-tests-chrome/test-failed-1.png
+2026-08-17T17:41:16.7972166Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.7972724Z 
+2026-08-17T17:41:16.7973211Z     Error Context: test-results/juice-checkout-owasp-juice-55755--flow-using-seeded-API-data-ui-tests-chrome/error-context.md
+2026-08-17T17:41:16.7973837Z 
+2026-08-17T17:41:16.7974720Z   2) [ui-tests-chrome] › tests/ui/juice-visual.spec.ts:10:7 › owasp juice shop - component-level visual testing › should render the Delivery Address card correctly on the summary page 
+2026-08-17T17:41:16.7975640Z 
+2026-08-17T17:41:16.7976368Z     Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/isolated-address-card-ui-tests-chrome-linux.png, writing actual.
+2026-08-17T17:41:16.7977288Z 
+2026-08-17T17:41:16.7977381Z       83 |
+2026-08-17T17:41:16.7977914Z       84 |       // 7. Assert: Perform UNMASKED visual validation of just the address card element
+2026-08-17T17:41:16.7978719Z     > 85 |       await expect(addressCard).toHaveScreenshot("isolated-address-card.png");
+2026-08-17T17:41:16.7979232Z          |       ^
+2026-08-17T17:41:16.7979451Z       86 |     },
+2026-08-17T17:41:16.7979663Z       87 |   );
+2026-08-17T17:41:16.7979872Z       88 | });
+2026-08-17T17:41:16.7980382Z         at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/juice-visual.spec.ts:85:7
+2026-08-17T17:41:16.7980819Z 
+2026-08-17T17:41:16.7981259Z     attachment #1: isolated-address-card (image/png) ───────────────────────────────────────────────
+2026-08-17T17:41:16.7981905Z     Expected: tests/ui/snapshots/isolated-address-card-ui-tests-chrome-linux.png
+2026-08-17T17:41:16.7983048Z     Received: test-results/juice-visual-owasp-juice-s-12a51-rrectly-on-the-summary-page-ui-tests-chrome/isolated-address-card-actual.png
+2026-08-17T17:41:16.7984126Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.7984408Z 
+2026-08-17T17:41:16.7984897Z     attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+2026-08-17T17:41:16.7985764Z     test-results/juice-visual-owasp-juice-s-12a51-rrectly-on-the-summary-page-ui-tests-chrome/test-failed-1.png
+2026-08-17T17:41:16.7986745Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.7987094Z 
+2026-08-17T17:41:16.7987636Z     Error Context: test-results/juice-visual-owasp-juice-s-12a51-rrectly-on-the-summary-page-ui-tests-chrome/error-context.md
+2026-08-17T17:41:16.7988265Z 
+2026-08-17T17:41:16.7989037Z   3) [ui-tests-firefox] › tests/ui/juice-checkout.spec.ts:10:7 › owasp juice shop - hybrid checkout flow › should complete a checkout flow using seeded API data 
+2026-08-17T17:41:16.7989882Z 
+2026-08-17T17:41:16.7990666Z     Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-firefox-linux.png, writing actual.
+2026-08-17T17:41:16.7991781Z 
+2026-08-17T17:41:16.7991987Z        at ../src/pages/JuiceShopPage.ts:178
+2026-08-17T17:41:16.7992189Z 
+2026-08-17T17:41:16.7992751Z       176 |     const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
+2026-08-17T17:41:16.7993287Z       177 |
+2026-08-17T17:41:16.7993803Z     > 178 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
+2026-08-17T17:41:16.7994378Z           |     ^
+2026-08-17T17:41:16.7994659Z       179 |       mask: [addressCard, paymentCard],
+2026-08-17T17:41:16.7994962Z       180 |     });
+2026-08-17T17:41:16.7995166Z       181 |   }
+2026-08-17T17:41:16.7995844Z         at JuiceShopPage.validateSummaryVisual (/home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/src/pages/JuiceShopPage.ts:178:5)
+2026-08-17T17:41:16.7996789Z         at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/juice-checkout.spec.ts:56:5
+2026-08-17T17:41:16.7997209Z 
+2026-08-17T17:41:16.7997653Z     attachment #1: order-summary (image/png) ───────────────────────────────────────────────────────
+2026-08-17T17:41:16.7998241Z     Expected: tests/ui/snapshots/order-summary-ui-tests-firefox-linux.png
+2026-08-17T17:41:16.7999051Z     Received: test-results/juice-checkout-owasp-juice-55755--flow-using-seeded-API-data-ui-tests-firefox/order-summary-actual.png
+2026-08-17T17:41:16.7999934Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8000219Z 
+2026-08-17T17:41:16.8000600Z     attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8001344Z     test-results/juice-checkout-owasp-juice-55755--flow-using-seeded-API-data-ui-tests-firefox/test-failed-1.png
+2026-08-17T17:41:16.8002171Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8002617Z 
+2026-08-17T17:41:16.8003116Z     Error Context: test-results/juice-checkout-owasp-juice-55755--flow-using-seeded-API-data-ui-tests-firefox/error-context.md
+2026-08-17T17:41:16.8003626Z 
+2026-08-17T17:41:16.8004397Z   4) [ui-tests-firefox] › tests/ui/juice-visual.spec.ts:10:7 › owasp juice shop - component-level visual testing › should render the Delivery Address card correctly on the summary page 
+2026-08-17T17:41:16.8005009Z 
+2026-08-17T17:41:16.8005730Z     Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/isolated-address-card-ui-tests-firefox-linux.png, writing actual.
+2026-08-17T17:41:16.8006439Z 
+2026-08-17T17:41:16.8006535Z       83 |
+2026-08-17T17:41:16.8006937Z       84 |       // 7. Assert: Perform UNMASKED visual validation of just the address card element
+2026-08-17T17:41:16.8007694Z     > 85 |       await expect(addressCard).toHaveScreenshot("isolated-address-card.png");
+2026-08-17T17:41:16.8008108Z          |       ^
+2026-08-17T17:41:16.8008322Z       86 |     },
+2026-08-17T17:41:16.8008532Z       87 |   );
+2026-08-17T17:41:16.8008732Z       88 | });
+2026-08-17T17:41:16.8009254Z         at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/juice-visual.spec.ts:85:7
+2026-08-17T17:41:16.8009675Z 
+2026-08-17T17:41:16.8010103Z     attachment #1: isolated-address-card (image/png) ───────────────────────────────────────────────
+2026-08-17T17:41:16.8010751Z     Expected: tests/ui/snapshots/isolated-address-card-ui-tests-firefox-linux.png
+2026-08-17T17:41:16.8011639Z     Received: test-results/juice-visual-owasp-juice-s-12a51-rrectly-on-the-summary-page-ui-tests-firefox/isolated-address-card-actual.png
+2026-08-17T17:41:16.8012800Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8013093Z 
+2026-08-17T17:41:16.8013480Z     attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8014231Z     test-results/juice-visual-owasp-juice-s-12a51-rrectly-on-the-summary-page-ui-tests-firefox/test-failed-1.png
+2026-08-17T17:41:16.8015043Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8015324Z 
+2026-08-17T17:41:16.8015811Z     Error Context: test-results/juice-visual-owasp-juice-s-12a51-rrectly-on-the-summary-page-ui-tests-firefox/error-context.md
+2026-08-17T17:41:16.8016318Z 
+2026-08-17T17:41:16.8017115Z   5) [ui-tests-webkit] › tests/ui/juice-checkout.spec.ts:10:7 › owasp juice shop - hybrid checkout flow › should complete a checkout flow using seeded API data 
+2026-08-17T17:41:16.8017872Z 
+2026-08-17T17:41:16.8018617Z     Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/order-summary-ui-tests-webkit-linux.png, writing actual.
+2026-08-17T17:41:16.8019294Z 
+2026-08-17T17:41:16.8019442Z        at ../src/pages/JuiceShopPage.ts:178
+2026-08-17T17:41:16.8019650Z 
+2026-08-17T17:41:16.8020018Z       176 |     const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
+2026-08-17T17:41:16.8020494Z       177 |
+2026-08-17T17:41:16.8020844Z     > 178 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
+2026-08-17T17:41:16.8021228Z           |     ^
+2026-08-17T17:41:16.8021506Z       179 |       mask: [addressCard, paymentCard],
+2026-08-17T17:41:16.8021807Z       180 |     });
+2026-08-17T17:41:16.8022020Z       181 |   }
+2026-08-17T17:41:16.8022844Z         at JuiceShopPage.validateSummaryVisual (/home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/src/pages/JuiceShopPage.ts:178:5)
+2026-08-17T17:41:16.8023800Z         at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/juice-checkout.spec.ts:56:5
+2026-08-17T17:41:16.8024389Z 
+2026-08-17T17:41:16.8025003Z     attachment #1: order-summary (image/png) ───────────────────────────────────────────────────────
+2026-08-17T17:41:16.8025841Z     Expected: tests/ui/snapshots/order-summary-ui-tests-webkit-linux.png
+2026-08-17T17:41:16.8027075Z     Received: test-results/juice-checkout-owasp-juice-55755--flow-using-seeded-API-data-ui-tests-webkit/order-summary-actual.png
+2026-08-17T17:41:16.8028502Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8028947Z 
+2026-08-17T17:41:16.8029535Z     attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8030756Z     test-results/juice-checkout-owasp-juice-55755--flow-using-seeded-API-data-ui-tests-webkit/test-failed-1.png
+2026-08-17T17:41:16.8032090Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8032933Z 
+2026-08-17T17:41:16.8033685Z     Error Context: test-results/juice-checkout-owasp-juice-55755--flow-using-seeded-API-data-ui-tests-webkit/error-context.md
+2026-08-17T17:41:16.8034449Z 
+2026-08-17T17:41:16.8035699Z   6) [ui-tests-webkit] › tests/ui/juice-visual.spec.ts:10:7 › owasp juice shop - component-level visual testing › should render the Delivery Address card correctly on the summary page 
+2026-08-17T17:41:16.8036705Z 
+2026-08-17T17:41:16.8037825Z     Error: A snapshot doesn't exist at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/snapshots/isolated-address-card-ui-tests-webkit-linux.png, writing actual.
+2026-08-17T17:41:16.8039135Z 
+2026-08-17T17:41:16.8039281Z       83 |
+2026-08-17T17:41:16.8039701Z       84 |       // 7. Assert: Perform UNMASKED visual validation of just the address card element
+2026-08-17T17:41:16.8040313Z     > 85 |       await expect(addressCard).toHaveScreenshot("isolated-address-card.png");
+2026-08-17T17:41:16.8040740Z          |       ^
+2026-08-17T17:41:16.8040955Z       86 |     },
+2026-08-17T17:41:16.8041164Z       87 |   );
+2026-08-17T17:41:16.8041366Z       88 | });
+2026-08-17T17:41:16.8041885Z         at /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/tests/ui/juice-visual.spec.ts:85:7
+2026-08-17T17:41:16.8042550Z 
+2026-08-17T17:41:16.8043060Z     attachment #1: isolated-address-card (image/png) ───────────────────────────────────────────────
+2026-08-17T17:41:16.8043714Z     Expected: tests/ui/snapshots/isolated-address-card-ui-tests-webkit-linux.png
+2026-08-17T17:41:16.8044600Z     Received: test-results/juice-visual-owasp-juice-s-12a51-rrectly-on-the-summary-page-ui-tests-webkit/isolated-address-card-actual.png
+2026-08-17T17:41:16.8045728Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8046026Z 
+2026-08-17T17:41:16.8046431Z     attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8047202Z     test-results/juice-visual-owasp-juice-s-12a51-rrectly-on-the-summary-page-ui-tests-webkit/test-failed-1.png
+2026-08-17T17:41:16.8048141Z     ────────────────────────────────────────────────────────────────────────────────────────────────
+2026-08-17T17:41:16.8048416Z 
+2026-08-17T17:41:16.8048903Z     Error Context: test-results/juice-visual-owasp-juice-s-12a51-rrectly-on-the-summary-page-ui-tests-webkit/error-context.md
+2026-08-17T17:41:16.8049419Z 
+2026-08-17T17:41:16.8049507Z   6 failed
+2026-08-17T17:41:16.8050281Z     [ui-tests-chrome] › tests/ui/juice-checkout.spec.ts:10:7 › owasp juice shop - hybrid checkout flow › should complete a checkout flow using seeded API data 
+2026-08-17T17:41:16.8051689Z     [ui-tests-chrome] › tests/ui/juice-visual.spec.ts:10:7 › owasp juice shop - component-level visual testing › should render the Delivery Address card correctly on the summary page 
+2026-08-17T17:41:16.8054027Z     [ui-tests-firefox] › tests/ui/juice-checkout.spec.ts:10:7 › owasp juice shop - hybrid checkout flow › should complete a checkout flow using seeded API data 
+2026-08-17T17:41:16.8056463Z     [ui-tests-firefox] › tests/ui/juice-visual.spec.ts:10:7 › owasp juice shop - component-level visual testing › should render the Delivery Address card correctly on the summary page 
+2026-08-17T17:41:16.8058432Z     [ui-tests-webkit] › tests/ui/juice-checkout.spec.ts:10:7 › owasp juice shop - hybrid checkout flow › should complete a checkout flow using seeded API data 
+2026-08-17T17:41:16.8059945Z     [ui-tests-webkit] › tests/ui/juice-visual.spec.ts:10:7 › owasp juice shop - component-level visual testing › should render the Delivery Address card correctly on the summary page 
+2026-08-17T17:41:16.8061353Z   6 passed (40.3s)
+2026-08-17T17:41:16.9254510Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,25 @@
+﻿2026-08-17T17:41:39.5652650Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T17:41:39.5653923Z ##[group]Run actions/upload-artifact@v4
+2026-08-17T17:41:39.5654226Z with:
+2026-08-17T17:41:39.5654447Z   name: playwright-report
+2026-08-17T17:41:39.5654722Z   path: playwright-report/
+2026-08-17T17:41:39.5654976Z   retention-days: 7
+2026-08-17T17:41:39.5655205Z   if-no-files-found: warn
+2026-08-17T17:41:39.5655456Z   compression-level: 6
+2026-08-17T17:41:39.5655687Z   overwrite: false
+2026-08-17T17:41:39.5655923Z   include-hidden-files: false
+2026-08-17T17:41:39.5656177Z ##[endgroup]
+2026-08-17T17:41:39.7360307Z (node:2423) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-17T17:41:39.7361716Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-17T17:41:39.7492304Z With the provided path, there will be 19 files uploaded
+2026-08-17T17:41:39.7493233Z Artifact name is valid!
+2026-08-17T17:41:39.7493710Z Root directory input is valid!
+2026-08-17T17:41:39.9493394Z Beginning upload of artifact content to blob storage
+2026-08-17T17:41:40.0354720Z (node:2423) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-08-17T17:41:40.3483736Z Uploaded bytes 1126060
+2026-08-17T17:41:40.3901171Z Finished uploading artifact content to blob storage!
+2026-08-17T17:41:40.3902447Z SHA256 digest of uploaded artifact zip is 44072baa0974872673808f488b0d81e2f0efc19c55a6254aa2c14c6d34296e1e
+2026-08-17T17:41:40.3903716Z Finalizing artifact upload
+2026-08-17T17:41:40.5788197Z Artifact playwright-report.zip successfully finalized. Artifact ID 9294834743
+2026-08-17T17:41:40.5789670Z Artifact playwright-report has been successfully uploaded! Final size is 1126060 bytes. Artifact ID is 9294834743
+2026-08-17T17:41:40.5795678Z Artifact download URL: https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright/actions/runs/32051073727/artifacts/9294834743

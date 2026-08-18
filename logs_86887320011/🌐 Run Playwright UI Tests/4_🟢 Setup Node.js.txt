@@ -1,0 +1,26 @@
+﻿2026-08-17T17:39:53.8092721Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T17:39:53.8095872Z ##[group]Run actions/setup-node@v4
+2026-08-17T17:39:53.8096279Z with:
+2026-08-17T17:39:53.8096590Z   node-version: 22
+2026-08-17T17:39:53.8096915Z   cache: npm
+2026-08-17T17:39:53.8097221Z   always-auth: false
+2026-08-17T17:39:53.8097557Z   check-latest: false
+2026-08-17T17:39:53.8101378Z   token: ***
+2026-08-17T17:39:53.8101719Z ##[endgroup]
+2026-08-17T17:39:53.9720290Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+2026-08-17T17:39:53.9723406Z (node:2609) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-17T17:39:53.9724478Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-17T17:39:53.9726374Z ##[group]Environment details
+2026-08-17T17:39:54.3905777Z node: v22.23.2
+2026-08-17T17:39:54.3907385Z npm: 10.9.8
+2026-08-17T17:39:54.3908711Z yarn: 1.22.22
+2026-08-17T17:39:54.3909809Z ##[endgroup]
+2026-08-17T17:39:54.3966222Z [command]/opt/hostedtoolcache/node/22.23.2/x64/bin/npm config get cache
+2026-08-17T17:39:54.5496122Z /home/runner/.npm
+2026-08-17T17:39:54.6340491Z Cache hit for: node-cache-Linux-x64-npm-6346dd7c69586049ad86f24cc47ff92b7b15e1fd42bc04b21ccbd18f9bbfd5cf
+2026-08-17T17:39:54.6446639Z (node:2609) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-08-17T17:39:54.8587880Z Received 15705468 of 15705468 (100.0%), 82.3 MBs/sec
+2026-08-17T17:39:54.8590782Z Cache Size: ~15 MB (15705468 B)
+2026-08-17T17:39:54.8631606Z [command]/usr/bin/tar -xf /home/runner/work/_temp/8c75b88e-0ed4-4e41-a55a-35686abb40f4/cache.tzst -P -C /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright --use-compress-program unzstd
+2026-08-17T17:39:54.9265882Z Cache restored successfully
+2026-08-17T17:39:54.9279235Z Cache restored from key: node-cache-Linux-x64-npm-6346dd7c69586049ad86f24cc47ff92b7b15e1fd42bc04b21ccbd18f9bbfd5cf

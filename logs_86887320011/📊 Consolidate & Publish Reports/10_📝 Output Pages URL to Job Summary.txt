@@ -1,0 +1,5 @@
+﻿2026-08-17T17:41:44.8296268Z ##[group]Run echo "### 📊 Playwright Consolidated Report is live!" >> $GITHUB_STEP_SUMMARY
+2026-08-17T17:41:44.8296947Z [36;1mecho "### 📊 Playwright Consolidated Report is live!" >> $GITHUB_STEP_SUMMARY[0m
+2026-08-17T17:41:44.8298155Z [36;1mecho "👉 [Click here to view the HTML Report](https://raphaelcarvalho07.github.io/sdet-roadmap-playwright/)" >> $GITHUB_STEP_SUMMARY[0m
+2026-08-17T17:41:44.8339396Z shell: /usr/bin/bash -e {0}
+2026-08-17T17:41:44.8339697Z ##[endgroup]

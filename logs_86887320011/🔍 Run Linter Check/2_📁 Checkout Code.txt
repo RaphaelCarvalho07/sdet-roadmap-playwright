@@ -1,0 +1,74 @@
+﻿2026-08-17T17:39:33.0217403Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T17:39:33.0226401Z ##[group]Run actions/checkout@v4
+2026-08-17T17:39:33.0227105Z with:
+2026-08-17T17:39:33.0227634Z   repository: RaphaelCarvalho07/sdet-roadmap-playwright
+2026-08-17T17:39:33.0231749Z   token: ***
+2026-08-17T17:39:33.0232190Z   ssh-strict: true
+2026-08-17T17:39:33.0232628Z   ssh-user: git
+2026-08-17T17:39:33.0233068Z   persist-credentials: true
+2026-08-17T17:39:33.0233720Z   clean: true
+2026-08-17T17:39:33.0234163Z   sparse-checkout-cone-mode: true
+2026-08-17T17:39:33.0234677Z   fetch-depth: 1
+2026-08-17T17:39:33.0235101Z   fetch-tags: false
+2026-08-17T17:39:33.0235537Z   show-progress: true
+2026-08-17T17:39:33.0235974Z   lfs: false
+2026-08-17T17:39:33.0236378Z   submodules: false
+2026-08-17T17:39:33.0236860Z   set-safe-directory: true
+2026-08-17T17:39:33.0237351Z   allow-unsafe-pr-checkout: false
+2026-08-17T17:39:33.0238072Z ##[endgroup]
+2026-08-17T17:39:33.1235587Z Syncing repository: RaphaelCarvalho07/sdet-roadmap-playwright
+2026-08-17T17:39:33.1237620Z ##[group]Getting Git version info
+2026-08-17T17:39:33.1238482Z Working directory is '/home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright'
+2026-08-17T17:39:33.1239654Z [command]/usr/bin/git version
+2026-08-17T17:39:33.1300343Z git version 2.54.0
+2026-08-17T17:39:33.1353387Z ##[endgroup]
+2026-08-17T17:39:33.1368123Z Temporarily overriding HOME='/home/runner/work/_temp/b83d242c-9bbd-4d59-b325-1784b1267991' before making global git config changes
+2026-08-17T17:39:33.1370285Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-17T17:39:33.1374490Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright
+2026-08-17T17:39:33.1429133Z Deleting the contents of '/home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright'
+2026-08-17T17:39:33.1433822Z ##[group]Initializing the repository
+2026-08-17T17:39:33.1438406Z [command]/usr/bin/git init /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright
+2026-08-17T17:39:33.1553794Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-08-17T17:39:33.1555381Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-08-17T17:39:33.1556963Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-08-17T17:39:33.1558104Z hint: call:
+2026-08-17T17:39:33.1558722Z hint:
+2026-08-17T17:39:33.1559494Z hint: 	git config --global init.defaultBranch <name>
+2026-08-17T17:39:33.1560494Z hint:
+2026-08-17T17:39:33.1561390Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-08-17T17:39:33.1562885Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-08-17T17:39:33.1564259Z hint:
+2026-08-17T17:39:33.1564886Z hint: 	git branch -m <name>
+2026-08-17T17:39:33.1565637Z hint:
+2026-08-17T17:39:33.1566586Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-08-17T17:39:33.1568663Z Initialized empty Git repository in /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/.git/
+2026-08-17T17:39:33.1572066Z [command]/usr/bin/git remote add origin https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright
+2026-08-17T17:39:33.1618184Z ##[endgroup]
+2026-08-17T17:39:33.1619321Z ##[group]Disabling automatic garbage collection
+2026-08-17T17:39:33.1621553Z [command]/usr/bin/git config --local gc.auto 0
+2026-08-17T17:39:33.1667642Z ##[endgroup]
+2026-08-17T17:39:33.1668960Z ##[group]Setting up auth
+2026-08-17T17:39:33.1669935Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-17T17:39:33.1708139Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-17T17:39:33.2076799Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-17T17:39:33.2115894Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-17T17:39:33.2369507Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-17T17:39:33.2407295Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-17T17:39:33.2647828Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-08-17T17:39:33.2688635Z ##[endgroup]
+2026-08-17T17:39:33.2689538Z ##[group]Fetching the repository
+2026-08-17T17:39:33.2698370Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a0b8dcea7a208cf0c6ef5e39247b620cf578c7fc:refs/remotes/origin/main
+2026-08-17T17:39:33.7759447Z From https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright
+2026-08-17T17:39:33.7761085Z  * [new ref]         a0b8dcea7a208cf0c6ef5e39247b620cf578c7fc -> origin/main
+2026-08-17T17:39:33.7803467Z ##[endgroup]
+2026-08-17T17:39:33.7804744Z ##[group]Determining the checkout info
+2026-08-17T17:39:33.7805853Z ##[endgroup]
+2026-08-17T17:39:33.7806383Z [command]/usr/bin/git sparse-checkout disable
+2026-08-17T17:39:33.7855927Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-08-17T17:39:33.7889866Z ##[group]Checking out the ref
+2026-08-17T17:39:33.7895276Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-08-17T17:39:33.8008689Z Switched to a new branch 'main'
+2026-08-17T17:39:33.8011330Z branch 'main' set up to track 'origin/main'.
+2026-08-17T17:39:33.8017586Z ##[endgroup]
+2026-08-17T17:39:33.8060764Z [command]/usr/bin/git log -1 --format=%H
+2026-08-17T17:39:33.8090038Z a0b8dcea7a208cf0c6ef5e39247b620cf578c7fc

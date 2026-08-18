@@ -1,0 +1,177 @@
+﻿2026-08-17T17:39:32.3449486Z Current runner version: '2.336.0'
+2026-08-17T17:39:32.3474261Z ##[group]Runner Image Provisioner
+2026-08-17T17:39:32.3475347Z Hosted Compute Agent
+2026-08-17T17:39:32.3475953Z Version: 20260729.566
+2026-08-17T17:39:32.3476665Z Commit: cf7153fe6e25b664e8693c24944bf2b00355d109
+2026-08-17T17:39:32.3477425Z Build Date: 2026-07-29T19:17:02Z
+2026-08-17T17:39:32.3478137Z Worker ID: {67e49614-d9ed-47f8-92d0-85ba70a8db1b}
+2026-08-17T17:39:32.3478952Z Azure Region: centralus
+2026-08-17T17:39:32.3479575Z ##[endgroup]
+2026-08-17T17:39:32.3481166Z ##[group]Operating System
+2026-08-17T17:39:32.3481909Z Ubuntu
+2026-08-17T17:39:32.3482457Z 24.04.4
+2026-08-17T17:39:32.3483025Z LTS
+2026-08-17T17:39:32.3483887Z ##[endgroup]
+2026-08-17T17:39:32.3484460Z ##[group]Runner Image
+2026-08-17T17:39:32.3485124Z Image: ubuntu-24.04
+2026-08-17T17:39:32.3485729Z Version: 20260810.271.1
+2026-08-17T17:39:32.3487102Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260810.271/images/ubuntu/Ubuntu2404-Readme.md
+2026-08-17T17:39:32.3488626Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260810.271
+2026-08-17T17:39:32.3489632Z ##[endgroup]
+2026-08-17T17:39:32.3490831Z ##[group]GITHUB_TOKEN Permissions
+2026-08-17T17:39:32.3493107Z Contents: write
+2026-08-17T17:39:32.3493918Z Metadata: read
+2026-08-17T17:39:32.3494536Z ##[endgroup]
+2026-08-17T17:39:32.3496712Z Secret source: Actions
+2026-08-17T17:39:32.3498374Z Prepare workflow directory
+2026-08-17T17:39:32.3837699Z Prepare all required actions
+2026-08-17T17:39:32.3886444Z Getting action download info
+2026-08-17T17:39:32.6322317Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-08-17T17:39:32.7560973Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-08-17T17:39:32.9485571Z Complete job name: 🔍 Run Linter Check
+2026-08-17T17:39:33.0217431Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T17:39:33.0226424Z ##[group]Run actions/checkout@v4
+2026-08-17T17:39:33.0227110Z with:
+2026-08-17T17:39:33.0227639Z   repository: RaphaelCarvalho07/sdet-roadmap-playwright
+2026-08-17T17:39:33.0231753Z   token: ***
+2026-08-17T17:39:33.0232193Z   ssh-strict: true
+2026-08-17T17:39:33.0232631Z   ssh-user: git
+2026-08-17T17:39:33.0233071Z   persist-credentials: true
+2026-08-17T17:39:33.0233722Z   clean: true
+2026-08-17T17:39:33.0234166Z   sparse-checkout-cone-mode: true
+2026-08-17T17:39:33.0234681Z   fetch-depth: 1
+2026-08-17T17:39:33.0235103Z   fetch-tags: false
+2026-08-17T17:39:33.0235540Z   show-progress: true
+2026-08-17T17:39:33.0235977Z   lfs: false
+2026-08-17T17:39:33.0236422Z   submodules: false
+2026-08-17T17:39:33.0236864Z   set-safe-directory: true
+2026-08-17T17:39:33.0237354Z   allow-unsafe-pr-checkout: false
+2026-08-17T17:39:33.0238077Z ##[endgroup]
+2026-08-17T17:39:33.1235647Z Syncing repository: RaphaelCarvalho07/sdet-roadmap-playwright
+2026-08-17T17:39:33.1237630Z ##[group]Getting Git version info
+2026-08-17T17:39:33.1238488Z Working directory is '/home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright'
+2026-08-17T17:39:33.1239659Z [command]/usr/bin/git version
+2026-08-17T17:39:33.1300379Z git version 2.54.0
+2026-08-17T17:39:33.1353415Z ##[endgroup]
+2026-08-17T17:39:33.1368148Z Temporarily overriding HOME='/home/runner/work/_temp/b83d242c-9bbd-4d59-b325-1784b1267991' before making global git config changes
+2026-08-17T17:39:33.1370294Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-17T17:39:33.1374532Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright
+2026-08-17T17:39:33.1429162Z Deleting the contents of '/home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright'
+2026-08-17T17:39:33.1433832Z ##[group]Initializing the repository
+2026-08-17T17:39:33.1438417Z [command]/usr/bin/git init /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright
+2026-08-17T17:39:33.1553831Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-08-17T17:39:33.1555390Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-08-17T17:39:33.1556971Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-08-17T17:39:33.1558115Z hint: call:
+2026-08-17T17:39:33.1558731Z hint:
+2026-08-17T17:39:33.1559501Z hint: 	git config --global init.defaultBranch <name>
+2026-08-17T17:39:33.1560498Z hint:
+2026-08-17T17:39:33.1561396Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-08-17T17:39:33.1562925Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-08-17T17:39:33.1564273Z hint:
+2026-08-17T17:39:33.1564891Z hint: 	git branch -m <name>
+2026-08-17T17:39:33.1565642Z hint:
+2026-08-17T17:39:33.1566593Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-08-17T17:39:33.1568673Z Initialized empty Git repository in /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/.git/
+2026-08-17T17:39:33.1572078Z [command]/usr/bin/git remote add origin https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright
+2026-08-17T17:39:33.1618209Z ##[endgroup]
+2026-08-17T17:39:33.1619329Z ##[group]Disabling automatic garbage collection
+2026-08-17T17:39:33.1621560Z [command]/usr/bin/git config --local gc.auto 0
+2026-08-17T17:39:33.1667666Z ##[endgroup]
+2026-08-17T17:39:33.1668988Z ##[group]Setting up auth
+2026-08-17T17:39:33.1669942Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-17T17:39:33.1708501Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-17T17:39:33.2076906Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-17T17:39:33.2115939Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-17T17:39:33.2369554Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-17T17:39:33.2407326Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-17T17:39:33.2647875Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-08-17T17:39:33.2688665Z ##[endgroup]
+2026-08-17T17:39:33.2689543Z ##[group]Fetching the repository
+2026-08-17T17:39:33.2698452Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +a0b8dcea7a208cf0c6ef5e39247b620cf578c7fc:refs/remotes/origin/main
+2026-08-17T17:39:33.7759537Z From https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright
+2026-08-17T17:39:33.7761100Z  * [new ref]         a0b8dcea7a208cf0c6ef5e39247b620cf578c7fc -> origin/main
+2026-08-17T17:39:33.7803500Z ##[endgroup]
+2026-08-17T17:39:33.7804751Z ##[group]Determining the checkout info
+2026-08-17T17:39:33.7805865Z ##[endgroup]
+2026-08-17T17:39:33.7806388Z [command]/usr/bin/git sparse-checkout disable
+2026-08-17T17:39:33.7855982Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-08-17T17:39:33.7889903Z ##[group]Checking out the ref
+2026-08-17T17:39:33.7895309Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-08-17T17:39:33.8008733Z Switched to a new branch 'main'
+2026-08-17T17:39:33.8011407Z branch 'main' set up to track 'origin/main'.
+2026-08-17T17:39:33.8017601Z ##[endgroup]
+2026-08-17T17:39:33.8060795Z [command]/usr/bin/git log -1 --format=%H
+2026-08-17T17:39:33.8090095Z a0b8dcea7a208cf0c6ef5e39247b620cf578c7fc
+2026-08-17T17:39:33.8382322Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T17:39:33.8385377Z ##[group]Run actions/setup-node@v4
+2026-08-17T17:39:33.8385888Z with:
+2026-08-17T17:39:33.8386299Z   node-version: 22
+2026-08-17T17:39:33.8386724Z   cache: npm
+2026-08-17T17:39:33.8387135Z   always-auth: false
+2026-08-17T17:39:33.8387570Z   check-latest: false
+2026-08-17T17:39:33.8391467Z   token: ***
+2026-08-17T17:39:33.8391879Z ##[endgroup]
+2026-08-17T17:39:33.9809211Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+2026-08-17T17:39:33.9813719Z (node:2300) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-17T17:39:33.9815547Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-17T17:39:33.9817862Z ##[group]Environment details
+2026-08-17T17:39:34.3346713Z node: v22.23.2
+2026-08-17T17:39:34.3347618Z npm: 10.9.8
+2026-08-17T17:39:34.3348352Z yarn: 1.22.22
+2026-08-17T17:39:34.3350056Z ##[endgroup]
+2026-08-17T17:39:34.3390763Z [command]/opt/hostedtoolcache/node/22.23.2/x64/bin/npm config get cache
+2026-08-17T17:39:34.4470015Z /home/runner/.npm
+2026-08-17T17:39:34.6231221Z Cache hit for: node-cache-Linux-x64-npm-6346dd7c69586049ad86f24cc47ff92b7b15e1fd42bc04b21ccbd18f9bbfd5cf
+2026-08-17T17:39:34.6380457Z (node:2300) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-08-17T17:39:35.4988921Z Received 15705468 of 15705468 (100.0%), 21.1 MBs/sec
+2026-08-17T17:39:35.4989528Z Cache Size: ~15 MB (15705468 B)
+2026-08-17T17:39:35.5013971Z [command]/usr/bin/tar -xf /home/runner/work/_temp/f0fd13f3-6428-44e3-bfcd-a2c58dc856d2/cache.tzst -P -C /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright --use-compress-program unzstd
+2026-08-17T17:39:35.5489176Z Cache restored successfully
+2026-08-17T17:39:35.5500516Z Cache restored from key: node-cache-Linux-x64-npm-6346dd7c69586049ad86f24cc47ff92b7b15e1fd42bc04b21ccbd18f9bbfd5cf
+2026-08-17T17:39:35.5740072Z ##[group]Run npm ci
+2026-08-17T17:39:35.5740399Z [36;1mnpm ci[0m
+2026-08-17T17:39:35.5793118Z shell: /usr/bin/bash -e {0}
+2026-08-17T17:39:35.5793416Z ##[endgroup]
+2026-08-17T17:39:37.3764649Z 
+2026-08-17T17:39:37.3771451Z added 98 packages, and audited 99 packages in 2s
+2026-08-17T17:39:37.3771825Z 
+2026-08-17T17:39:37.3772077Z 34 packages are looking for funding
+2026-08-17T17:39:37.3772481Z   run `npm fund` for details
+2026-08-17T17:39:37.3786052Z 
+2026-08-17T17:39:37.3786380Z 1 high severity vulnerability
+2026-08-17T17:39:37.3786690Z 
+2026-08-17T17:39:37.3786886Z To address all issues, run:
+2026-08-17T17:39:37.3787324Z   npm audit fix
+2026-08-17T17:39:37.3787493Z 
+2026-08-17T17:39:37.3787632Z Run `npm audit` for details.
+2026-08-17T17:39:37.4302544Z ##[group]Run npm run lint
+2026-08-17T17:39:37.4302846Z [36;1mnpm run lint[0m
+2026-08-17T17:39:37.4346633Z shell: /usr/bin/bash -e {0}
+2026-08-17T17:39:37.4346926Z ##[endgroup]
+2026-08-17T17:39:37.5338160Z 
+2026-08-17T17:39:37.5338977Z > sdet-roadmap-playwright@1.0.0 lint
+2026-08-17T17:39:37.5339626Z > eslint . --ext .ts
+2026-08-17T17:39:37.5339874Z 
+2026-08-17T17:39:38.7857160Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T17:39:38.7858341Z Post job cleanup.
+2026-08-17T17:39:38.9085159Z (node:2385) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-17T17:39:38.9086550Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-17T17:39:38.9088290Z Cache hit occurred on the primary key node-cache-Linux-x64-npm-6346dd7c69586049ad86f24cc47ff92b7b15e1fd42bc04b21ccbd18f9bbfd5cf, not saving cache.
+2026-08-17T17:39:38.9239140Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T17:39:38.9240328Z Post job cleanup.
+2026-08-17T17:39:39.0094776Z [command]/usr/bin/git version
+2026-08-17T17:39:39.0132477Z git version 2.54.0
+2026-08-17T17:39:39.0170321Z Temporarily overriding HOME='/home/runner/work/_temp/501bd302-22e7-4a3f-a076-10ef9681a650' before making global git config changes
+2026-08-17T17:39:39.0172044Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-17T17:39:39.0176685Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright
+2026-08-17T17:39:39.0219060Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-17T17:39:39.0260191Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-17T17:39:39.0531217Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-17T17:39:39.0560663Z http.https://github.com/.extraheader
+2026-08-17T17:39:39.0573873Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-08-17T17:39:39.0610471Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-17T17:39:39.0926869Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-17T17:39:39.0969756Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-17T17:39:39.1390831Z Cleaning up orphan processes
+2026-08-17T17:39:39.1690162Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

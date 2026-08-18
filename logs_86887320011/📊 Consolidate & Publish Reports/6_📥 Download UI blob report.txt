@@ -1,0 +1,21 @@
+﻿2026-08-17T17:41:37.7917760Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T17:41:37.7919058Z ##[group]Run actions/download-artifact@v4
+2026-08-17T17:41:37.7919346Z with:
+2026-08-17T17:41:37.7919558Z   name: blob-report-ui
+2026-08-17T17:41:37.7919796Z   path: all-blobs
+2026-08-17T17:41:37.7920020Z   merge-multiple: false
+2026-08-17T17:41:37.7920318Z   repository: RaphaelCarvalho07/sdet-roadmap-playwright
+2026-08-17T17:41:37.7920645Z   run-id: 32051073727
+2026-08-17T17:41:37.7920900Z ##[endgroup]
+2026-08-17T17:41:37.9477193Z Downloading single artifact
+2026-08-17T17:41:37.9638030Z (node:2385) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-17T17:41:37.9639758Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-17T17:41:38.0881004Z Preparing to download the following artifacts:
+2026-08-17T17:41:38.0882455Z - blob-report-ui (ID: 9294824888, Size: 1117984, Expected Digest: sha256:af894b59f802e049fc33b6fe61a33da42b7f3b932280bc5e8e04f44f0c914168)
+2026-08-17T17:41:38.2109857Z Redirecting to blob download url: https://productionresultssa8.blob.core.windows.net/actions-results/22407f18-4a10-4040-9670-6b55c5f8e554/workflow-job-run-230f0722-de06-5910-a099-1727da981e0f/artifacts/01e64c9ee9802d56b857dd8f68057095c1b22ab137e9585452821a88f4112b66.zip
+2026-08-17T17:41:38.2135756Z Starting download of artifact to: /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/all-blobs
+2026-08-17T17:41:38.3408481Z (node:2385) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-08-17T17:41:38.5010329Z SHA256 digest of downloaded artifact is af894b59f802e049fc33b6fe61a33da42b7f3b932280bc5e8e04f44f0c914168
+2026-08-17T17:41:38.5011081Z Artifact download completed successfully.
+2026-08-17T17:41:38.5011709Z Total of 1 artifact(s) downloaded
+2026-08-17T17:41:38.5015674Z Download artifact has finished successfully

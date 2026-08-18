@@ -1,0 +1,27 @@
+﻿2026-08-17T17:39:59.0047421Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-08-17T17:39:59.0049653Z ##[group]Run actions/setup-node@v4
+2026-08-17T17:39:59.0050017Z with:
+2026-08-17T17:39:59.0050203Z   node-version: 22
+2026-08-17T17:39:59.0050402Z   cache: npm
+2026-08-17T17:39:59.0050591Z   always-auth: false
+2026-08-17T17:39:59.0050806Z   check-latest: false
+2026-08-17T17:39:59.0053294Z   token: ***
+2026-08-17T17:39:59.0053491Z ##[endgroup]
+2026-08-17T17:39:59.2005459Z (node:2544) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-08-17T17:39:59.2009253Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+2026-08-17T17:39:59.2010004Z ##[group]Environment details
+2026-08-17T17:39:59.2010543Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-08-17T17:40:01.9703642Z node: v22.23.2
+2026-08-17T17:40:01.9704073Z npm: 10.9.8
+2026-08-17T17:40:01.9704360Z yarn: 1.22.22
+2026-08-17T17:40:01.9705395Z ##[endgroup]
+2026-08-17T17:40:01.9755583Z [command]/opt/hostedtoolcache/node/22.23.2/x64/bin/npm config get cache
+2026-08-17T17:40:02.2603533Z /home/runner/.npm
+2026-08-17T17:40:02.5398932Z Cache hit for: node-cache-Linux-x64-npm-6346dd7c69586049ad86f24cc47ff92b7b15e1fd42bc04b21ccbd18f9bbfd5cf
+2026-08-17T17:40:02.5550705Z (node:2544) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-08-17T17:40:03.8472519Z Received 0 of 15705468 (0.0%), 0.0 MBs/sec
+2026-08-17T17:40:04.2790526Z Received 15705468 of 15705468 (100.0%), 10.5 MBs/sec
+2026-08-17T17:40:04.2791159Z Cache Size: ~15 MB (15705468 B)
+2026-08-17T17:40:04.2817240Z [command]/usr/bin/tar -xf /home/runner/work/_temp/4de36552-1b24-47aa-98b8-5e8498f8d708/cache.tzst -P -C /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright --use-compress-program unzstd
+2026-08-17T17:40:04.3301846Z Cache restored successfully
+2026-08-17T17:40:04.3314605Z Cache restored from key: node-cache-Linux-x64-npm-6346dd7c69586049ad86f24cc47ff92b7b15e1fd42bc04b21ccbd18f9bbfd5cf

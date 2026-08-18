@@ -1,0 +1,94 @@
+﻿2026-08-17T17:41:40.5959445Z ##[group]Run peaceiris/actions-gh-pages@v4
+2026-08-17T17:41:40.5959810Z with:
+2026-08-17T17:41:40.5962290Z   github_token: ***
+2026-08-17T17:41:40.5962576Z   publish_dir: ./playwright-report
+2026-08-17T17:41:40.5962892Z   user_name: github-actions[bot]
+2026-08-17T17:41:40.5963248Z   user_email: github-actions[bot]@users.noreply.github.com
+2026-08-17T17:41:40.5963617Z   publish_branch: gh-pages
+2026-08-17T17:41:40.5963887Z   allow_empty_commit: false
+2026-08-17T17:41:40.5964150Z   keep_files: false
+2026-08-17T17:41:40.5964389Z   force_orphan: false
+2026-08-17T17:41:40.5964636Z   enable_jekyll: false
+2026-08-17T17:41:40.5964884Z   disable_nojekyll: false
+2026-08-17T17:41:40.5965139Z   exclude_assets: .github
+2026-08-17T17:41:40.5965609Z ##[endgroup]
+2026-08-17T17:41:40.6941794Z [INFO] Usage https://github.com/peaceiris/actions-gh-pages#readme
+2026-08-17T17:41:40.6946616Z ##[group]Dump inputs
+2026-08-17T17:41:40.6947146Z [INFO] GithubToken: true
+2026-08-17T17:41:40.6947886Z [INFO] PublishBranch: gh-pages
+2026-08-17T17:41:40.6948545Z [INFO] PublishDir: ./playwright-report
+2026-08-17T17:41:40.6949060Z [INFO] DestinationDir: 
+2026-08-17T17:41:40.6949510Z [INFO] ExternalRepository: 
+2026-08-17T17:41:40.6950019Z [INFO] AllowEmptyCommit: false
+2026-08-17T17:41:40.6950484Z [INFO] KeepFiles: false
+2026-08-17T17:41:40.6950874Z [INFO] ForceOrphan: false
+2026-08-17T17:41:40.6951384Z [INFO] UserName: github-actions[bot]
+2026-08-17T17:41:40.6952108Z [INFO] UserEmail: github-actions[bot]@users.noreply.github.com
+2026-08-17T17:41:40.6952717Z [INFO] CommitMessage: 
+2026-08-17T17:41:40.6953151Z [INFO] FullCommitMessage: 
+2026-08-17T17:41:40.6953551Z [INFO] TagName: 
+2026-08-17T17:41:40.6954057Z [INFO] TagMessage: 
+2026-08-17T17:41:40.6954573Z [INFO] EnableJekyll (DisableNoJekyll): false
+2026-08-17T17:41:40.6955082Z [INFO] CNAME: 
+2026-08-17T17:41:40.6955474Z [INFO] ExcludeAssets .github
+2026-08-17T17:41:40.6955752Z 
+2026-08-17T17:41:40.6956186Z ##[endgroup]
+2026-08-17T17:41:40.6956788Z ##[group]Setup auth token
+2026-08-17T17:41:40.6957292Z [INFO] setup GITHUB_TOKEN
+2026-08-17T17:41:40.6958826Z ##[endgroup]
+2026-08-17T17:41:40.6959463Z ##[group]Prepare publishing assets
+2026-08-17T17:41:40.6966787Z [INFO] ForceOrphan: false
+2026-08-17T17:41:40.6999682Z [command]/usr/bin/git clone --depth=1 --single-branch --branch gh-pages ***github.com/RaphaelCarvalho07/sdet-roadmap-playwright.git /home/runner/actions_github_pages_1786988500695
+2026-08-17T17:41:40.7049689Z Cloning into '/home/runner/actions_github_pages_1786988500695'...
+2026-08-17T17:41:41.6142727Z [INFO] clean up /home/runner/actions_github_pages_1786988500695
+2026-08-17T17:41:41.6143365Z [INFO] chdir /home/runner/actions_github_pages_1786988500695
+2026-08-17T17:41:41.6154758Z [command]/usr/bin/git rm -r --ignore-unmatch *
+2026-08-17T17:41:41.6294098Z rm '.nojekyll'
+2026-08-17T17:41:41.6294774Z rm 'data/06d47cf2d3b16702fa479fd64d8126a1a3a41504.png'
+2026-08-17T17:41:41.6295546Z rm 'data/0ac92f401f69244f85b9eef9f903106cce64fe21.markdown'
+2026-08-17T17:41:41.6296287Z rm 'data/24c21371d2252f3837e2ff32f21c840365ac34b4.png'
+2026-08-17T17:41:41.6297015Z rm 'data/397f56180e7d42187f01149f31eb108022060e1c.markdown'
+2026-08-17T17:41:41.6297980Z rm 'data/412b270d1204a0fa74a2c45a407c2be6d4145e92.markdown'
+2026-08-17T17:41:41.6298667Z rm 'data/4ef3cf7fc411e0e4896f9e3c6a4ef3294c38a158.png'
+2026-08-17T17:41:41.6299335Z rm 'data/657f874f64b76195b81f3c688ef365084345d997.png'
+2026-08-17T17:41:41.6300054Z rm 'data/663ed8b6edc11209ac140a662ba6f1a6deb3650d.markdown'
+2026-08-17T17:41:41.6300799Z rm 'data/713867853464b56b52f700bd88f7e863f510daac.png'
+2026-08-17T17:41:41.6301380Z rm 'data/8fa63a9448f67a06e1fd19bf10896ff5fe36add1.png'
+2026-08-17T17:41:41.6301790Z rm 'data/9f9735dd8b239f1a4abbaf376d8c6d24b4a6faf0.png'
+2026-08-17T17:41:41.6302384Z rm 'data/a37598745f1f0237d0cfafcaf4f69f8c24076db4.png'
+2026-08-17T17:41:41.6303037Z rm 'data/ab0a744b7ad9249611d83879e3d302b5f72c2d70.png'
+2026-08-17T17:41:41.6303770Z rm 'data/b128db8466e142ec1facbda1876ed96915ad1dfb.markdown'
+2026-08-17T17:41:41.6304436Z rm 'data/cb9f8896eeffa6dc51c556d2bbfff84df67fc3df.png'
+2026-08-17T17:41:41.6305516Z rm 'data/e212500e7c421e4b419167157aba822b6e3fde27.png'
+2026-08-17T17:41:41.6306218Z rm 'data/f1caa1e26c871be63eedcd424a3929e2b4acaeda.png'
+2026-08-17T17:41:41.6306939Z rm 'data/fa1cf1f730f16a944d9fd123a50a00f215bb30b7.markdown'
+2026-08-17T17:41:41.6307703Z rm 'index.html'
+2026-08-17T17:41:41.6308244Z [INFO] chdir /home/runner/actions_github_pages_1786988500695
+2026-08-17T17:41:41.6308848Z [INFO] prepare publishing assets
+2026-08-17T17:41:41.6310065Z [INFO] copy /home/runner/work/sdet-roadmap-playwright/sdet-roadmap-playwright/playwright-report to /home/runner/actions_github_pages_1786988500695
+2026-08-17T17:41:41.6411875Z [INFO] delete excluded assets
+2026-08-17T17:41:41.6459150Z [INFO] Created /home/runner/actions_github_pages_1786988500695/.nojekyll
+2026-08-17T17:41:41.6460169Z ##[endgroup]
+2026-08-17T17:41:41.6460777Z ##[group]Setup Git config
+2026-08-17T17:41:41.6474985Z [command]/usr/bin/git remote rm origin
+2026-08-17T17:41:41.6554829Z [command]/usr/bin/git remote add origin ***github.com/RaphaelCarvalho07/sdet-roadmap-playwright.git
+2026-08-17T17:41:41.6604091Z [command]/usr/bin/git add --all
+2026-08-17T17:41:41.6857097Z [command]/usr/bin/git config user.name github-actions[bot]
+2026-08-17T17:41:41.6905970Z [command]/usr/bin/git config user.email github-actions[bot]@users.noreply.github.com
+2026-08-17T17:41:41.6940960Z ##[endgroup]
+2026-08-17T17:41:41.6941599Z ##[group]Create a commit
+2026-08-17T17:41:41.6953830Z [command]/usr/bin/git commit -m deploy: a0b8dcea7a208cf0c6ef5e39247b620cf578c7fc
+2026-08-17T17:41:41.7128627Z [gh-pages b2b8102] deploy: a0b8dcea7a208cf0c6ef5e39247b620cf578c7fc
+2026-08-17T17:41:41.7129495Z  6 files changed, 16 insertions(+), 16 deletions(-)
+2026-08-17T17:41:41.7130345Z  rename data/{0ac92f401f69244f85b9eef9f903106cce64fe21.markdown => 3f643dda5f86eff3e98ba5c5f8310566c61d9e29.markdown} (96%)
+2026-08-17T17:41:41.7131350Z  rename data/{397f56180e7d42187f01149f31eb108022060e1c.markdown => 6b79ce6c3b741af62dfdaf1034efe52e973ab160.markdown} (96%)
+2026-08-17T17:41:41.7132267Z  delete mode 100644 data/a37598745f1f0237d0cfafcaf4f69f8c24076db4.png
+2026-08-17T17:41:41.7133085Z  create mode 100644 data/b3b21f9adf0311289d6b625c400ebd8da474ed62.png
+2026-08-17T17:41:41.7134242Z  rename data/{412b270d1204a0fa74a2c45a407c2be6d4145e92.markdown => f45b3397ab9ccb663cc53946ee7aaf3fdbca416b.markdown} (97%)
+2026-08-17T17:41:41.7135370Z ##[endgroup]
+2026-08-17T17:41:41.7135979Z ##[group]Push the commit or tag
+2026-08-17T17:41:41.7148093Z [command]/usr/bin/git push origin gh-pages
+2026-08-17T17:41:44.8140201Z To https://github.com/RaphaelCarvalho07/sdet-roadmap-playwright.git
+2026-08-17T17:41:44.8141066Z    fbef0cd..b2b8102  gh-pages -> gh-pages
+2026-08-17T17:41:44.8185661Z ##[endgroup]
+2026-08-17T17:41:44.8186171Z [INFO] Action successfully completed
