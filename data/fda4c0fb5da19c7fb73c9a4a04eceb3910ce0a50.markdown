@@ -72,14 +72,14 @@ Call log:
       - generic [ref=e52]:
         - generic [ref=e54]:
           - generic [ref=e55]: Delivery Address
-          - generic [ref=e56]: Ebony Kutch
-          - generic [ref=e57]: 3719 Clarendon Road, New Olaf, Vermont, 81418
-          - generic [ref=e58]: Belarus
-          - generic [ref=e59]: Phone Number 23191873
+          - generic [ref=e56]: Mr. Jake Bins V
+          - generic [ref=e57]: 4418 Bailey Alley, South Karla, North Carolina, 49553
+          - generic [ref=e58]: Italy
+          - generic [ref=e59]: Phone Number 38170687
         - generic [ref=e61]:
           - generic [ref=e62]: Payment Method
-          - generic [ref=e63]: Card ending in 1024
-          - generic [ref=e64]: Card Holder" Henri Abshire
+          - generic [ref=e63]: Card ending in 6015
+          - generic [ref=e64]: Card Holder" Wendy Ryan
       - generic [ref=e65]:
         - heading "Your Basket (anonymous)" [level=1] [ref=e66]
         - table [ref=e67]:
@@ -115,10 +115,6 @@ Call log:
 # Test source
 
 ```ts
-  78  | 
-  79  |   /**
-  80  |    * Dismisses welcome banner and cookie overlays safely using forced DOM clicks
-  81  |    */
   82  |   async dismissOverlays(): Promise<void> {
   83  |     try {
   84  |       if (await this.welcomeBannerDismissButton.isVisible({ timeout: 4000 })) {
@@ -212,21 +208,25 @@ Call log:
   172 |       `,
   173 |     });
   174 | 
-  175 |     const addressCard = this.page.locator(".column mat-card").filter({ hasText: "Delivery Address" });
-  176 |     const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
-  177 | 
-> 178 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
+  175 |     const addressCard = this.page
+  176 |       .locator(".column mat-card")
+  177 |       .filter({ hasText: "Delivery Address" });
+  178 |     const paymentCard = this.page
+  179 |       .locator(".column mat-card")
+  180 |       .filter({ hasText: "Payment Method" });
+  181 | 
+> 182 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
       |                             ^ Error: expect(page).toHaveScreenshot(expected) failed
-  179 |       mask: [addressCard, paymentCard],
-  180 |     });
-  181 |   }
-  182 | 
-  183 |   async validateOrderConfirmation(): Promise<void> {
-  184 |     const confirmationOrder = this.page.getByText(
-  185 |       "Thank you for your purchase",
-  186 |     );
-  187 |     await expect(confirmationOrder).toBeVisible();
-  188 |   }
-  189 | }
-  190 | 
+  183 |       mask: [addressCard, paymentCard],
+  184 |     });
+  185 |   }
+  186 | 
+  187 |   async validateOrderConfirmation(): Promise<void> {
+  188 |     const confirmationOrder = this.page.getByText(
+  189 |       "Thank you for your purchase",
+  190 |     );
+  191 |     await expect(confirmationOrder).toBeVisible();
+  192 |   }
+  193 | }
+  194 | 
 ```

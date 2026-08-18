@@ -25,31 +25,31 @@ Call log:
     - disabled all CSS animations
   - waiting for fonts to load...
   - fonts loaded
-  - 95968 pixels (ratio 0.11 of all image pixels) are different.
+  - 95981 pixels (ratio 0.11 of all image pixels) are different.
   - waiting 100ms before taking screenshot
   - taking page screenshot
     - disabled all CSS animations
   - waiting for fonts to load...
   - fonts loaded
-  - 9584 pixels (ratio 0.02 of all image pixels) are different.
+  - 9253 pixels (ratio 0.02 of all image pixels) are different.
   - waiting 250ms before taking screenshot
   - taking page screenshot
     - disabled all CSS animations
   - waiting for fonts to load...
   - fonts loaded
-  - 9391 pixels (ratio 0.02 of all image pixels) are different.
+  - 7770 pixels (ratio 0.01 of all image pixels) are different.
   - waiting 500ms before taking screenshot
   - taking page screenshot
     - disabled all CSS animations
   - waiting for fonts to load...
   - fonts loaded
-  - 7035 pixels (ratio 0.01 of all image pixels) are different.
+  - 4387 pixels (ratio 0.01 of all image pixels) are different.
   - waiting 1000ms before taking screenshot
   - taking page screenshot
     - disabled all CSS animations
   - waiting for fonts to load...
   - fonts loaded
-  - 2600 pixels (ratio 0.01 of all image pixels) are different.
+  - 956 pixels (ratio 0.01 of all image pixels) are different.
   - waiting 1000ms before taking screenshot
   - taking page screenshot
     - disabled all CSS animations
@@ -100,14 +100,14 @@ Call log:
       - generic [ref=e62]:
         - generic [ref=e64]:
           - generic [ref=e65]: Delivery Address
-          - generic [ref=e66]: Isabella Mann-O'Keefe
-          - generic [ref=e67]: 318 Vilma Burg, Donaldchester, Rhode Island, 84225
-          - generic [ref=e68]: Luxembourg
-          - generic [ref=e69]: Phone Number 82607586
+          - generic [ref=e66]: Roberto Stanton
+          - generic [ref=e67]: 28910 Center Road, Norfolk, Missouri, 80120
+          - generic [ref=e68]: Svalbard & Jan Mayen Islands
+          - generic [ref=e69]: Phone Number 48956914
         - generic [ref=e71]:
           - generic [ref=e72]: Payment Method
-          - generic [ref=e73]: Card ending in 1697
-          - generic [ref=e74]: Card Holder" Eino Waters
+          - generic [ref=e73]: Card ending in 9276
+          - generic [ref=e74]: Card Holder" Don Fritsch
       - generic [ref=e75]:
         - heading "Your Basket (anonymous)" [level=1] [ref=e76]
         - table [ref=e77]:
@@ -143,10 +143,6 @@ Call log:
 # Test source
 
 ```ts
-  78  | 
-  79  |   /**
-  80  |    * Dismisses welcome banner and cookie overlays safely using forced DOM clicks
-  81  |    */
   82  |   async dismissOverlays(): Promise<void> {
   83  |     try {
   84  |       if (await this.welcomeBannerDismissButton.isVisible({ timeout: 4000 })) {
@@ -240,21 +236,25 @@ Call log:
   172 |       `,
   173 |     });
   174 | 
-  175 |     const addressCard = this.page.locator(".column mat-card").filter({ hasText: "Delivery Address" });
-  176 |     const paymentCard = this.page.locator(".column mat-card").filter({ hasText: "Payment Method" });
-  177 | 
-> 178 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
+  175 |     const addressCard = this.page
+  176 |       .locator(".column mat-card")
+  177 |       .filter({ hasText: "Delivery Address" });
+  178 |     const paymentCard = this.page
+  179 |       .locator(".column mat-card")
+  180 |       .filter({ hasText: "Payment Method" });
+  181 | 
+> 182 |     await expect(this.page).toHaveScreenshot("order-summary.png", {
       |                             ^ Error: expect(page).toHaveScreenshot(expected) failed
-  179 |       mask: [addressCard, paymentCard],
-  180 |     });
-  181 |   }
-  182 | 
-  183 |   async validateOrderConfirmation(): Promise<void> {
-  184 |     const confirmationOrder = this.page.getByText(
-  185 |       "Thank you for your purchase",
-  186 |     );
-  187 |     await expect(confirmationOrder).toBeVisible();
-  188 |   }
-  189 | }
-  190 | 
+  183 |       mask: [addressCard, paymentCard],
+  184 |     });
+  185 |   }
+  186 | 
+  187 |   async validateOrderConfirmation(): Promise<void> {
+  188 |     const confirmationOrder = this.page.getByText(
+  189 |       "Thank you for your purchase",
+  190 |     );
+  191 |     await expect(confirmationOrder).toBeVisible();
+  192 |   }
+  193 | }
+  194 | 
 ```
