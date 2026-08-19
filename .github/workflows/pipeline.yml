@@ -107,7 +107,6 @@ jobs:
             echo "⚠️ UI_URL secret points to localhost. Overriding to http://juice-shop:3000 for GHA container network."
             export UI_URL="http://juice-shop:3000"
           fi
-          echo "🚀 Executing UI tests against: UI_URL=$UI_URL | API_URL=$API_URL"
           npx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=ui-tests-webkit --reporter=blob
  
       - name: 📤 Upload UI Blobs
@@ -140,16 +139,19 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: blob-report-api
-          path: all-blobs
-
+          path: blob-report-api
+ 
       - name: 📥 Download UI blob report
         uses: actions/download-artifact@v4
         with:
           name: blob-report-ui
-          path: all-blobs
-
+          path: blob-report-ui
+ 
       - name: 🔀 Merge Reports
-        run: npx playwright merge-reports --reporter html ./all-blobs
+        run: |
+          mkdir -p all-blobs
+          find blob-report-api blob-report-ui -name "*.blob" -exec cp {} all-blobs/ \;
+          npx playwright merge-reports --reporter html ./all-blobs
 
       - name: 📊 Upload Consolidated HTML Report
         uses: actions/upload-artifact@v4
