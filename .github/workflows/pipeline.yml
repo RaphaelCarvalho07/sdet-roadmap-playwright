@@ -91,12 +91,34 @@ jobs:
       - name: 📦 Install Dependencies
         run: npm ci
 
+      - name: 🔍 Debug GHA Networking & Env
+        env:
+          API_URL: ${{ secrets.API_URL || 'http://juice-shop:3000' }}
+          UI_URL: ${{ secrets.UI_URL || 'http://juice-shop:3000' }}
+        run: |
+          echo "=== Raw GHA Secret/Fallback Values ==="
+          echo "API_URL_RAW='$API_URL'"
+          echo "UI_URL_RAW='$UI_URL'"
+          echo "=== Testing DNS resolution to juice-shop container ==="
+          curl -sI http://juice-shop:3000 || echo "Failed to connect to juice-shop container name"
+
       - name: 🚀 Execute UI Tests
         env:
           API_URL: ${{ secrets.API_URL || 'http://juice-shop:3000' }}
           UI_URL: ${{ secrets.UI_URL || 'http://juice-shop:3000' }}
           HOME: /root
-        run: npx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=ui-tests-webkit --reporter=blob
+        run: |
+          # If the repository secret contains localhost, override it to the container hostname
+          if [[ "$API_URL" == *"localhost"* || "$API_URL" == *"127.0.0.1"* || "$API_URL" == *"::1"* ]]; then
+            echo "⚠️ API_URL secret points to localhost. Overriding to http://juice-shop:3000 for GHA container network."
+            export API_URL="http://juice-shop:3000"
+          fi
+          if [[ "$UI_URL" == *"localhost"* || "$UI_URL" == *"127.0.0.1"* || "$UI_URL" == *"::1"* ]]; then
+            echo "⚠️ UI_URL secret points to localhost. Overriding to http://juice-shop:3000 for GHA container network."
+            export UI_URL="http://juice-shop:3000"
+          fi
+          echo "🚀 Executing UI tests against: UI_URL=$UI_URL | API_URL=$API_URL"
+          npx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=ui-tests-webkit --reporter=blob
 
       - name: 📤 Upload UI Blobs
         if: always()
