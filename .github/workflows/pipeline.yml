@@ -119,7 +119,7 @@ jobs:
             export UI_URL="http://juice-shop:3000"
           fi
           echo "🚀 Executing UI tests against: UI_URL=$UI_URL | API_URL=$API_URL"
-          npx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=ui-tests-webkit --reporter=blob
+          npx playwright test --project=ui-tests-chrome --project=ui-tests-firefox --project=ui-tests-webkit --reporter=blob --update-snapshots
 
       - name: 📤 Upload UI Blobs
         if: always()
@@ -127,6 +127,14 @@ jobs:
         with:
           name: blob-report-ui
           path: blob-report/
+          retention-days: 1
+
+      - name: 📤 Upload Updated Snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: updated-snapshots
+          path: tests/ui/snapshots/
           retention-days: 1
 
   publish-report:
