@@ -151,7 +151,7 @@ jobs:
         run: |
           mkdir -p all-blobs
           find blob-report-api blob-report-ui -name "*.zip" -exec cp {} all-blobs/ \;
-          npx playwright merge-reports --reporter html ./all-blobs
+          npx playwright merge-reports --reporter html ./all-blobs -c playwright.config.ts
 
       - name: 📊 Upload Consolidated HTML Report
         uses: actions/upload-artifact@v4
