@@ -8,3 +8,7 @@ test-results/
 playwright-report/
 blob-report/
 playwright/.local-browsers/
+# Custom logs and temporary reports folders
+logs_*/
+all-blobs/
+blob-report-*/

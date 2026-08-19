@@ -1,8 +1,0 @@
-2026-08-17T17:39:42.3870000Z Job is waiting for a hosted runner to come online.
-2026-08-17T17:39:42.3690000Z Evaluating ui-tests.if
-2026-08-17T17:39:42.3690000Z Evaluating: success()
-2026-08-17T17:39:42.3690000Z Result: true
-2026-08-17T17:39:42.3730000Z Requested labels: ubuntu-latest
-2026-08-17T17:39:42.3730000Z Job defined at: RaphaelCarvalho07/sdet-roadmap-playwright/.github/workflows/pipeline.yml@refs/heads/main
-2026-08-17T17:39:42.3730000Z Waiting for a runner to pick up this job...
-2026-08-17T17:39:42.3870000Z Job is about to start running on the hosted runner: GitHub Actions 1000000270
