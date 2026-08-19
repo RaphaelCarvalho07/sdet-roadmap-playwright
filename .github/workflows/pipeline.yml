@@ -150,7 +150,7 @@ jobs:
       - name: 🔀 Merge Reports
         run: |
           mkdir -p all-blobs
-          find blob-report-api blob-report-ui -name "*.blob" -exec cp {} all-blobs/ \;
+          find blob-report-api blob-report-ui -name "*.zip" -exec cp {} all-blobs/ \;
           npx playwright merge-reports --reporter html ./all-blobs
 
       - name: 📊 Upload Consolidated HTML Report
