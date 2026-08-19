@@ -508,3 +508,40 @@ We integrated Playwright's visual assertions (`toHaveScreenshot`) into our hybri
 - **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
 - **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
 - **LLM & AI Agent Evaluation (Evals & MCP):** Introduce non-deterministic testing principles, LLM-as-a-Judge evaluations using framework libraries (like Promptfoo or DeepEval), prompt injection security testing (Red Teaming), and writing/testing Model Context Protocol (MCP) servers.
+
+---
+
+## 19/08/2026 - CI/CD Resiliency & Playwright Consolidated Reports Merge
+
+### 1. Scenario and Technical Challenge
+
+As we finalized our production-grade testing suite on GHA (GitHub Actions) CI, we faced several critical network, sandbox, and reporting challenges:
+- **Docker Host vs. Container Networking Mismatch:** The API tests run on GHA's host VM, connecting to mapped ports via `localhost:3000`. However, the containerized UI tests must connect to the sibling Juice Shop container via `http://juice-shop:3000` (bridge DNS). Changing the secrets to point directly to `juice-shop:3000` breaks API tests and local macOS host development.
+- **Firefox Sandbox Permissions Error:** Launching Firefox inside the Playwright Docker container on GHA crashed because of user folder profile ownership constraints.
+- **GHA Artifact download-artifact v4 Directory Separation:** In GHA v4, downloading multiple artifacts to a single folder (`all-blobs`) dynamically groups them into separate subfolders named after the artifacts (e.g., `all-blobs/blob-report-api/` and `all-blobs/blob-report-ui/`). Since the Playwright blob reporter generates `.zip` files (e.g. `report-api-tests.zip`), the search command for `*.blob` failed, and `merge-reports` had no inputs to merge, crashing the deployment to GitHub Pages with `ENOENT` on the `playwright-report` folder.
+- **Cross-Environment testDir Discrepancy:** The blob reports recorded test runs under different path contexts (`/home/runner/...` on the host vs. `/__w/...` inside the container), causing `merge-reports` to fail with path mismatches.
+- **Visual Regression Mismatches (Mac ARM64 vs. CI AMD64):** Visual regression tests failed on GHA Chrome Linux because of small layout rendering discrepancies between local Apple Silicon ARM64 and runner AMD64 hardware platforms.
+- **SecOps Plain-Text URL Leakage:** Logging environment variables (like active target URLs) directly to GHA logs exposes internal infrastructure endpoints in plain text.
+
+### 2. Structured Solution & Recommended Patterns
+
+To address these challenges, we implemented the following infrastructure-level patterns:
+- **Dynamic Bash-Level Environment Routing:** Configured the pipeline to run with `shell: bash` and dynamically override `API_URL` and `UI_URL` to `http://juice-shop:3000` inside GHA *only* if the secrets contain localhost. This decoupled the network configuration logic from the core Playwright typescript code.
+- **Firefox Sandbox Fix:** Injected `HOME: /root` environment variable to initialize Firefox profiles with correct root ownership permissions inside the GHA step.
+- **Artifact Folder Consolidation:** Downloaded the artifacts to separate folders and consolidated the Playwright `.zip` reports using a bash `find` helper to merge files correctly:
+  ```bash
+  mkdir -p all-blobs
+  find blob-report-api blob-report-ui -name "*.zip" -exec cp {} all-blobs/ \;
+  ```
+- **Unified Merge Path Mapping:** Added `-c playwright.config.ts` to `npx playwright merge-reports` to force-merge files and relativize test paths using the config's `testDir` property.
+- **Cross-Platform Visual Emulation:** Set GHA to automatically update the snapshots on CI to generate the native AMD64 Linux screenshots, and introduced the best-practice `--platform linux/amd64` Docker run command for Apple Silicon macOS local development to prevent architecture gaps:
+  ```bash
+  docker run --rm --platform linux/amd64 -v $(pwd):/work -w /work -e API_URL=http://host.docker.internal:3000 -e UI_URL=http://host.docker.internal:3000 mcr.microsoft.com/playwright:v1.61.0-noble npx playwright test --project=ui-tests-chrome --update-snapshots
+  ```
+- **SecOps Compliance:** Removed plain-text URL logging from the workflow console output to ensure no sensitive internal company subdomains are exposed.
+
+### 3. Next Study Steps
+
+- **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
+- **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
+- **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
