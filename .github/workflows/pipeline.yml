@@ -103,6 +103,7 @@ jobs:
           curl -sI http://juice-shop:3000 || echo "Failed to connect to juice-shop container name"
 
       - name: 🚀 Execute UI Tests
+        shell: bash
         env:
           API_URL: ${{ secrets.API_URL || 'http://juice-shop:3000' }}
           UI_URL: ${{ secrets.UI_URL || 'http://juice-shop:3000' }}
