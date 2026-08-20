@@ -42,11 +42,14 @@ jobs:
       - name: 📁 Checkout Code
         uses: actions/checkout@v4
 
-      - name: 🚀 Run K6 Load Test
-        uses: grafana/k6-action@v1
+      - name: 🟢 Install K6
+        uses: grafana/setup-k6-action@v1
         with:
-          filename: tests/performance/search-load-test.js
-          flags: --env API_URL=http://localhost:3000
+          k6-version: "0.49.0"
+
+      - name: 🚀 Execute K6 Load Test
+        run: |
+          k6 run tests/performance/search-load-test.js --env API_URL=http://localhost:3000
 
   api-tests:
     name: ⚡ Run Playwright API Tests
