@@ -13,7 +13,9 @@
     "report": "npx playwright show-report",
     "docker:start": "docker info >/dev/null 2>&1 || (open -a Docker && echo \"Aguardando o Docker Desktop iniciar...\" && until docker info >/dev/null 2>&1; do sleep 1; done); docker start juice-shop 2>/dev/null || docker run -d --name juice-shop -p 3000:3000 bkimminich/juice-shop",
     "docker:stop": "docker stop juice-shop",
-    "docker:logs": "docker logs -f juice-shop"
+    "docker:logs": "docker logs -f juice-shop",
+    "test:perf:load": "k6 run tests/performance/search-load-test.js",
+    "test:perf:stress": "k6 run tests/performance/login-stress-test.js"
   },
   "keywords": [],
   "author": "Raphael 'Rapha' Carvalho",

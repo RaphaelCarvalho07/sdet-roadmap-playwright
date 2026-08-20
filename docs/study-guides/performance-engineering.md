@@ -1,0 +1,116 @@
+# 📘 Study Guide: Non-Functional Performance Testing & Engineering
+
+Welcome to the Performance Engineering module! This guide establishes the theoretical pillars and paradigms of non-functional performance testing. Understanding these concepts will allow you to design, execute, and analyze performance tests using any modern tool (K6, JMeter, Gatling, Locust, etc.).
+
+---
+
+## 1. The Core Performance Metrics
+
+In performance engineering, we measure how a system behaves under load using two distinct but deeply interrelated metrics:
+
+### A. Latency (Response Time)
+*   **Definition:** The time it takes for a single request to travel from the client, get processed by the server, and return back to the client.
+*   **Measurement:** Usually measured in milliseconds (ms) or seconds (s).
+*   **Key Concept:** Latency is *relative to a single transaction*. 
+
+### B. Throughput (RPS / TPM)
+*   **Definition:** The volume of transactions or requests that the system successfully processes within a unit of time.
+*   **Measurement:** Measured in **RPS** (Requests Per Second) or **TPM** (Transactions Per Minute).
+*   **Key Concept:** Throughput is a measure of *concurrency and capacity*.
+
+> [!IMPORTANT]
+> **The Relationship (Little's Law):**
+> As concurrent users increase, throughput increases linearly *until* the system hits a resource bottleneck. Once a bottleneck is hit (CPU reaches 100%, database connection pool is full, etc.), throughput flattens out, and latency (response times) begins to degrade exponentially because requests are stuck waiting in a queue.
+
+---
+
+## 2. The Percentile Trap (The Flaw of Averages)
+
+When reporting test results, many QA engineers make the mistake of using the **Average (Mean)** response time as their primary metric. **This is a dangerous anti-pattern.**
+
+### Why averages are misleading:
+Imagine a test run with 10 requests:
+*   9 requests take **100ms**
+*   1 request takes **10,000ms** (10 seconds)
+*   **Average:** `(9 * 100 + 10,000) / 10 = 1,090ms` (1.09 seconds)
+
+The average of 1.09 seconds tells a false story:
+- It hides the fact that 90% of your users had a lightning-fast experience (100ms).
+- It downplays the fact that 10% of your users experienced an unacceptable 10-second crash/hang.
+
+### The Solution: Percentiles
+Percentiles represent the threshold under which a specific percentage of requests fall.
+*   **p50 (Median):** 50% of the users experienced response times below this value.
+*   **p95:** 95% of the users experienced response times below this value. (Standard for high-quality user experience).
+*   **p99:** 99% of the users experienced response times below this value. (Standard for critical financial/telecom transactions).
+
+In our example:
+*   **p50:** 100ms (Excellent median experience)
+*   **p90:** 100ms
+*   **p95:** 10,000ms (Alert! Tail latency is degraded!)
+
+---
+
+## 3. Types of Performance Tests
+
+We categorize performance tests based on the volume, shape, and duration of the load injected:
+
+```
+  Load (VUs)
+   ▲
+   │        ┌──────────────┐         [Load Test]
+   │       ╱                ╲
+   │      ╱                  ╲
+   └─────┴────────────────────┴────────────────► Time
+
+   ▲          ┌──┐                   [Spike Test]
+   │         ╱    ╲
+   │   ┌────┘      └────┐
+   └───┴────────────────┴────────────────► Time
+
+   ▲             ╱╲                  [Stress Test]
+   │            ╱  ╲
+   │     ┌─────┘    └─────┐
+   └─────┴────────────────┴────────────────► Time
+```
+
+1.  **Load Test (Teste de Carga):**
+    *   *Purpose:* Validate that the system meets its SLAs (Service Level Agreements) under expected normal and peak production load.
+    *   *Approach:* Ramp up to expected peak load, hold it for a moderate duration, and verify response times (percentiles) and error rates.
+2.  **Stress Test (Teste de Estresse):**
+    *   *Purpose:* Find the **breaking point** of the system.
+    *   *Approach:* Push the load continuously higher until the system saturates, fails, or crashes, observing how the system fails (does it recover gracefully, or does it require a manual database restart?).
+3.  **Spike Test (Teste de Pico):**
+    *   *Purpose:* Test how the system reacts to sudden, massive bursts of traffic (e.g., ticket launches, Black Friday deals).
+    *   *Approach:* Inject load instantly (zero ramp-up time), hold briefly, and drop it.
+4.  **Soak/Endurance Test (Teste de Resistência):**
+    *   *Purpose:* Uncover memory leaks, database connection pool exhaustion, file descriptor leaks, or disk space accumulation.
+    *   *Approach:* Run a moderate, sustainable load for an extended period (typically 12 to 24 hours).
+
+---
+
+## 4. Saturation and Bottlenecks
+
+A system slows down because one or more resources reach 100% capacity (**Saturation**). The primary bottlenecks in web application architectures are:
+
+*   **CPU Saturation:** The application server (Node.js, Java, .NET) is doing heavy computation (e.g., signing JWT tokens, parsing JSON, encrypting passwords) and cannot process requests faster.
+*   **Memory Saturation (RAM):** The server runs out of RAM, leading to garbage collection pauses or the OS killing the process (Out Of Memory - OOM).
+*   **Database Connection Pool Exhaustion:** The web server has a limited number of connections to the database (e.g., max 10 connections). If 100 requests arrive, 90 requests will queue up waiting for a connection to release, degrading latency.
+*   **Network I/O:** The network card or bandwidth limit is saturated by downloading large images/assets.
+
+---
+
+## 5. Grafana K6: Paradigms & Architecture
+
+K6 is a modern, developer-centric open-source load testing tool written in **Go** with a **JavaScript** runtime engine.
+
+### Why K6 is an SDET favorite:
+- **No GUI:** Unlike JMeter (which is Java-heavy and GUI-centric), K6 scripts are pure code (written in JS/TS).
+- **Extremely Resource Efficient:** Written in Go, a single K6 instance can simulate thousands of concurrent users (VUs) utilizing minimal CPU and RAM compared to JMeter.
+- **Performance Budgets (Thresholds):** K6 allows defining thresholds directly inside the code, acting as automated assertions that fail the test run (perfect for CI/CD pipelines).
+
+### K6 Concepts:
+*   **Virtual Users (VUs):** Isolated execution loops simulating a real user.
+*   **Init Context:** Runs once to load files and configure options (runs outside the VUs execution).
+*   **Default Function:** The main loop that every active Virtual User (VU) executes repeatedly for the duration of the test.
+*   **Sleep (Pacing):** Adding pauses between actions. Without `sleep()`, a single VU will hammer the server as fast as possible, which does not simulate real human interaction.
