@@ -51,6 +51,14 @@ jobs:
         run: |
           k6 run tests/performance/search-load-test.js --env API_URL=http://localhost:3000
 
+      - name: 📤 Upload Performance Report Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: k6-summary-report
+          path: summary.html
+          retention-days: 1
+
   api-tests:
     name: ⚡ Run Playwright API Tests
     runs-on: ubuntu-latest
@@ -169,11 +177,18 @@ jobs:
           name: blob-report-ui
           path: blob-report-ui
 
+      - name: 📥 Download Performance HTML report
+        uses: actions/download-artifact@v4
+        with:
+          name: k6-summary-report
+          path: k6-summary-report
+
       - name: 🔀 Merge Reports
         run: |
           mkdir -p all-blobs
           find blob-report-api blob-report-ui -name "*.zip" -exec cp {} all-blobs/ \;
           npx playwright merge-reports --reporter html ./all-blobs -c playwright.config.ts
+          cp k6-summary-report/summary.html playwright-report/k6-report.html
 
       - name: 📊 Upload Consolidated HTML Report
         uses: actions/upload-artifact@v4
