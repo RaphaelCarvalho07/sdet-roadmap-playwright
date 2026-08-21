@@ -545,3 +545,29 @@ To address these challenges, we implemented the following infrastructure-level p
 - **Performance Testing with K6:** Write API load-test scripts in JavaScript/TypeScript using the K6 engine against local Juice Shop container to simulate high user concurrency.
 - **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
 - **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
+
+---
+
+## 21/08/2026 - Non-Functional Performance Engineering & K6 CI/CD Integration
+
+### 1. Scenario and Technical Challenge
+As we finalized our functional E2E test suites, we transitioned to non-functional testing to build a comprehensive quality gate portfolio. The goal was to establish performance testing principles and run automated API load tests as Quality Gates in our CI/CD pipeline:
+- **Performance Paradigms:** Moving away from standard functional E2E tests to understand Latency, Throughput (RPS), the "Percentile Trap" (why average response time is a misleading metric compared to p95/p99), and Saturation Bottlenecks.
+- **Third-Party Script Parsing Crash (Goja JS Engine):** Trying to use community-maintained minified JavaScript reporters (`k6-reporter`) triggered `SyntaxError: Unexpected token` inside the K6 Goja-based JS execution engine.
+- **CI/CD Resource Sharing CPU Starvation:** Running high-concurrency stress tests (e.g. 100 VUs) on small shared CI runners (2 CPU, 7GB RAM VMs) triggers client-server resource starvation, causing false-positive SLA failures.
+- **Unified GitHub Pages Dashboard Publishing:** Hosting performance test reports side-by-side with Playwright E2E HTML reports dynamically on GitHub Pages.
+
+### 2. Structured Solution & Recommended Patterns
+- **First-Party Native Web Dashboard Export:** Replaced all third-party external reporting modules with the built-in, first-party Grafana K6 Web Dashboard starting in k6 v0.49.0. By using environment variables `K6_WEB_DASHBOARD=true` and `K6_WEB_DASHBOARD_EXPORT=summary.html`, we generate high-fidelity, interactive HTML dashboards natively without external dependencies, conforming to SecOps best practices.
+- **CI/CD Regression Load Gate Strategy:** Integrated a dedicated `performance-tests` job running on the pipeline parallel to functional testing. We pinned the K6 version (`0.49.0`) using the official `grafana/setup-k6-action@v1` and executed a lightweight, stable load-test (`search-load-test.js` with 20 VUs and 1s sleep pacing) to verify latency SLOs (`p95 < 200ms`) without triggering runner CPU starvation.
+- **Dynamic Artifact Renaming & Publishing:** Downloaded the generated K6 `summary.html` artifact in the final `publish-report` consolidation job, copied it as `k6-report.html` into the Playwright output folder, and deployed it to GitHub Pages:
+  ```bash
+  npx playwright merge-reports --reporter html ./all-blobs -c playwright.config.ts
+  cp k6-summary-report/summary.html playwright-report/k6-report.html
+  ```
+
+### 3. Next Study Steps
+- **Mobile Automation (Android & iOS):** Explore Appium integrated with TypeScript/WebdriverIO to maintain our programming stack while testing native apps.
+- **Test Observability & Telemetry:** Implement correlation IDs (x-request-id/traceparent), structured JSON logging, and test execution metrics to link automated test runs with APM/backend observability tools (Datadog/Grafana).
+- **LLM & AI Agent Evaluation (Evals & MCP):** Introduce non-deterministic testing principles, LLM-as-a-Judge evaluations using framework libraries (like Promptfoo or DeepEval), prompt injection security testing (Red Teaming), and writing/testing Model Model Context Protocol (MCP) servers.
+
