@@ -49,7 +49,7 @@ jobs:
 
       - name: 🚀 Execute K6 Load Test
         run: |
-          k6 run tests/performance/search-load-test.js --env API_URL=http://localhost:3000
+          K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=summary.html k6 run tests/performance/search-load-test.js --env API_URL=http://localhost:3000
 
       - name: 📤 Upload Performance Report Artifact
         if: always()

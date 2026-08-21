@@ -1,6 +1,5 @@
 import http from 'k6/http';
 import { sleep, check } from 'k6';
-import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
 
 /**
  * K6 Init Options
@@ -44,11 +43,5 @@ export default function () {
   // Pacing (Think Time): Pauses each VU for 1 second between loop iterations
   // to simulate realistic user typing and prevent immediate client-side resource exhaustion.
   sleep(1);
-}
-
-export function handleSummary(data) {
-  return {
-    "summary.html": htmlReport(data),
-  };
 }
 
