@@ -15,7 +15,8 @@
     "docker:stop": "docker stop juice-shop",
     "docker:logs": "docker logs -f juice-shop",
     "test:perf:load": "k6 run tests/performance/search-load-test.js",
-    "test:perf:stress": "k6 run tests/performance/login-stress-test.js"
+    "test:perf:stress": "k6 run tests/performance/login-stress-test.js",
+    "test:perf:flow": "k6 run tests/performance/shopping-flow-test.js"
   },
   "keywords": [],
   "author": "Raphael 'Rapha' Carvalho",
