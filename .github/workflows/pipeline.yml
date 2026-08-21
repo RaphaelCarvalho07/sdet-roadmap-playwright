@@ -209,5 +209,7 @@ jobs:
       - name: 📝 Output Pages URL to Job Summary
         if: success() || failure() # Mostra o link mesmo se os testes falharem
         run: |
-          echo "### 📊 Playwright Consolidated Report is live!" >> $GITHUB_STEP_SUMMARY
-          echo "👉 [Click here to view the HTML Report](https://raphaelcarvalho07.github.io/sdet-roadmap-playwright/)" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Automation Reports Dashboard is Live!" >> $GITHUB_STEP_SUMMARY
+          echo "👉 [Click here to view the E2E HTML Report](https://raphaelcarvalho07.github.io/sdet-roadmap-playwright/)" >> $GITHUB_STEP_SUMMARY
+          echo "⚡ [Click here to view the K6 Performance Report](https://raphaelcarvalho07.github.io/sdet-roadmap-playwright/k6-report.html)" >> $GITHUB_STEP_SUMMARY
+

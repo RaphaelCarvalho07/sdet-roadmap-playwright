@@ -40,7 +40,8 @@ sequenceDiagram
 ## 📂 Framework Directory Structure
 
 ```text
-sdet-roadmap-playwright/
+├── docs/
+│   └── study-guides/         # Theoretical guides & Architecture plans (Mentorship)
 ├── src/
 │   ├── api/                  # REST API Clients (Decoupled Layer)
 │   │   ├── AddressClient.ts
@@ -68,6 +69,9 @@ sdet-roadmap-playwright/
 ├── tests/
 │   ├── api/                  # Isolated API Contract & Functional Tests
 │   │   └── user.api.spec.ts
+│   ├── performance/          # Grafana K6 Performance & Stress scripts
+│   │   ├── login-stress-test.js
+│   │   └── search-load-test.js
 │   ├── snapshots/            # Centralized Visual Regression Baseline Images
 │   │   └── *.png
 │   └── ui/                   # UI, Hybrid & Visual Test Specs
@@ -181,6 +185,14 @@ Validate code syntax and structural guidelines against our strict ESLint ruleset
 ```bash
 npm run lint
 ```
+
+---
+
+## 📊 Live Reports & Dashboards
+
+Every execution inside the CI/CD pipeline dynamically validates, consolidates, and publishes E2E and Performance reporting dashboards directly to GitHub Pages:
+*   🎭 **Playwright E2E HTML Report:** [E2E Reports Dashboard](https://raphaelcarvalho07.github.io/sdet-roadmap-playwright/)
+*   ⚡ **Grafana K6 Performance Report:** [Performance Metrics Dashboard](https://raphaelcarvalho07.github.io/sdet-roadmap-playwright/k6-report.html)
 
 ---
 
